@@ -1,0 +1,112 @@
+{
+  "new": {
+    "prefix": "new",
+    "body": [
+      "impl ${1:Type} {",
+      "    fn new() -> ${1:Type} {",
+      "        ${1:Type}{}",
+      "   }",
+      "}"
+    ],
+    "description": "Impl new() method"
+  },
+  "derive-clone": {
+    "prefix": "derive-clone",
+    "body": ["#[derive(Clone)]"],
+    "description": "#[derive(Clone)]"
+  },
+  "derive-debug": {
+    "prefix": "derive-debug",
+    "body": ["#[derive(Debug)]"],
+    "description": "#[derive(Debug)]"
+  },
+  "derive-default": {
+    "prefix": "derive-default",
+    "body": ["#[derive(Default)]"],
+    "description": "#[derive(Default)]"
+  },
+  "derive-all": {
+    "prefix": "derive-all",
+    "body": ["#[derive(Debug, Default, Clone, Copy, PartialEq)]"],
+    "description": "#[derive(Debug, Default, Clone, Copy, PartialEq)]"
+  },
+  "derive-serde": {
+    "prefix": "derive-serde",
+    "body": ["#[derive(Debug, Clone, Serialize, Deserialize)]"],
+    "description": "#[derive(Debug, Clone, Serialize, Deserialize)]"
+  },
+  "tokio-test": {
+    "prefix": "tokio-test",
+    "body": [
+      "#[tokio::test]",
+      "async fn ${1:name}() {",
+      "    ${2:unimplemented!();}",
+      "}"
+    ],
+    "description": "#[tokio::test]"
+  },
+  "doc-hidden": {
+    "prefix": "doc-hidden",
+    "body": ["#[doc(hidden)]"],
+    "description": "#[doc(hidden)]"
+  },
+  "cfg-test": {
+    "prefix": "cfg-test",
+    "body": ["#[cfg(test)]"],
+    "description": "#[cfg(test)]"
+  },
+  "debug": {
+    "prefix": "debug",
+    "body": ["tracing::debug!(\"${1}\");"],
+    "description": "Tracing debug! statement"
+  },
+  "info": {
+    "prefix": "info",
+    "body": ["tracing::info!(\"${1}\");"],
+    "description": "Tracing info! statement"
+  },
+  "warn": {
+    "prefix": "warn",
+    "body": ["tracing::warn!(\"${1}\");"],
+    "description": "Tracing warn! statement"
+  },
+  "error": {
+    "prefix": "error",
+    "body": ["tracing::error!(\"${1}\");"],
+    "description": "Tracing error! statement"
+  },
+  "trace": {
+    "prefix": "trace",
+    "body": ["tracing::trace!(\"${1}\");"],
+    "description": "Tracing trace! statement"
+  },
+  "instrument": {
+    "prefix": "instrument",
+    "body": ["#[tracing::instrument(name = \"${1}\", skip(state))]"],
+    "description": "Add tracing::instrument macro"
+  },
+  "pyo3-prelude": {
+    "prefix": "pyo3-prelude",
+    "body": ["use pyo3::prelude::*;"],
+    "description": "Add pyo3 prelude"
+  },
+  "fn-self": {
+    "prefix": "fn-self",
+    "body": ["fn ${1}(&self) {", "}"],
+    "description": "Function with &self returning Result"
+  },
+  "fn-self-return": {
+    "prefix": "fn-self-return",
+    "body": [
+        "fn ${1}(&self) -> Result<${2}> {", 
+        "    Ok(${2})",
+        "}"
+    ],
+    "description": "Function with &self"
+  },
+  "fn-mut-self": {
+    "prefix": "fn-mut-self",
+    "body": ["fn ${1}(&mut self) {", "}"],
+    "description": "Function with &mut self"
+  }
+}
