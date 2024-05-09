@@ -63,5 +63,8 @@ return {
                 },
             },
         },
+        dap = {
+            adapter = require("utils.lang.rust").dap(),
+        },
     },
 }

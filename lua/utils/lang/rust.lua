@@ -1,5 +1,7 @@
 local module = {}
 local theme = require("config.theme")
+local mason_bin_path = vim.fn.stdpath("data") .. "/mason/bin"
+local mason_packages_path = vim.fn.stdpath("data") .. "/mason/packages"
 
 module.build_tools = function()
     local which_key = require("which-key")
@@ -40,6 +42,13 @@ module.build_tools = function()
         },
     }
     which_key.register(mappings, opts)
+end
+
+module.dap = function()
+    local cfg = require("rustaceanvim.config")
+    local codelldb_path = mason_bin_path .. "/codelldb"
+    local liblldb_path = mason_packages_path .. "/codelldb/extension/lldb/lib/liblldb.dylib"
+    return cfg.get_codelldb_adapter(codelldb_path, liblldb_path)
 end
 
 module.cargo_toml_build_tools = function()
