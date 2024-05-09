@@ -43,7 +43,7 @@ module.build_tools = function()
 end
 
 module.cargo_toml_build_tools = function()
-    local which_key = require "which-key"
+    local which_key = require("which-key")
     local opts = {
         mode = "n",
         prefix = "f",
@@ -89,6 +89,5 @@ module.cargo_toml_build_tools = function()
     which_key.register(mappings, opts)
     which_key.register(vmappings, vopts)
 end
-
 
 return module

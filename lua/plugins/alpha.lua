@@ -163,7 +163,8 @@ local function recent_files(start, cwd, items_number, opts)
     }
 end
 
-local function recent_sessions(start, cwd)
+local function recent_sessions(start, cwd, items_number)
+    items_number = vim.F.if_nil(items_number, 10)
     local persistence = require("persistence")
     local sessions = {}
     for _, v in ipairs(persistence.list()) do
@@ -180,6 +181,9 @@ local function recent_sessions(start, cwd)
     local tbl = {}
     local target_width = 70
     for i, session in ipairs(sessions) do
+        if i > items_number then
+            break
+        end
         local _, end_index = string.find(session.path, "%%") -- Find index of first '%'
         if end_index then
             local short_fn

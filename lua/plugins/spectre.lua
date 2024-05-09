@@ -19,7 +19,7 @@ return {
             {
                 "<leader>Rv",
                 function()
-                    require("spectre").open_visual({select_word=true})
+                    require("spectre").open_visual({ select_word = true })
                 end,
                 desc = "Selected word",
             },

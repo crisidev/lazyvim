@@ -204,7 +204,7 @@ return {
                 has = "codeAction",
             }
             keys[#keys + 1] =
-            { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" }
+                { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" }
             keys[#keys + 1] = {
                 "fz",
                 vim.lsp.buf.signature_help,

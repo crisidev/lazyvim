@@ -58,7 +58,7 @@ return {
             indicator = { style = "none" },
             max_name_length = 20,
             max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-            truncate_names = true,  -- whether or not tab names should be truncated
+            truncate_names = true, -- whether or not tab names should be truncated
             tab_size = 25,
             color_icons = true,
             diagnostics_update_in_insert = true,
@@ -181,7 +181,7 @@ return {
     keys = function()
         return {
             { "<F1>", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous buffer", mode = { "n", "i" } },
-            { "<F2>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer",     mode = { "n", "i" } },
+            { "<F2>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer", mode = { "n", "i" } },
             {
                 "<A-S-Left>",
                 "<cmd>BufferLineMovePrev<cr>",
@@ -195,7 +195,7 @@ return {
                 mode = { "n", "i" },
             },
             { "<leader>q", delete_buffer, desc = icons.no .. "Close buffer" },
-            { "<leader>Q", smart_quit,    desc = icons.no .. "Quit" },
+            { "<leader>Q", smart_quit, desc = icons.no .. "Quit" },
         }
     end,
 }

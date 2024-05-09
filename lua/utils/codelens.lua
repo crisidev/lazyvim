@@ -14,7 +14,7 @@ module.show_line_sign = function()
     local code_action_cap_found = false
     for _, client in pairs(vim.lsp.get_active_clients()) do
         if client then
-            if client.supports_method "textDocument/codeAction" then
+            if client.supports_method("textDocument/codeAction") then
                 code_action_cap_found = true
             end
         end
@@ -27,7 +27,12 @@ module.show_line_sign = function()
     local params = require("vim.lsp.util").make_range_params()
     params.context = context
     local bufnr = vim.api.nvim_get_current_buf()
-    vim.lsp.buf_request_all(0, "textDocument/codeAction", params, module.handler_factory(params.range.start.line, bufnr))
+    vim.lsp.buf_request_all(
+        0,
+        "textDocument/codeAction",
+        params,
+        module.handler_factory(params.range.start.line, bufnr)
+    )
 end
 
 module.code_lens_available = function(cursor)
