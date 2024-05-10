@@ -109,6 +109,7 @@ module.icons = {
     calculator = "",
     ui = " ",
     snippets = "󱩽 ",
+    floppy = " ",
 }
 
 module.dap_icons = {

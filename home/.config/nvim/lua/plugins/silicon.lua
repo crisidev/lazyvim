@@ -1,5 +1,6 @@
 return {
     "segeljakt/vim-silicon",
+    lazy = true,
     config = function()
         vim.cmd([[
             let g:silicon = {

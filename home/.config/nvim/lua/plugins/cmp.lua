@@ -5,7 +5,6 @@ return {
     dependencies = {
         "hrsh7th/cmp-emoji",
         "petertriho/cmp-git",
-        "vrslev/cmp-pypi",
         "chrisgrieser/cmp-nerdfont",
         {
             "Exafunction/codeium.nvim",
@@ -20,7 +19,6 @@ return {
         table.insert(opts.sources, { name = "git" })
         table.insert(opts.sources, { name = "emoji" })
         table.insert(opts.sources, { name = "nerdfont" })
-        table.insert(opts.sources, { name = "pypi", keyword_length = 4 })
         -- opts.experimental.ghost_text = false
     end,
     keys = {

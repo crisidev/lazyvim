@@ -16,7 +16,6 @@
   "cmp-nerdfont": { "branch": "main", "commit": "a3b7c0cadb7bd389f513eecda376d4c6bec90003" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "5af77f54de1b16c34b23cba810150689a3a90312" },
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
-  "cmp-pypi": { "branch": "main", "commit": "69a3c7eca2d430dabb8d8df5b17f4ce11b256f25" },
   "cmp_luasnip": { "branch": "master", "commit": "05a9ab28b53f71d1aece421ef32fee2cb857a843" },
   "codeium.nvim": { "branch": "main", "commit": "d3b88eb3aa1de6da33d325c196b8a41da2bcc825" },
   "crates.nvim": { "branch": "main", "commit": "7d8541ec0e3b30ac2c43864d3ee13a632e1231ed" },

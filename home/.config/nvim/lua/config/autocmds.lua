@@ -84,7 +84,7 @@ vim.api.nvim_create_autocmd("FileType", {
     group = augroup("go_build_tools"),
     pattern = "go",
     desc = "Set additional buffer keymaps for Go files",
-    callback = require("utils.lang.rust").build_tools,
+    callback = require("utils.lang.go").build_tools,
 })
 
 -- Gitlab CI

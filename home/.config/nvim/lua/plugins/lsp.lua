@@ -40,6 +40,7 @@ end
 return {
     {
         "aznhe21/actions-preview.nvim",
+        lazy = true,
         config = function()
             require("actions-preview").setup({
                 telescope = {
@@ -60,6 +61,7 @@ return {
     },
     {
         "icholy/lsplinks.nvim",
+        lazy = true,
         config = function()
             require("lsplinks").setup()
         end,
@@ -67,6 +69,7 @@ return {
     {
         "Wansmer/symbol-usage.nvim",
         event = "LspAttach",
+        lazy = true,
         config = function()
             local text_format = function(symbol)
                 local res = {}

@@ -6,9 +6,6 @@ return {
         opts.sources = vim.list_extend(opts.sources or {}, {
             -- Formatting
             nls.builtins.formatting.prettier,
-            nls.builtins.formatting.stylua,
-            nls.builtins.formatting.goimports,
-            nls.builtins.formatting.gofumpt,
             nls.builtins.formatting.clang_format.with({
                 filetypes = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
             }),
@@ -49,7 +46,6 @@ return {
             }),
             nls.builtins.code_actions.gitrebase,
             nls.builtins.code_actions.gitsigns,
-            nls.builtins.code_actions.impl,
 
             -- Hover
             nls.builtins.hover.dictionary,

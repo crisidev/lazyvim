@@ -1,5 +1,6 @@
 return {
     "andrewferrier/debugprint.nvim",
+    lazy = true,
     config = function()
         local debugprint = require("debugprint")
 
