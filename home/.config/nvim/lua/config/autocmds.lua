@@ -79,14 +79,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     callback = require("utils.lang.rust").cargo_toml_build_tools,
 })
 
--- Go
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("go_build_tools"),
-    pattern = "go",
-    desc = "Set additional buffer keymaps for Go files",
-    callback = require("utils.lang.go").build_tools,
-})
-
 -- Gitlab CI
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     group = augroup("gilab_ci"),
