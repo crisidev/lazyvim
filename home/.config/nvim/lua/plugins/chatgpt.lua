@@ -1,6 +1,6 @@
 return {
     "jackMort/ChatGPT.nvim",
-    event = "VeryLazy",
+    lazy = true,
     config = function()
         if vim.fn.filereadable(vim.fn.expand("~/.config/lvim/.gpt")) == 1 then
             local ok, gpt = pcall(require, "chatgpt")
