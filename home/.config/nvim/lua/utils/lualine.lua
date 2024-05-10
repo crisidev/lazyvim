@@ -95,12 +95,12 @@ end
 local function list_registered_linters(filetype)
     local registered_providers = list_nls_providers(filetype)
     local providers_for_methods = vim.iter(vim.tbl_map(function(m)
-            return registered_providers[m] or {}
-        end, {
-            nls.methods.DIAGNOSTICS,
-            nls.methods.DIAGNOSTICS_ON_OPEN,
-            nls.methods.DIAGNOSTICS_ON_SAVE,
-        }))
+        return registered_providers[m] or {}
+    end, {
+        nls.methods.DIAGNOSTICS,
+        nls.methods.DIAGNOSTICS_ON_OPEN,
+        nls.methods.DIAGNOSTICS_ON_SAVE,
+    }))
         :flatten()
         :totable()
 

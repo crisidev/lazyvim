@@ -1,5 +1,3 @@
-local codeium = require("utils.codeium")
-
 return {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -19,10 +17,10 @@ return {
         table.insert(opts.sources, { name = "git" })
         table.insert(opts.sources, { name = "emoji" })
         table.insert(opts.sources, { name = "nerdfont" })
-        -- opts.experimental.ghost_text = false
+        opts.experimental.ghost_text = false
     end,
     keys = {
-        { "fCe", codeium.enable, desc = "Enable" },
-        { "fCd", codeium.disable, desc = "Disable" },
+        { "fCe", require("utils.codeium").enable, desc = "Enable" },
+        { "fCd", require("utils.codeium").disable, desc = "Disable" },
     },
 }

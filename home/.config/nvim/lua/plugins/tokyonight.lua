@@ -20,7 +20,7 @@ return {
             "spectre_panel",
             "neo-tree",
             "help",
-            "neotest-summary"
+            "neotest-summary",
         },
         hide_inactive_statusline = true,
         dim_inactive = true,

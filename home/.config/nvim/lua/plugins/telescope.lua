@@ -1,11 +1,8 @@
-local icons = require("config.theme").icons
-local telescope = require("utils.telescope")
-local actions = require("telescope.actions")
-
 return {
     {
         "nvim-telescope/telescope.nvim",
         opts = function(_, opts)
+            local actions = require("telescope.actions")
             opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
                 mappings = {
                     n = {
@@ -30,6 +27,8 @@ return {
             })
         end,
         keys = function()
+            local telescope = require("utils.telescope")
+            local icons = require("config.theme").icons
             return {
                 -- Main group
                 { "<leader>T", telescope.resume, desc = icons.clock .. "Last search" },

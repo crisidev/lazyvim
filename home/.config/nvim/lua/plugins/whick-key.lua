@@ -1,17 +1,3 @@
-local icons = require("config.theme").icons
-
-local key_to_delete = {
-    { { "n" }, "<leader>fp" },
-}
-
-local function delete_unused_keys()
-    for _, mapping in ipairs(key_to_delete) do
-        local mode = mapping[1]
-        local key = mapping[2]
-        vim.keymap.del(mode, key)
-    end
-end
-
 return {
     "folke/which-key.nvim",
     opts = {
@@ -40,7 +26,18 @@ return {
         },
     },
     config = function(_, opts)
-        delete_unused_keys()
+        local icons = require("config.theme").icons
+
+        local key_to_delete = {
+            { { "n" }, "<leader>fp" },
+        }
+
+        for _, mapping in ipairs(key_to_delete) do
+            local mode = mapping[1]
+            local key = mapping[2]
+            vim.keymap.del(mode, key)
+        end
+
         local defaults = {
             mode = { "n", "v", "x" },
             ["<leader>F"] = { name = icons.telescope .. "Find" },
