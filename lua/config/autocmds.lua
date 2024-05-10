@@ -2,7 +2,6 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 -- Disable autoformat for lua files
--- Codelense viewer
 local function augroup(name)
     vim.api.nvim_create_augroup("crisidev_" .. name, { clear = true })
 end

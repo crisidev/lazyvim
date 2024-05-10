@@ -111,6 +111,13 @@ module.icons = {
     snippets = "󱩽 ",
 }
 
+module.dap_icons = {
+    breakpoint = "",
+    breakpoint_rejected = "",
+    breakpoint_condition = "",
+    stopped = "",
+}
+
 module.symbol_usage = {
     circle_left = "",
     circle_right = "",
@@ -203,6 +210,37 @@ module.modes_icons = {
     R = " ",
     d = " ",
 }
+
+function module.dap()
+    vim.fn.sign_define("DapBreakpoint", {
+        text = module.dap_icons.breakpoint,
+        texthl = "DiagnosticSignError",
+        linehl = "",
+        numhl = "",
+    })
+    vim.fn.sign_define("DapStopped", {
+        text = module.dap_icons.stopped,
+        texthl = "DiagnosticSignWarn",
+        linehl = "Visual",
+        numhl = "DiagnosticSignWarn",
+    })
+    vim.fn.sign_define("DapBreakpointRejected", {
+        text = module.dap_icons.breakpoint_rejected,
+        texthl = "DapBreakpoint",
+        linehl = "DapBreakpoint",
+        numhl = "DapBreakpoint",
+    })
+    vim.fn.sign_define("DapBreakpointCondition", {
+        text = module.dap_icons.breakpoint_condition,
+        texthl = "DapBreakpoint",
+        linehl = "DapBreakpoint",
+        numhl = "DapBreakpoint",
+    })
+    vim.fn.sign_define(
+        "DapLogPoint",
+        { text = "", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" }
+    )
+end
 
 function module.lualine()
     local colors = require("tokyonight.colors").setup({ transform = true })
