@@ -287,7 +287,7 @@ return {
                 desc = theme.icons.warn .. "Previous diagnostic",
             }
             keys[#keys + 1] = {
-                "fs",
+                "fT",
                 function()
                     diagnostics("next", vim.diagnostic.severity.HINT)
                 end,
