@@ -16,15 +16,12 @@ return {
         },
         sidebars = {
             "qf",
-            "vista_kind",
-            "terminal",
             "lazy",
             "spectre_panel",
-            "NeogitStatus",
             "neo-tree",
             "help",
+            "neotest-summary"
         },
-        day_brightness = 0.3,
         hide_inactive_statusline = true,
         dim_inactive = true,
         lualine_bold = true,
