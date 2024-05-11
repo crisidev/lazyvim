@@ -64,23 +64,19 @@ return {
         dependencies = {
             "kkharji/sqlite.lua",
             "nvim-telescope/telescope-fzy-native.nvim",
-            "nvim-telescope/telescope.nvim",
         },
-        lazy = true,
+        module = "telescope._extensions.smart_open",
     },
     {
         "jvgrootveld/telescope-zoxide",
-        dependencies = { "nvim-telescope/telescope.nvim" },
-        lazy = true,
+        module = "telescope._extensions.zoxide",
     },
     {
         "nvim-telescope/telescope-file-browser.nvim",
-        dependencies = { "nvim-telescope/telescope.nvim" },
-        lazy = true,
+        module = "telescope._extensions.file_browser",
     },
     {
-        "nvim-telescope/telescope-live-grep-args.nvim",
-        dependencies = { "nvim-telescope/telescope.nvim" },
-        lazy = true,
+        "benfowler/telescope-luasnip.nvim",
+        module = "telescope._extensions.luasnip",
     },
 }

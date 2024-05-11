@@ -75,11 +75,11 @@ vim.keymap.set({ "n", "i", "t" }, "<c-\\>", function()
 end, { desc = "Full screen terminal" })
 
 -- Snippets
-vim.keymap.set("i", "<c-x>", "<cmd>lua require('telescope').extensions.luasnip.luasnip{}<cr>", { desc = "Snippets" })
+vim.keymap.set("i", "<c-x>", "<cmd>lua require('utils.telescope').lua_snips()<cr>", { desc = "Snippets" })
 vim.keymap.set(
     "n",
     "fS",
-    "<cmd>lua require('telescope').extensions.luasnip.luasnip{}<cr>",
+    "<cmd>lua require('utils.telescope').lua_snips()<cr>",
     { desc = icons.snippets .. "Snippets" }
 )
 

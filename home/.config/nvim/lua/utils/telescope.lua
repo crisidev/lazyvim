@@ -148,4 +148,8 @@ function module.todo_comments(opts)
     require("telescope").extensions["todo-comments"].todo(module.get_theme(opts))
 end
 
+function module.lua_snips()
+    require("telescope").extensions.luasnip.luasnip(module.get_theme())
+end
+
 return module
