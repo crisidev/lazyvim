@@ -1,6 +1,6 @@
 local module = {}
 
-module.delete_buffer = function()
+function module.delete_buffer()
     local fn = vim.fn
     local cmd = vim.cmd
     local buflisted = fn.getbufinfo({ buflisted = 1 })
@@ -18,7 +18,7 @@ module.delete_buffer = function()
     cmd(is_terminal and "bd! #" or "silent! confirm bd #")
 end
 
-module.smart_quit = function()
+function module.smart_quit()
     local bufnr = vim.api.nvim_get_current_buf()
     local modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
     vim.cmd("Neotree close")
@@ -36,7 +36,7 @@ module.smart_quit = function()
     end
 end
 
-module.language_group = function(name, extension, highlight)
+function module.language_group(name, extension, highlight)
     local opts = {
         highlight = { sp = highlight },
         name = name,
@@ -47,7 +47,7 @@ module.language_group = function(name, extension, highlight)
     return opts
 end
 
-module.diagnostic_indicator = function(_, _, diagnostics, _)
+function module.diagnostic_indicator(_, _, diagnostics, _)
     local icons = require("config.theme").icons
     local result = {}
     local symbols = { error = icons.error, warning = icons.warn }
@@ -60,7 +60,7 @@ module.diagnostic_indicator = function(_, _, diagnostics, _)
     return #res > 0 and res or ""
 end
 
-module.config_file_matcher = function(buf)
+function module.config_file_matcher(buf)
     return vim.api.nvim_buf_get_name(buf.id):match("go.mod")
         or vim.api.nvim_buf_get_name(buf.id):match("go.sum")
         or vim.api.nvim_buf_get_name(buf.id):match("Cargo.toml")
@@ -75,11 +75,11 @@ module.config_file_matcher = function(buf)
         or vim.api.nvim_buf_get_name(buf.id):match("settings.gradle.kt")
 end
 
-module.test_file_matcher = function(buf)
+function module.test_file_matcher(buf)
     return vim.api.nvim_buf_get_name(buf.id):match("_spec") or vim.api.nvim_buf_get_name(buf.id):match("test_")
 end
 
-module.doc_file_matcher = function(buf)
+function module.doc_file_matcher(buf)
     local p_list = require("plenary.collections.py_list")
     local list = p_list({ "md", "org", "norg", "wiki", "rst", "txt" })
     return list:contains(vim.fn.fnamemodify(buf.path, ":e"))

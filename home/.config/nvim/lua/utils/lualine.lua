@@ -149,7 +149,7 @@ module.conditions = {
     end,
 }
 
-module.vim_mode = function()
+function module.vim_mode()
     local mod = vim.fn.mode()
     if mod == "n" or mod == "no" or mod == "nov" then
         return mode_icons.n
@@ -168,7 +168,7 @@ module.vim_mode = function()
     end
 end
 
-module.file_icon = function()
+function module.file_icon()
     local file_icon = get_file_icon()
     vim.api.nvim_command("hi! LualineFileIconColor guifg=" .. get_file_icon_color(file_icon) .. " guibg=" .. colors.bg)
     local fname = vim.fn.expand("%:p")
@@ -183,7 +183,7 @@ module.file_icon = function()
     return win .. " " .. file_icon
 end
 
-module.file_name = function()
+function module.file_name()
     local show_name = vim.fn.expand("%:t")
     local modified = ""
     if vim.bo.modified then
@@ -192,7 +192,7 @@ module.file_name = function()
     return show_name .. modified
 end
 
-module.lsp_server_icon = function(name, icon)
+function module.lsp_server_icon(name, icon)
     local buf_clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
     if next(buf_clients) == nil then
         return ""
@@ -205,7 +205,7 @@ module.lsp_server_icon = function(name, icon)
     return ""
 end
 
-module.codeium = function()
+function module.codeium()
     if codeium.is_enabled() == nil then
         return ""
     else
@@ -213,14 +213,14 @@ module.codeium = function()
     end
 end
 
-module.treesitter = function()
+function module.treesitter()
     if next(vim.treesitter.highlighter.active) then
         return icons.treesitter
     end
     return ""
 end
 
-module.file_size = function()
+function module.file_size()
     local file = vim.fn.expand("%:p")
     if string.len(file) == 0 then
         return ""
@@ -238,7 +238,7 @@ module.file_size = function()
     return string.format("%.1f%s", size, sufixes[i])
 end
 
-module.lsp_servers = function(msg)
+function module.lsp_servers(msg)
     msg = msg or icons.ls_inactive
     local buf_clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
     if next(buf_clients) == nil then
@@ -282,7 +282,7 @@ module.lsp_servers = function(msg)
     return icons.ls_active .. table.concat(buf_client_names, " ")
 end
 
-module.file_position = function()
+function module.file_position()
     local current_line = vim.fn.line(".")
     local total_lines = vim.fn.line("$")
     local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
@@ -291,7 +291,7 @@ module.file_position = function()
     return chars[index]
 end
 
-module.file_read_only = function()
+function module.file_read_only()
     if not vim.bo.readonly or not vim.bo.modifiable then
         return ""
     end

@@ -1,7 +1,7 @@
 local module = {}
 local cmp = require("cmp")
 
-module.is_enabled = function()
+function module.is_enabled()
     local config = cmp.get_config()
     for i, source in ipairs(config.sources) do
         if source.name == "codeium" then
@@ -11,7 +11,7 @@ module.is_enabled = function()
     return nil
 end
 
-module.enable = function()
+function module.enable()
     local config = cmp.get_config()
     local enabled = module.is_enabled()
     if enabled == nil then
@@ -24,7 +24,7 @@ module.enable = function()
     end
 end
 
-module.disable = function()
+function module.disable()
     local config = cmp.get_config()
     local index = module.is_enabled()
     if index ~= nil then

@@ -208,7 +208,7 @@ end
 
 local module = {}
 
-module.dashboard = function()
+function module.dashboard()
     local banner = {
         [[                                                                   ]],
         [[      ████ ██████           █████      ██                    ]],

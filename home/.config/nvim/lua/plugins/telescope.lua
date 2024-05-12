@@ -3,6 +3,7 @@ return {
         "nvim-telescope/telescope.nvim",
         opts = function(_, opts)
             local actions = require("telescope.actions")
+            local lga_actions = require("telescope-live-grep-args.actions")
             opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
                 mappings = {
                     n = {
@@ -21,7 +22,9 @@ return {
                         ["<s-tab>"] = actions.toggle_selection + actions.move_selection_previous,
                         ["<c-n>"] = actions.cycle_history_next,
                         ["<c-p>"] = actions.cycle_history_prev,
-                        ["<C-x>"] = require("telescope.actions.layout").toggle_preview,
+                        ["<c-x>"] = require("telescope.actions.layout").toggle_preview,
+                        ["<c-k>"] = lga_actions.quote_prompt(),
+                        ["<c-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
                     },
                 },
             })
@@ -33,9 +36,20 @@ return {
                 -- Main group
                 { "<leader>T", telescope.resume, desc = icons.clock .. "Last search" },
                 { "<leader>i", telescope.find_identifier, desc = icons.find .. "Find identifier" },
+                {
+                    "<leader>i",
+                    telescope.visual_selection,
+                    desc = icons.find .. "Find visual selection",
+                    mode = { "x" },
+                },
                 { "<leader>E", telescope.file_browser, desc = icons.folder .. "File browser" },
                 { "<leader>f", telescope.find_project_files, desc = icons.files .. "Find files" },
-                { "<leader>s", telescope.find_string, desc = icons.find .. "Find string", mode = { "n" } },
+                {
+                    "<leader>s",
+                    telescope.find_string,
+                    desc = icons.find .. "Find string",
+                    mode = { "n" },
+                },
                 {
                     "<leader>s",
                     telescope.find_string_visual,
@@ -58,6 +72,10 @@ return {
                 { "<leader>Ft", telescope.todo_comments, desc = "Todos" },
             }
         end,
+    },
+    {
+        "nvim-telescope/telescope-live-grep-args.nvim",
+        module = "telescope._extensions.file_browser",
     },
     {
         "danielfalk/smart-open.nvim",

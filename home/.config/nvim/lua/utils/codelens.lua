@@ -9,10 +9,10 @@ if vim.tbl_isempty(vim.fn.sign_getdefined(SIGN_NAME)) then
     vim.fn.sign_define(SIGN_NAME, { text = icons.code_action, texthl = "MoreMsg" })
 end
 
-module.show_line_sign = function()
+function module.show_line_sign()
     -- Check for code action capability
     local code_action_cap_found = false
-    for _, client in pairs(vim.lsp.get_active_clients()) do
+    for _, client in pairs(vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })) do
         if client then
             if client.supports_method("textDocument/codeAction") then
                 code_action_cap_found = true
@@ -35,7 +35,7 @@ module.show_line_sign = function()
     )
 end
 
-module.code_lens_available = function(cursor)
+function module.code_lens_available(cursor)
     local codelens_actions = {}
     for _, l in ipairs(vim.lsp.codelens.get(0)) do
         table.insert(codelens_actions, { start = l.range.start, finish = l.range["end"] })
@@ -57,7 +57,7 @@ end
 ---
 --- @param line number The line when the the code action request is called
 --- @param bufnr number|nil Buffer handle
-module.handler_factory = function(line, bufnr)
+function module.handler_factory(line, bufnr)
     --- Handler for textDocument/codeAction.
     ---
     --- See lsp-handler for more information.
@@ -107,7 +107,7 @@ end
 
 --- Patch for breaking neovim master update to LSP handlers
 --- See: https://github.com/neovim/neovim/issues/14090#issuecomment-913198455
-module.mk_handler = function(fn)
+function module.mk_handler(fn)
     return function(...)
         local config_or_client_id = select(4, ...)
         local is_new = type(config_or_client_id) ~= "number"
@@ -138,7 +138,7 @@ end
 --- @param bufnr number|nil Buffer handle
 --- @param text string the sign icon
 ---
-module.update_sign = function(priority, old_line, new_line, bufnr, text)
+function module.update_sign(priority, old_line, new_line, bufnr, text)
     bufnr = bufnr or "%"
 
     if old_line then
