@@ -76,6 +76,7 @@ return {
     {
         "nvim-telescope/telescope-live-grep-args.nvim",
         module = "telescope._extensions.file_browser",
+        lazy = true,
     },
     {
         "danielfalk/smart-open.nvim",
@@ -84,17 +85,21 @@ return {
             "nvim-telescope/telescope-fzy-native.nvim",
         },
         module = "telescope._extensions.smart_open",
+        lazy = true,
     },
     {
         "jvgrootveld/telescope-zoxide",
         module = "telescope._extensions.zoxide",
+        lazy = true,
     },
     {
         "nvim-telescope/telescope-file-browser.nvim",
         module = "telescope._extensions.file_browser",
+        lazy = true,
     },
     {
         "benfowler/telescope-luasnip.nvim",
         module = "telescope._extensions.luasnip",
+        lazy = true,
     },
 }

@@ -40,6 +40,7 @@ end
 return {
     {
         "aznhe21/actions-preview.nvim",
+        event = "LspAttach",
         lazy = true,
         config = function()
             require("actions-preview").setup({
@@ -61,6 +62,7 @@ return {
     },
     {
         "icholy/lsplinks.nvim",
+        event = "LspAttach",
         lazy = true,
         config = function()
             require("lsplinks").setup()

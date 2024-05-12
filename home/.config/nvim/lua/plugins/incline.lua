@@ -1,5 +1,7 @@
 return {
     "b0o/incline.nvim",
+    event = { "BufReadPost", "BufNew" },
+    lazy = true,
     config = function()
         local function truncate(str, max_len)
             assert(str and max_len, "string and max_len must be provided")

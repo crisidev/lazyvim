@@ -1,6 +1,7 @@
 return {
     "segeljakt/vim-silicon",
     lazy = true,
+    cmd = "Silicon",
     config = function()
         vim.cmd([[
             let g:silicon = {
@@ -21,6 +22,4 @@ return {
               \ }
         ]])
     end,
-    event = "VeryLazy",
-    cmd = "Silicon",
 }
