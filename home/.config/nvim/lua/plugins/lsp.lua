@@ -143,16 +143,17 @@ return {
                 virtual_text = false,
                 update_in_insert = true,
                 float = {
+                    spacing = 4,
                     border = "rounded",
                     focusable = true,
                     source = "if_many",
                 },
                 signs = {
                     text = {
-                        [vim.diagnostic.severity.ERROR] = theme.icons.error,
-                        [vim.diagnostic.severity.WARN] = theme.icons.warn,
-                        [vim.diagnostic.severity.HINT] = theme.icons.hint,
-                        [vim.diagnostic.severity.INFO] = theme.icons.info,
+                        [vim.diagnostic.severity.ERROR] = theme.diagnostics_icons.Error,
+                        [vim.diagnostic.severity.WARN] = theme.diagnostics_icons.Warn,
+                        [vim.diagnostic.severity.HINT] = theme.diagnostics_icons.Hint,
+                        [vim.diagnostic.severity.INFO] = theme.diagnostics_icons.Info,
                     },
                 },
             },
@@ -247,7 +248,7 @@ return {
                 function()
                     vim.diagnostic.open_float({ border = "rounded", focusable = true })
                 end,
-                desc = theme.icons.hint .. "Line diagnostics",
+                desc = theme.diagnostics_icons.Hint .. "Line diagnostics",
             }
             if LazyVim.has("inc-rename.nvim") then
                 keys[#keys + 1] = {
@@ -268,40 +269,40 @@ return {
                 function()
                     diagnostics("next", vim.diagnostic.severity.ERROR)
                 end,
-                desc = theme.icons.error .. "Next ERROR",
+                desc = theme.diagnostics_icons.Error .. "Next ERROR",
             }
             keys[#keys + 1] = {
                 "fP",
                 function()
                     diagnostics("prev", vim.diagnostic.severity.ERROR)
                 end,
-                desc = theme.icons.error .. "Previous ERROR",
+                desc = theme.diagnostics_icons.Error .. "Previous ERROR",
             }
             keys[#keys + 1] = {
                 "fn",
                 function()
                     diagnostics("next", vim.diagnostic.severity.WARN)
                 end,
-                desc = theme.icons.warn .. "Next diagnostic",
+                desc = theme.diagnostics_icons.Warn .. "Next diagnostic",
             }
             keys[#keys + 1] = {
                 "fp",
                 function()
                     diagnostics("prev", vim.diagnostic.severity.WARN)
                 end,
-                desc = theme.icons.warn .. "Previous diagnostic",
+                desc = theme.diagnostics_icons.Warn .. "Previous diagnostic",
             }
             keys[#keys + 1] = {
                 "fT",
                 function()
                     diagnostics("next", vim.diagnostic.severity.HINT)
                 end,
-                desc = theme.icons.hint .. "Next typo",
+                desc = theme.diagnostics_icons.Hint .. "Next typo",
             }
             keys[#keys + 1] = {
                 "fe",
                 "<cmd>Trouble diagnostics<cr>",
-                desc = theme.icons.hint .. "Diagnostics",
+                desc = theme.diagnostics_icons.Hint .. "Diagnostics",
             }
             keys[#keys + 1] = {
                 "fw",

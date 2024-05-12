@@ -1,23 +1,5 @@
 local module = {}
 
-function module.delete_buffer()
-    local fn = vim.fn
-    local cmd = vim.cmd
-    local buflisted = fn.getbufinfo({ buflisted = 1 })
-    local cur_winnr, cur_bufnr = fn.winnr(), fn.bufnr()
-    if #buflisted < 2 then
-        cmd("bd!")
-        return
-    end
-    for _, winid in ipairs(fn.getbufinfo(cur_bufnr)[1].windows) do
-        cmd(string.format("%d wincmd w", fn.win_id2win(winid)))
-        cmd(cur_bufnr == buflisted[#buflisted].bufnr and "bp" or "bn")
-    end
-    cmd(string.format("%d wincmd w", cur_winnr))
-    local is_terminal = fn.getbufvar(cur_bufnr, "&buftype") == "terminal"
-    cmd(is_terminal and "bd! #" or "silent! confirm bd #")
-end
-
 function module.smart_quit()
     local bufnr = vim.api.nvim_get_current_buf()
     local modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
@@ -48,9 +30,9 @@ function module.language_group(name, extension, highlight)
 end
 
 function module.diagnostic_indicator(_, _, diagnostics, _)
-    local icons = require("config.theme").icons
+    local icons = require("config.theme").diagnostics_icons
     local result = {}
-    local symbols = { error = icons.error, warning = icons.warn }
+    local symbols = { error = icons.Error, warning = icons.Warn }
     for name, count in pairs(diagnostics) do
         if symbols[name] and count > 0 then
             table.insert(result, symbols[name] .. count)

@@ -15,7 +15,7 @@ module.build_tools = function()
     }
     local mappings = {
         K = { "<cmd>RustLsp externalDocs<cr>", theme.icons.docs .. "Open docs.rs" },
-        L = { "<cmd>RustLsp renderDiagnostic<cr>", theme.icons.hint .. "Show cargo diagnostic" },
+        L = { "<cmd>RustLsp renderDiagnostic<cr>", theme.diagnostics_icons.Hint .. "Show cargo diagnostic" },
         B = {
             name = theme.languages.rust .. "Build helpers",
             A = {
