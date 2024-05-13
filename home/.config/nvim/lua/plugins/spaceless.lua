@@ -5,4 +5,5 @@ return {
     config = function()
         require("spaceless").setup()
     end,
+    enabled = false
 }

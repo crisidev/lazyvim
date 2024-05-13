@@ -35,7 +35,7 @@ spinners.spinners["moon"] = {
 }
 
 return {
-    "folke/noice.nvim",
+    "crisidev/noice.nvim",
     opts = {
         format = {
             spinner = {
@@ -63,7 +63,8 @@ return {
         },
         lsp = {
             progress = {
-                format_done = {},
+                ignored_clients = { "grammar_guard" },
+                throttle = 100 / 10,
             },
         },
         messages = {
