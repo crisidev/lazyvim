@@ -1,5 +1,7 @@
 local colors = require("config.theme").colors
 local icons = require("config.theme").icons
+local diagnostics_icons = require("config.theme").diagnostics_icons
+local lazy_icons = require("lazyvim.config").icons
 local file_icons = require("config.theme").file_icons
 local mode_icons = require("config.theme").modes_icons
 local codeium = require("utils.codeium")
@@ -35,6 +37,46 @@ local window_numbers = {
     "󰼖 ",
     "󰼗 ",
     "󰿪 ",
+}
+
+local mode_color = {
+    n = colors.git.delete,
+    i = colors.green,
+    v = colors.yellow,
+    [""] = colors.blue,
+    V = colors.yellow,
+    c = colors.cyan,
+    no = colors.magenta,
+    s = colors.orange,
+    S = colors.orange,
+    [""] = colors.orange,
+    ic = colors.yellow,
+    R = colors.violet,
+    Rv = colors.violet,
+    cv = colors.red,
+    ce = colors.red,
+    r = colors.cyan,
+    rm = colors.cyan,
+    ["r?"] = colors.cyan,
+    ["!"] = colors.red,
+    t = colors.red,
+}
+
+local conditions = {
+    buffer_not_empty = function()
+        return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
+    end,
+    hide_in_width = function()
+        return vim.fn.winwidth(0) > 80
+    end,
+    hide_small = function()
+        return vim.fn.winwidth(0) > 120
+    end,
+    check_git_workspace = function()
+        local filepath = vim.fn.expand("%:p:h")
+        local gitdir = vim.fn.finddir(".git", filepath .. ";")
+        return gitdir and #gitdir > 0 and #gitdir < #filepath
+    end,
 }
 
 local function get_file_info()
@@ -107,92 +149,7 @@ local function list_registered_linters(filetype)
     return providers_for_methods
 end
 
-local module = {}
-
-module.mode_color = {
-    n = colors.git.delete,
-    i = colors.green,
-    v = colors.yellow,
-    [""] = colors.blue,
-    V = colors.yellow,
-    c = colors.cyan,
-    no = colors.magenta,
-    s = colors.orange,
-    S = colors.orange,
-    [""] = colors.orange,
-    ic = colors.yellow,
-    R = colors.violet,
-    Rv = colors.violet,
-    cv = colors.red,
-    ce = colors.red,
-    r = colors.cyan,
-    rm = colors.cyan,
-    ["r?"] = colors.cyan,
-    ["!"] = colors.red,
-    t = colors.red,
-}
-
-module.conditions = {
-    buffer_not_empty = function()
-        return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
-    end,
-    hide_in_width = function()
-        return vim.fn.winwidth(0) > 80
-    end,
-    hide_small = function()
-        return vim.fn.winwidth(0) > 120
-    end,
-    check_git_workspace = function()
-        local filepath = vim.fn.expand("%:p:h")
-        local gitdir = vim.fn.finddir(".git", filepath .. ";")
-        return gitdir and #gitdir > 0 and #gitdir < #filepath
-    end,
-}
-
-function module.vim_mode()
-    local mod = vim.fn.mode()
-    if mod == "n" or mod == "no" or mod == "nov" then
-        return mode_icons.n
-    elseif mod == "i" or mod == "ic" or mod == "ix" then
-        return mode_icons.i
-    elseif mod == "V" or mod == "v" or mod == "vs" or mod == "Vs" or mod == "cv" then
-        return mode_icons.v
-    elseif mod == "c" or mod == "ce" then
-        return mode_icons.c
-    elseif mod == "r" or mod == "rm" or mod == "r?" then
-        return mode_icons.r
-    elseif mod == "R" or mod == "Rc" or mod == "Rv" or mod == "Rv" then
-        return mode_icons.R
-    else
-        return mode_icons.d
-    end
-end
-
-function module.file_icon()
-    local file_icon = get_file_icon()
-    vim.api.nvim_command("hi! LualineFileIconColor guifg=" .. get_file_icon_color(file_icon) .. " guibg=" .. colors.bg)
-    local fname = vim.fn.expand("%:p")
-    if string.find(fname, "term://") ~= nil then
-        return icons.term
-    end
-    local winnr = vim.api.nvim_win_get_number(vim.api.nvim_get_current_win())
-    if winnr > 10 then
-        winnr = 10
-    end
-    local win = window_numbers[winnr]
-    return win .. " " .. file_icon
-end
-
-function module.file_name()
-    local show_name = vim.fn.expand("%:t")
-    local modified = ""
-    if vim.bo.modified then
-        modified = " " .. icons.floppy
-    end
-    return show_name .. modified
-end
-
-function module.lsp_server_icon(name, icon)
+local function lsp_server_icon(name, icon)
     local buf_clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
     if next(buf_clients) == nil then
         return ""
@@ -205,97 +162,330 @@ function module.lsp_server_icon(name, icon)
     return ""
 end
 
+local module = {}
+
+function module.vim_mode()
+    return {
+        function()
+            local mod = vim.fn.mode()
+            if mod == "n" or mod == "no" or mod == "nov" then
+                return mode_icons.n
+            elseif mod == "i" or mod == "ic" or mod == "ix" then
+                return mode_icons.i
+            elseif mod == "V" or mod == "v" or mod == "vs" or mod == "Vs" or mod == "cv" then
+                return mode_icons.v
+            elseif mod == "c" or mod == "ce" then
+                return mode_icons.c
+            elseif mod == "r" or mod == "rm" or mod == "r?" then
+                return mode_icons.r
+            elseif mod == "R" or mod == "Rc" or mod == "Rv" or mod == "Rv" then
+                return mode_icons.R
+            else
+                return mode_icons.d
+            end
+        end,
+        color = function()
+            return { fg = mode_color[vim.fn.mode()], bg = colors.bg }
+        end,
+        padding = { left = 1, right = 0 },
+    }
+end
+
+function module.git()
+    return {
+        "b:gitsigns_head",
+        icon = " " .. icons.git,
+        cond = conditions.check_git_workspace,
+        color = { fg = colors.blue, bg = colors.bg },
+        padding = 0,
+    }
+end
+
+function module.file_icon()
+    return {
+        function()
+            local file_icon = get_file_icon()
+            vim.api.nvim_command(
+                "hi! LualineFileIconColor guifg=" .. get_file_icon_color(file_icon) .. " guibg=" .. colors.bg
+            )
+            local fname = vim.fn.expand("%:p")
+            if string.find(fname, "term://") ~= nil then
+                return icons.term
+            end
+            local winnr = vim.api.nvim_win_get_number(vim.api.nvim_get_current_win())
+            if winnr > 10 then
+                winnr = 10
+            end
+            local win = window_numbers[winnr]
+            return win .. " " .. file_icon
+        end,
+        padding = { left = 2, right = 0 },
+        cond = conditions.buffer_not_empty,
+        color = "LualineFileIconColor",
+        gui = "bold",
+    }
+end
+
+function module.file_name()
+    return {
+        function()
+            local show_name = vim.fn.expand("%:t")
+            local modified = ""
+            if vim.bo.modified then
+                modified = " " .. icons.floppy
+            end
+            return show_name .. modified
+        end,
+        padding = { left = 1, right = 1 },
+        color = { fg = colors.fg, gui = "bold", bg = colors.bg },
+        cond = conditions.buffer_not_empty,
+    }
+end
+
+function module.diff()
+    return {
+        "diff",
+        symbols = {
+            added = lazy_icons.git.added,
+            modified = lazy_icons.git.modified,
+            removed = lazy_icons.git.removed,
+        },
+        diff_color = {
+            added = { fg = colors.git.add, bg = colors.bg },
+            modified = { fg = colors.git.change, bg = colors.bg },
+            removed = { fg = colors.git.delete, bg = colors.bg },
+        },
+        source = function()
+            local gitsigns = vim.b.gitsigns_status_dict
+            if gitsigns then
+                return {
+                    added = gitsigns.added,
+                    modified = gitsigns.changed,
+                    removed = gitsigns.removed,
+                }
+            end
+        end,
+    }
+end
+
+function module.lazy_status()
+    return {
+        require("lazy.status").updates,
+        cond = require("lazy.status").has_updates,
+        color = { fg = colors.orange, bg = colors.bg },
+    }
+end
+
+function module.circle_icon(direction)
+    return {
+        function()
+            if direction == "left" then
+                return icons.circle_left
+            else
+                return icons.circle_right
+            end
+        end,
+        padding = { left = 0, right = 0 },
+        color = { fg = colors.bg },
+    }
+end
+
 function module.codeium()
-    if codeium.is_enabled() == nil then
-        return ""
-    else
-        return icons.copilot
-    end
+    return {
+        function()
+            if codeium.is_enabled() == nil then
+                return ""
+            else
+                return icons.copilot
+            end
+        end,
+        padding = 0,
+        color = { fg = colors.purple, bg = colors.bg },
+        cond = conditions.hide_in_width,
+    }
 end
 
 function module.treesitter()
-    if next(vim.treesitter.highlighter.active) then
-        return icons.treesitter
-    end
-    return ""
+    return {
+        function()
+            if next(vim.treesitter.highlighter.active) then
+                return icons.treesitter
+            end
+            return ""
+        end,
+        padding = 0,
+        color = { fg = colors.green, bg = colors.bg },
+        cond = conditions.hide_in_width,
+    }
 end
 
 function module.file_size()
-    local file = vim.fn.expand("%:p")
-    if string.len(file) == 0 then
-        return ""
-    end
-    local size = vim.fn.getfsize(file)
-    if size <= 0 then
-        return ""
-    end
-    local sufixes = { "b", "k", "m", "g" }
-    local i = 1
-    while size > 1024 do
-        size = size / 1024
-        i = i + 1
-    end
-    return string.format("%.1f%s", size, sufixes[i])
+    return {
+        function()
+            local file = vim.fn.expand("%:p")
+            if string.len(file) == 0 then
+                return ""
+            end
+            local size = vim.fn.getfsize(file)
+            if size <= 0 then
+                return ""
+            end
+            local sufixes = { "b", "k", "m", "g" }
+            local i = 1
+            while size > 1024 do
+                size = size / 1024
+                i = i + 1
+            end
+            return string.format("%.1f%s", size, sufixes[i])
+        end,
+
+        color = { fg = colors.fg, bg = colors.bg },
+        cond = conditions.buffer_not_empty,
+    }
 end
 
-function module.lsp_servers(msg)
-    msg = msg or icons.ls_inactive
-    local buf_clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
-    if next(buf_clients) == nil then
-        if type(msg) == "boolean" or #msg == 0 then
-            return icons.ls_inactive
-        end
-        return msg
-    end
-    local buf_ft = vim.bo.filetype
-    local buf_client_names = {}
-    local trim_width = 100
-    local trim = vim.fn.winwidth(0) < trim_width
+function module.file_format()
+    return {
+        "fileformat",
+        fmt = string.upper,
+        icons_enabled = true,
+        color = { fg = colors.green, gui = "bold", bg = colors.bg },
+        cond = conditions.hide_in_width,
+    }
+end
 
-    for _, client in pairs(buf_clients) do
-        if not (client.name == "null-ls" or client.name == "typos_lsp") then
-            local _added_client = client.name
-            if trim then
-                _added_client = string.sub(client.name, 1, 4)
+function module.lsp_servers()
+    return {
+        function(msg)
+            msg = msg or icons.ls_inactive
+            local buf_clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+            if next(buf_clients) == nil then
+                if type(msg) == "boolean" or #msg == 0 then
+                    return icons.ls_inactive
+                end
+                return msg
             end
-            table.insert(buf_client_names, _added_client)
-        end
-    end
+            local buf_ft = vim.bo.filetype
+            local buf_client_names = {}
+            local trim_width = 100
+            local trim = vim.fn.winwidth(0) < trim_width
 
-    -- add formatter
-    for _, fmt in pairs(list_registered_formatters(buf_ft)) do
-        local _added_formatter = fmt
-        if trim then
-            _added_formatter = string.sub(fmt, 1, 4)
-        end
-        table.insert(buf_client_names, _added_formatter)
-    end
+            for _, client in pairs(buf_clients) do
+                if not (client.name == "null-ls" or client.name == "typos_lsp") then
+                    local _added_client = client.name
+                    if trim then
+                        _added_client = string.sub(client.name, 1, 4)
+                    end
+                    table.insert(buf_client_names, _added_client)
+                end
+            end
 
-    -- add linter
-    for _, lnt in pairs(list_registered_linters(buf_ft)) do
-        local _added_linter = lnt
-        if trim then
-            _added_linter = string.sub(lnt, 1, 4)
-        end
-        table.insert(buf_client_names, _added_linter)
-    end
-    return icons.ls_active .. table.concat(buf_client_names, " ")
+            -- add formatter
+            for _, fmt in pairs(list_registered_formatters(buf_ft)) do
+                local _added_formatter = fmt
+                if trim then
+                    _added_formatter = string.sub(fmt, 1, 4)
+                end
+                table.insert(buf_client_names, _added_formatter)
+            end
+
+            -- add linter
+            for _, lnt in pairs(list_registered_linters(buf_ft)) do
+                local _added_linter = lnt
+                if trim then
+                    _added_linter = string.sub(lnt, 1, 4)
+                end
+                table.insert(buf_client_names, _added_linter)
+            end
+            return icons.ls_active .. table.concat(buf_client_names, " ")
+        end,
+        color = { fg = colors.fg, bg = colors.bg },
+        cond = conditions.hide_in_width,
+    }
+end
+
+function module.location()
+    return {
+        "location",
+        padding = 0,
+        color = { fg = colors.orange, bg = colors.bg },
+    }
 end
 
 function module.file_position()
-    local current_line = vim.fn.line(".")
-    local total_lines = vim.fn.line("$")
-    local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
-    local line_ratio = current_line / total_lines
-    local index = math.ceil(line_ratio * #chars)
-    return chars[index]
+    return {
+        function()
+            local current_line = vim.fn.line(".")
+            local total_lines = vim.fn.line("$")
+            local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+            local line_ratio = current_line / total_lines
+            local index = math.ceil(line_ratio * #chars)
+            return chars[index]
+        end,
+        padding = 0,
+        color = { fg = colors.yellow, bg = colors.bg },
+    }
 end
 
 function module.file_read_only()
-    if not vim.bo.readonly or not vim.bo.modifiable then
-        return ""
-    end
-    return icons.lock
+    return {
+        function()
+            if not vim.bo.readonly or not vim.bo.modifiable then
+                return ""
+            end
+            return icons.lock
+        end,
+        color = { fg = colors.red },
+    }
+end
+
+function module.diagnostics()
+    return {
+        "diagnostics",
+        sources = { "nvim_diagnostic" },
+        symbols = {
+            error = diagnostics_icons.Error,
+            warn = diagnostics_icons.Warn,
+            info = diagnostics_icons.Info,
+            hint = diagnostics_icons.Hint,
+        },
+        cond = conditions.hide_in_width,
+        color = { fg = colors.fg, bg = colors.bg },
+    }
+end
+
+function module.dap_status()
+    return {
+        function()
+            return icons.debug .. require("dap").status()
+        end,
+        cond = function()
+            return package.loaded["dap"] and require("dap").status() ~= ""
+        end,
+        color = { fg = colors.red, bg = colors.bg },
+    }
+end
+
+function module.null_ls()
+    return {
+        function()
+            return " " .. lsp_server_icon("null-ls", icons.code_lens_action)
+        end,
+        padding = 0,
+        color = { fg = colors.blue, bg = colors.bg },
+        cond = conditions.hide_in_width,
+    }
+end
+
+function module.typos_lsp()
+    return {
+        function()
+            return " " .. lsp_server_icon("typos_lsp", icons.typos)
+        end,
+        padding = 0,
+        color = { fg = colors.yellow, bg = colors.bg },
+        cond = conditions.hide_in_width,
+    }
 end
 
 return module
