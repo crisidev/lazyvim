@@ -64,7 +64,7 @@ return {
         lsp = {
             progress = {
                 ignored_clients = { "grammar_guard" },
-                throttle = 100 / 10,
+                throttle = 10000 / 30,
             },
         },
         messages = {

@@ -1,0 +1,9 @@
+---
+repos:
+  - repo: local
+    hooks:
+      - id: stylua
+        name: StyLua
+        language: system
+        entry: sh -c "stylua -f home/.config/nvim/stylua.toml -c home/.config/nvim || stylua -f home/.config/nvim/stylua.toml home/.config/nvim"
+        types: [lua]
