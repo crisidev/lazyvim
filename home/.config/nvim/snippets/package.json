@@ -11,13 +11,6 @@
         "path": "./lua.json"
       },
       {
-        "language": [
-          "typescript",
-          "typescriptreact"
-        ],
-        "path": "./typescript.json"
-      },
-      {
         "language": "rust",
         "path": "./rust.json"
       },
