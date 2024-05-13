@@ -110,6 +110,15 @@ module.icons = {
     commander = "󰘳 ",
 }
 
+module.battery_icons = {
+    _100 = "􀛨",
+    _75 = "􀺸",
+    _50 = "􀺶",
+    _25 = "􀛩",
+    _0 = "􀛪",
+    _charging = "􀢋",
+}
+
 module.dap_icons = {
     breakpoint = "",
     breakpoint_rejected = "",

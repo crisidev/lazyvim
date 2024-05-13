@@ -91,7 +91,7 @@ return {
             },
             {
                 "<leader>na",
-                "<cmd>lua require('noice').cmd(''all')<cr>",
+                "<cmd>lua require('noice').cmd('all')<cr>",
                 desc = "Noice All",
             },
             {

@@ -348,8 +348,8 @@ return {
                 { type = "padding", val = 1 },
                 header(),
                 { type = "padding", val = 1 },
-                text("╭─────────────────────────╮"),
-                text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "   │"),
+                text("╭───────────────────────────╮"),
+                text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "     │"),
                 text(
                     "│ "
                         .. theme.icons.vim
@@ -359,10 +359,10 @@ return {
                         .. vim.version().minor
                         .. "."
                         .. vim.version().patch
-                        .. " │"
+                        .. "   │"
                 ),
-                text("│                         │"),
-                text("╰─────────────────────────╯"),
+                text("│                           │"),
+                text("╰───────────────────────────╯"),
                 { type = "padding", val = 1 },
                 mru(),
                 { type = "padding", val = 1 },
@@ -382,6 +382,13 @@ return {
             callback = function()
                 local stats = require("lazy").stats()
                 local ms = math.floor((stats.startuptime * 100 + 0.5) / 100)
+                local length = #tostring(ms)
+                local suffix = "   "
+                if length == 3 then
+                    suffix = " "
+                elseif length == 2 then
+                    suffix = "  "
+                end
                 opts.layout[7] = text(
                     "│ "
                         .. theme.icons.package
@@ -390,7 +397,9 @@ return {
                         .. stats.count
                         .. " plugins in "
                         .. ms
-                        .. "ms │"
+                        .. "ms"
+                        .. suffix
+                        .. "│"
                 )
                 pcall(vim.cmd.AlphaRedraw)
             end,
