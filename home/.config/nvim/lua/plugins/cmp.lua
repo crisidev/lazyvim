@@ -13,34 +13,7 @@ return {
             build = ":Codeium Auth",
             opts = {},
         },
-        {
-            "zjp-CN/nvim-cmp-lsp-rs",
-            ---@type cmp_lsp_rs.Opts
-            opts = {
-                unwanted_prefix = { "color", "ratatui::style::Styled" },
-                kind = function(k)
-                    return { k.Module, k.Function }
-                end,
-                combo = {
-                    alphabetic_label_but_underscore_last = function()
-                        local comparators = require("cmp_lsp_rs").comparators
-                        return { comparators.sort_by_label_but_underscore_last }
-                    end,
-                    recentlyUsed_sortText = function()
-                        local compare = require("cmp").config.compare
-                        local comparators = require("cmp_lsp_rs").comparators
-                        -- Mix cmp sorting function with cmp_lsp_rs.
-                        return {
-                            compare.recently_used,
-                            compare.sort_text,
-                            comparators.sort_by_label_but_underscore_last,
-                        }
-                    end,
-                },
-            },
-        },
     },
-    ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
         local theme = require("config.theme")
         local cmp = require("cmp")
@@ -73,23 +46,7 @@ return {
             { name = "nerdfont" },
             { name = "dotenv" },
         }))
-        opts.preselect = cmp.PreselectMode.None
-        opts.completion = {
-            completeopt = "menu,menuone,noselect",
-        }
         opts.experimental.ghost_text = false
-        opts.sorting.comparators = {
-            compare.exact,
-            compare.score,
-            -- cmp_lsp_rs.comparators.inherent_import_inscope,
-            cmp_lsp_rs.comparators.inscope_inherent_import,
-            cmp_lsp_rs.comparators.sort_by_label_but_underscore_last,
-        }
-
-        for _, source in ipairs(opts.sources) do
-            cmp_lsp_rs.filter_out.entry_filter(source)
-        end
-
         return opts
     end,
     keys = {
