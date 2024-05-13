@@ -1,5 +1,6 @@
 local theme = require("config.theme")
 local telescope = require("utils.telescope")
+local whitespaces = require("utils.whitespaces")
 local python = require("utils.lang.python")
 
 local function show_documentation()
@@ -210,7 +211,7 @@ return {
                 has = "codeAction",
             }
             keys[#keys + 1] =
-                { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" }
+            { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" }
             keys[#keys + 1] = {
                 "fz",
                 vim.lsp.buf.signature_help,
@@ -313,6 +314,12 @@ return {
                 "fk",
                 "<cmd>LspStart snyk_ls<cr>",
                 desc = theme.icons.codelens .. "Enable snyk",
+            }
+
+            keys[#keys + 1] = {
+                "fW",
+                "<cmd>lua require('utils.whitespaces').trim(true)<cr>",
+                desc = theme.icons.project .. "Trim whitespaces",
             }
         end,
     },
