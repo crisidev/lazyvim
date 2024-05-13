@@ -1,5 +1,6 @@
 return {
     "mg979/vim-visual-multi",
+    event = "VeryLazy",
     init = function()
         vim.cmd([[
                     let g:VM_maps = {}

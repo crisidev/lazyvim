@@ -220,7 +220,7 @@ return {
                 val = {
                     {
                         type = "text",
-                        val = "Recent files",
+                        val = "Files",
                         opts = {
                             hl = "String",
                             shrink_margin = false,
@@ -245,7 +245,7 @@ return {
                 val = {
                     {
                         type = "text",
-                        val = "Recent sessions",
+                        val = "Sessions",
                         opts = {
                             hl = "String",
                             shrink_margin = false,
@@ -271,7 +271,7 @@ return {
                 val = {
                     {
                         type = "text",
-                        val = "Quick links",
+                        val = "Actions",
                         opts = {
                             hl = "String",
                             shrink_margin = false,
@@ -327,8 +327,6 @@ return {
                 val = require("alpha.fortune")(),
                 opts = {
                     position = "center",
-                    hl = "Comment",
-                    hl_shortcut = "Comment",
                 },
             }
         end
@@ -345,16 +343,15 @@ return {
             })
         end
 
-        local stats = require("lazy").stats()
-        require("alpha").setup({
+        local opts = {
             layout = {
                 { type = "padding", val = 1 },
                 header(),
                 { type = "padding", val = 1 },
-                text("╭───────────────────────────╮"),
-                text("│  " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "    │"),
+                text("╭─────────────────────────╮"),
+                text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "   │"),
                 text(
-                    "│  "
+                    "│ "
                         .. theme.icons.vim
                         .. "Neovim version "
                         .. vim.version().major
@@ -362,25 +359,41 @@ return {
                         .. vim.version().minor
                         .. "."
                         .. vim.version().patch
-                        .. "  │"
+                        .. " │"
                 ),
-                text(
-                    "│  " .. theme.icons.package .. "Loaded " .. stats.loaded .. "/" .. stats.count .. " plugins  │"
-                ),
-                text("╰───────────────────────────╯"),
-                { type = "padding", val = 1 },
-                buttons(),
+                text("│                         │"),
+                text("╰─────────────────────────╯"),
                 { type = "padding", val = 1 },
                 mru(),
                 { type = "padding", val = 1 },
+                buttons(),
+                { type = "padding", val = 1 },
                 sessions(),
                 { type = "padding", val = 1 },
-
                 footer(),
             },
-            opts = {
-                margin = 0,
-            },
+        }
+
+        require("alpha").setup(opts)
+
+        vim.api.nvim_create_autocmd("User", {
+            once = true,
+            pattern = "LazyVimStarted",
+            callback = function()
+                local stats = require("lazy").stats()
+                local ms = math.floor((stats.startuptime * 100 + 0.5) / 100)
+                opts.layout[7] = text(
+                    "│ "
+                        .. theme.icons.package
+                        .. stats.loaded
+                        .. "/"
+                        .. stats.count
+                        .. " plugins in "
+                        .. ms
+                        .. "ms │"
+                )
+                pcall(vim.cmd.AlphaRedraw)
+            end,
         })
     end,
     keys = {
