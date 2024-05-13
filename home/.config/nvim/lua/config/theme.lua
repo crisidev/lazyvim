@@ -92,6 +92,7 @@ module.icons = {
     button_on = " ",
     up = " ",
     down = " ",
+    todo = " ",
     right = " ",
     left = " ",
     outline = " ",
@@ -106,6 +107,7 @@ module.icons = {
     ui = " ",
     snippets = "󱩽 ",
     floppy = " ",
+    commander = "󰘳 ",
 }
 
 module.dap_icons = {
@@ -348,6 +350,34 @@ function module.alpha_banner()
         [[ ███████████ ███    ███ █████████ █████ █████ ████ █████ ]],
         [[██████  █████████████████████ ████ █████ █████ ████ ██████]],
     }
+end
+
+function module.telescope(opts)
+    if not opts then
+        opts = {}
+    end
+    opts["layout_config"] = {
+        width = 0.9,
+        height = 0.4,
+        preview_cutoff = 135,
+        prompt_position = "bottom",
+        horizontal = {
+            preview_width = 0.32,
+        },
+        vertical = {
+            width = 0.9,
+            height = 0.4,
+            preview_height = 0.5,
+        },
+        flex = {
+            horizontal = {
+                preview_width = 0.4,
+            },
+        },
+    }
+    opts["layout_config"]["preview_width"] = 0.4
+    opts["sorting_strategy"] = "descending"
+    return require("telescope.themes").get_ivy(opts)
 end
 
 return module

@@ -4,23 +4,17 @@ return {
         return {
             {
                 "<leader>Sr",
-                function()
-                    require("persistence").load()
-                end,
+                "<cmd>lua require('persistence').load()<cr>",
                 desc = "Restore Session",
             },
             {
                 "<leader>Sl",
-                function()
-                    require("persistence").load({ last = true })
-                end,
+                "<cmd>lua require('persistence').load({ last = true })<cr>",
                 desc = "Restore Last Session",
             },
             {
                 "<leader>Sd",
-                function()
-                    require("persistence").stop()
-                end,
+                "<cmd>lua require('persistence').stop()<cr>",
                 desc = "Don't Save Current Session",
             },
         }

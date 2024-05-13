@@ -150,7 +150,6 @@ return {
         end,
         init = function()
             local theme = require("config.theme")
-            local telescope = require("utils.telescope")
 
             local function show_documentation()
                 local filetype = vim.bo.filetype
@@ -191,81 +190,71 @@ return {
             local keys = require("lazyvim.plugins.lsp.keymaps").get()
             keys[#keys + 1] = {
                 "fF",
-                function()
-                    vim.lsp.buf.format({ async = true })
-                end,
+                "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
                 mode = { "n", "x" },
                 desc = theme.icons.magic .. "Format file",
             }
             keys[#keys + 1] = { "K", show_documentation, desc = "Hover" }
             keys[#keys + 1] = {
                 "fA",
-                vim.lsp.codelens.run,
+                "<cmd>lua vim.lsp.codelens.run()<cr>",
                 desc = theme.icons.codelens .. "Code lens",
                 mode = { "n", "x" },
                 has = "codeLens",
             }
             keys[#keys + 1] = {
                 "fa",
-                require("actions-preview").code_actions,
+                "<cmd>lua require('actions-preview').code_actions()<cr>",
                 desc = theme.icons.codelens .. "Code actions",
                 mode = { "n", "x" },
                 has = "codeAction",
             }
-            keys[#keys + 1] =
-                { "<c-k>", vim.lsp.buf.signature_help, mode = "i", desc = "Signature Help", has = "signatureHelp" }
+            keys[#keys + 1] = {
+                "<c-k>",
+                "<cmd>lua vim.lsp.buf.signature_help()<cr>",
+                mode = "i",
+                desc = "Signature Help",
+                has = "signatureHelp",
+            }
             keys[#keys + 1] = {
                 "fz",
-                vim.lsp.buf.signature_help,
+                "<cmd>lua vim.lsp.buf.signature_help()<cr>",
                 desc = theme.icons.Function .. "Signature Help",
                 has = "signatureHelp",
             }
             keys[#keys + 1] = {
                 "ff",
-                vim.lsp.buf.definition,
+                "<cmd>lua vim.lsp.buf.definition()<cr>",
                 desc = theme.icons.go .. "Goto definition",
                 has = "definition",
             }
             keys[#keys + 1] = {
                 "ft",
-                telescope.lsp_type_definitions,
+                "<cmd>lua require('utils.telescope').lsp_type_definitions()<cr>",
                 desc = theme.icons.go .. "Goto type definition",
             }
             keys[#keys + 1] = {
                 "fd",
-                vim.lsp.buf.declaration,
+                "<cmd>lua vim.lsp.buf.declaration()<cr>",
                 desc = theme.icons.go .. "Goto declaration",
             }
             keys[#keys + 1] = {
                 "fr",
-                telescope.lsp_references,
+                "<cmd>lua require('utils.telescope').lsp_references()<cr>",
                 desc = theme.icons.go .. "References",
             }
             keys[#keys + 1] = {
                 "fi",
-                telescope.lsp_implementations,
+                "<cmd>lua require('utils.telescope').lsp_implementations()<cr>",
                 desc = theme.icons.go .. "Implementations",
             }
             keys[#keys + 1] = {
                 "fl",
-                function()
-                    vim.diagnostic.open_float({ border = "rounded", focusable = true })
-                end,
+                "<cmd>lua vim.diagnostic.open_float({ border = 'rounded', focusable = true })<cr>",
                 desc = theme.diagnostics_icons.Hint .. "Line diagnostics",
             }
-            if LazyVim.has("inc-rename.nvim") then
-                keys[#keys + 1] = {
-                    "fI",
-                    function()
-                        local inc_rename = require("inc_rename")
-                        return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
-                    end,
-                    expr = true,
-                    desc = theme.icons.rename("Incremental rename"),
-                    has = "rename",
-                }
-            end
-            keys[#keys + 1] = { "fR", vim.lsp.buf.rename, desc = theme.icons.rename .. "Rename", has = "rename" }
+            keys[#keys + 1] =
+                { "fR", "<cmd>lua vim.lsp.buf.rename()<cr>", desc = theme.icons.rename .. "Rename", has = "rename" }
             keys[#keys + 1] = { "fx", require("lsplinks").gx, desc = theme.icons.world .. "Open link" }
             keys[#keys + 1] = {
                 "fN",
@@ -320,9 +309,7 @@ return {
 
             keys[#keys + 1] = {
                 "fW",
-                function()
-                    require("utils.whitespaces").trim(true)
-                end,
+                "<cmd>lua require('utils.whitespaces').trim(true)<cr>",
                 desc = theme.icons.project .. "Trim whitespaces",
             }
         end,

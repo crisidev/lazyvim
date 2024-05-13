@@ -75,38 +75,28 @@ return {
         return {
             {
                 "<S-Enter>",
-                function()
-                    require("noice").redirect(vim.fn.getcmdline())
-                end,
+                "<cmd>lua require('noice').redirect(vim.fn.getcmdline())<cr>",
                 mode = "c",
                 desc = "Redirect Cmdline",
             },
             {
                 "<leader>nl",
-                function()
-                    require("noice").cmd("last")
-                end,
+                "<cmd>lua require('noice').cmd('last')<cr>",
                 desc = "Noice Last Message",
             },
             {
                 "<leader>nh",
-                function()
-                    require("noice").cmd("history")
-                end,
+                "<cmd>lua require('noice').cmd('history')<cr>",
                 desc = "Noice History",
             },
             {
                 "<leader>na",
-                function()
-                    require("noice").cmd("all")
-                end,
+                "<cmd>lua require('noice').cmd(''all')<cr>",
                 desc = "Noice All",
             },
             {
                 "<leader>nd",
-                function()
-                    require("noice").cmd("dismiss")
-                end,
+                "<cmd>lua require('noice').cmd('dismiss')<cr>",
                 desc = "Dismiss All",
             },
             {

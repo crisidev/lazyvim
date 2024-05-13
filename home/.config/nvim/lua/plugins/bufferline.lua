@@ -1,21 +1,3 @@
-local function smart_quit()
-    local bufnr = vim.api.nvim_get_current_buf()
-    local modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
-    vim.cmd("Neotree close")
-    require("edgy").close()
-    if modified then
-        vim.ui.input({
-            prompt = "You have unsaved changes. Quit anyway? (y/n) ",
-        }, function(input)
-            if input == "y" then
-                vim.cmd("q!")
-            end
-        end)
-    else
-        vim.cmd("q!")
-    end
-end
-
 return {
     "akinsho/bufferline.nvim",
     opts = function(_, opts)
@@ -132,11 +114,6 @@ return {
                 "<cmd>BufferLineMoveNext<cr>",
                 desc = "Move buffer right",
                 mode = { "n", "i" },
-            },
-            {
-                "<leader>Q",
-                smart_quit,
-                desc = require("config.theme").icons.no .. "Quit",
             },
         }
     end,

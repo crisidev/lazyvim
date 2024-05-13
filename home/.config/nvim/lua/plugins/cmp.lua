@@ -39,7 +39,7 @@ return {
         opts.experimental.ghost_text = false
     end,
     keys = {
-        { "fCe", require("utils.codeium").enable, desc = "Enable" },
-        { "fCd", require("utils.codeium").disable, desc = "Disable" },
+        { "fCe", "<cmd>lua require('utils.codeium').enable()<cr>", desc = "Enable" },
+        { "fCd", "<cmd>lua require('utils.codeium').disable()<cr>", desc = "Disable" },
     },
 }

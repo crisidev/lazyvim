@@ -1,6 +1,6 @@
 local utils = require("telescope.utils")
 local builtin = require("telescope.builtin")
-local themes = require("telescope.themes")
+local theme = require("config.theme")
 
 local function get_visual()
     local _, ls, cs = unpack(vim.fn.getpos("v"))
@@ -37,41 +37,13 @@ local function process_grep_under_text(value, opts)
     return value
 end
 
-local function get_theme(opts)
-    if not opts then
-        opts = {}
-    end
-    opts["layout_config"] = {
-        width = 0.9,
-        height = 0.4,
-        preview_cutoff = 135,
-        prompt_position = "bottom",
-        horizontal = {
-            preview_width = 0.32,
-        },
-        vertical = {
-            width = 0.9,
-            height = 0.4,
-            preview_height = 0.5,
-        },
-        flex = {
-            horizontal = {
-                preview_width = 0.4,
-            },
-        },
-    }
-    opts["layout_config"]["preview_width"] = 0.4
-    opts["sorting_strategy"] = "descending"
-    return themes.get_ivy(opts)
-end
-
 local module = {}
 
 function module.find_files()
     local opts = {
         hidden = true,
     }
-    builtin.find_files(get_theme(opts))
+    builtin.find_files(theme.telescope(opts))
 end
 
 function module.find_project_files(opts)
@@ -87,19 +59,19 @@ function module.find_project_files(opts)
         local in_worktree = utils.get_os_command_output({ "git", "rev-parse", "--is-inside-work-tree" }, opts.cwd)
         local in_bare = utils.get_os_command_output({ "git", "rev-parse", "--is-bare-repository" }, opts.cwd)
         if in_worktree[1] ~= "true" and in_bare[1] ~= "true" then
-            builtin.find_files(get_theme(opts))
+            builtin.find_files(theme.telescope(opts))
             return
         end
     end
-    builtin.git_files(get_theme(opts))
+    builtin.git_files(theme.telescope(opts))
 end
 
 function module.file_browser()
-    require("telescope").extensions.file_browser.file_browser(get_theme())
+    require("telescope").extensions.file_browser.file_browser(theme.telescope())
 end
 
 function module.resume()
-    builtin.resume(get_theme())
+    builtin.resume(theme.telescope())
 end
 
 function module.visual_selection()
@@ -109,7 +81,7 @@ function module.visual_selection()
         hidden = true,
         default_text = process_grep_under_text(text),
     }
-    require("telescope").extensions.live_grep_args.live_grep_args(get_theme(opts))
+    require("telescope").extensions.live_grep_args.live_grep_args(theme.telescope(opts))
 end
 
 function module.find_identifier()
@@ -118,26 +90,14 @@ function module.find_identifier()
         hidden = true,
         default_text = process_grep_under_text(text),
     }
-    require("telescope").extensions.live_grep_args.live_grep_args(get_theme(opts))
-end
-
-function module.only_certain_files()
-    local opts = {
-        find_command = {
-            "rg",
-            "--files",
-            "--type",
-            vim.fn.input("Type: "),
-        },
-    }
-    builtin.find_files(get_theme(opts))
+    require("telescope").extensions.live_grep_args.live_grep_args(theme.telescope(opts))
 end
 
 function module.find_string()
     local opts = {
         hidden = true,
     }
-    require("telescope").extensions.live_grep_args.live_grep_args(get_theme(opts))
+    require("telescope").extensions.live_grep_args.live_grep_args(theme.telescope(opts))
 end
 
 function module.find_string_visual()
@@ -149,21 +109,21 @@ function module.find_string_visual()
         local ret = vim.fn.substitute(selection, [[\n]], [[\\n]], "g")
         return ret
     end
-    local opts = get_theme()
+    local opts = theme.telescope()
     opts["default_text"] = visual_selection()
     builtin.live_grep(opts)
 end
 
 function module.zoxide()
-    require("telescope").extensions.zoxide.list(get_theme())
+    require("telescope").extensions.zoxide.list(theme.telescope())
 end
 
 function module.smart_open()
-    require("telescope").extensions.smart_open.smart_open(get_theme())
+    require("telescope").extensions.smart_open.smart_open(theme.telescope())
 end
 
 function module.buffers()
-    local opts = get_theme()
+    local opts = theme.telescope()
     opts["on_complete"] = {
         function(_picker)
             vim.cmd("startinsert")
@@ -174,25 +134,43 @@ end
 
 function module.lsp_references()
     local opts = { reuse_win = true }
-    builtin.lsp_references(get_theme(opts))
+    builtin.lsp_references(theme.telescope(opts))
 end
 
 function module.lsp_implementations()
     local opts = { reuse_win = true }
-    builtin.lsp_implementations(get_theme(opts))
+    builtin.lsp_implementations(theme.telescope(opts))
 end
 
 function module.lsp_type_definitions()
     local opts = { reuse_win = true }
-    builtin.lsp_type_definitions(get_theme(opts))
+    builtin.lsp_type_definitions(theme.telescope(opts))
 end
 
 function module.todo_comments(opts)
-    require("telescope").extensions["todo-comments"].todo(get_theme(opts))
+    require("telescope").extensions["todo-comments"].todo(theme.telescope(opts))
 end
 
 function module.lua_snips()
-    require("telescope").extensions.luasnip.luasnip(get_theme())
+    require("telescope").extensions.luasnip.luasnip(theme.telescope())
+end
+
+function module.smart_quit()
+    local bufnr = vim.api.nvim_get_current_buf()
+    local modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
+    vim.cmd("Neotree close")
+    require("edgy").close()
+    if modified then
+        vim.ui.input({
+            prompt = "You have unsaved changes. Quit anyway? (y/n) ",
+        }, function(input)
+            if input == "y" then
+                vim.cmd("q!")
+            end
+        end)
+    else
+        vim.cmd("q!")
+    end
 end
 
 return module

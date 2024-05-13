@@ -30,46 +30,84 @@ return {
             })
         end,
         keys = function()
-            local telescope = require("utils.telescope")
             local icons = require("config.theme").icons
             return {
                 -- Main group
-                { "<leader>T", telescope.resume, desc = icons.clock .. "Last search" },
-                { "<leader>i", telescope.find_identifier, desc = icons.find .. "Find identifier" },
+                {
+                    "<leader>T",
+                    "<cmd>lua require('utils.telescope').resume()<cr>",
+                    desc = icons.clock .. "Last search",
+                },
                 {
                     "<leader>i",
-                    telescope.visual_selection,
+                    "<cmd>lua require('utils.telescope').find_identifier()<cr>",
+                    desc = icons.find .. "Find identifier",
+                },
+                {
+                    "<leader>i",
+                    "<cmd>lua require('utils.telescope').visual_selection()<cr>",
                     desc = icons.find .. "Find visual selection",
                     mode = { "x" },
                 },
-                { "<leader>E", telescope.file_browser, desc = icons.folder .. "File browser" },
-                { "<leader>f", telescope.find_project_files, desc = icons.files .. "Find files" },
+                {
+                    "<leader>e",
+                    "<cmd>lua require('utils.telescope').file_browser()<cr>",
+                    desc = icons.folder .. "File browser",
+                },
+                {
+                    "<leader>f",
+                    "<cmd>lua require('utils.telescope').find_project_files()<cr>",
+                    desc = icons.files .. "Find project files",
+                },
+                {
+                    "<leader>F",
+                    "<cmd>lua require('utils.telescope').find_files()<cr>",
+                    desc = icons.files .. "Find all files",
+                },
+
                 {
                     "<leader>s",
-                    telescope.find_string,
+                    "<cmd>lua require('utils.telescope').find_string()<cr>",
                     desc = icons.find .. "Find string",
                     mode = { "n" },
                 },
                 {
                     "<leader>s",
-                    telescope.find_string_visual,
+                    "<cmd>lua require('utils.telescope').find_string_visual()<cr>",
                     desc = icons.find .. "Find string",
                     mode = { "x" },
                 },
-                { "<leader>r", telescope.smart_open, desc = icons.calendar .. "Smart open" },
-                { "<leader>z", telescope.zoxide, desc = icons.calendar .. "Zoxide" },
-                { "<leader>b", telescope.buffers, desc = icons.buffers .. "Buffers" },
+                {
+                    "<leader>r",
+                    "<cmd>lua require('utils.telescope').smart_open()<cr>",
+                    desc = icons.calendar .. "Smart open",
+                },
+                {
+                    "<leader>z",
+                    "<cmd>lua require('utils.telescope').zoxide()<cr>",
+                    desc = icons.calendar .. "Zoxide",
+                },
+                {
+                    "<leader>b",
+                    "<cmd>lua require('utils.telescope').buffers()<cr>",
+                    desc = icons.buffers .. "Buffers",
+                },
 
-                -- <leader>F group
-                { "<leader>Ff", telescope.find_files, desc = "Find files" },
-                { "<leader>FF", telescope.only_certain_files, desc = "File certain filetype" },
-                { "<leader>Fb", telescope.file_browser, desc = "File browser" },
-                { "<leader>Fs", telescope.find_string, desc = "Find string", mode = { "n" } },
-                { "<leader>Fs", telescope.find_string_visual, desc = "Find string", mode = { "x" } },
-                { "<leader>FS", telescope.find_identifier, desc = "Find identifier under cursor" },
-                { "<leader>Fz", telescope.zoxide, desc = "Zoxide list" },
-                { "<leader>Fr", telescope.smart_open, desc = "Smart open" },
-                { "<leader>Ft", telescope.todo_comments, desc = "Todos" },
+                {
+                    "<leader>Q",
+                    "<cmd>lua require('utils.telescope').smart_quit()<cr>",
+                    desc = icons.no .. "Quit",
+                },
+                {
+                    "<leader>C",
+                    "<cmd>lua require('utils.telescope').todo_comments()<cr>",
+                    desc = icons.todo .. "Todos",
+                },
+                {
+                    "<leader><space>",
+                    "<cmd>Telescope commander<cr>",
+                    desc = icons.commander .. "Commander",
+                },
             }
         end,
     },
@@ -101,5 +139,33 @@ return {
         "benfowler/telescope-luasnip.nvim",
         module = "telescope._extensions.luasnip",
         lazy = true,
+    },
+    {
+        "FeiyouG/commander.nvim",
+        dependencies = { "nvim-telescope/telescope.nvim" },
+        config = function()
+            require("commander").setup({
+                components = {
+                    "DESC",
+                    "CAT",
+                    "KEYS",
+                    "CMD",
+                },
+                sort_by = {
+                    "DESC",
+                    "CAT",
+                },
+                integration = {
+                    telescope = {
+                        enable = true,
+                        theme = require("config.theme").telescope,
+                    },
+                    lazy = {
+                        enable = true,
+                        set_plugin_name_as_cat = true,
+                    },
+                },
+            })
+        end,
     },
 }

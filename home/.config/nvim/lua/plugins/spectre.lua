@@ -4,23 +4,17 @@ return {
         return {
             {
                 "<leader>Rf",
-                function()
-                    require("spectre").open_file_search()
-                end,
+                "<cmd>lua require('spectre').open_file_search()<cr>",
                 desc = "Current buffer",
             },
             {
                 "<leader>Rp",
-                function()
-                    require("spectre").open()
-                end,
+                "<cmd>lua require('spectre').open()<cr>",
                 desc = "Whole project",
             },
             {
                 "<leader>Rv",
-                function()
-                    require("spectre").open_visual({ select_word = true })
-                end,
+                "<cmd>lua require('spectre').open_visual({ select_word = true })<cr>",
                 desc = "Selected word",
             },
         }
