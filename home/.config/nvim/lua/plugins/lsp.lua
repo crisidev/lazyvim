@@ -1,43 +1,3 @@
-local theme = require("config.theme")
-local telescope = require("utils.telescope")
-local whitespaces = require("utils.whitespaces")
-local python = require("utils.lang.python")
-
-local function show_documentation()
-    local filetype = vim.bo.filetype
-    if vim.tbl_contains({ "vim", "help" }, filetype) then
-        vim.cmd("h " .. vim.fn.expand("<cword>"))
-    elseif vim.fn.expand("%:t") == "Cargo.toml" then
-        require("crates").show_popup()
-    elseif vim.tbl_contains({ "man" }, filetype) then
-        vim.cmd("Man " .. vim.fn.expand("<cword>"))
-    elseif filetype == "rust" then
-        vim.cmd.RustLsp({ "hover", "actions" })
-    else
-        vim.lsp.buf.hover()
-    end
-end
-
-local function diagnostics(direction, level)
-    if direction == "next" then
-        vim.diagnostic.goto_next({ severity = { min = level } })
-    else
-        vim.diagnostic.goto_prev({ severity = { min = level } })
-    end
-end
-
-local function toggle_inlay_hints(buf, value)
-    local ih = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
-    if type(ih) == "function" then
-        ih(buf, value)
-    elseif type(ih) == "table" and ih.enable then
-        if value == nil then
-            value = not ih.is_enabled(buf)
-        end
-        ih.enable(value)
-    end
-end
-
 return {
     {
         "aznhe21/actions-preview.nvim",
@@ -75,6 +35,7 @@ return {
         lazy = true,
         config = function()
             local text_format = function(symbol)
+                local theme = require("config.theme")
                 local res = {}
                 local ins = table.insert
 
@@ -139,8 +100,10 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        opts = {
-            diagnostics = {
+        opts = function(_, opts)
+            local python = require("utils.lang.python")
+            local theme = require("config.theme")
+            opts.diagnostics = {
                 virtual_text = false,
                 update_in_insert = true,
                 float = {
@@ -157,16 +120,16 @@ return {
                         [vim.diagnostic.severity.INFO] = theme.diagnostics_icons.Info,
                     },
                 },
-            },
-            inlay_hints = { enabled = true },
-            servers = {
+            }
+            opts.inlay_hints = { enabled = true }
+            opts.servers = {
                 typos_lsp = { enabled = true },
                 basedpyright = { enabled = true, cmd = python.basedpyright_cmd() },
                 ruff_lsp = { enabled = true, cmd = python.ruff_lsp_cmd() },
                 gitlab_ci_ls = { enabled = true },
                 snyk_ls = { enabled = true, autostart = false },
-            },
-            setup = {
+            }
+            opts.setup = {
                 typos_lsp = function(_, opts)
                     require("lspconfig").typos_lsp.setup({
                         init_options = {
@@ -182,9 +145,48 @@ return {
                         end
                     end)
                 end,
-            },
-        },
+            }
+            return opts
+        end,
         init = function()
+            local theme = require("config.theme")
+            local telescope = require("utils.telescope")
+
+            local function show_documentation()
+                local filetype = vim.bo.filetype
+                if vim.tbl_contains({ "vim", "help" }, filetype) then
+                    vim.cmd("h " .. vim.fn.expand("<cword>"))
+                elseif vim.fn.expand("%:t") == "Cargo.toml" then
+                    require("crates").show_popup()
+                elseif vim.tbl_contains({ "man" }, filetype) then
+                    vim.cmd("Man " .. vim.fn.expand("<cword>"))
+                elseif filetype == "rust" then
+                    vim.cmd.RustLsp({ "hover", "actions" })
+                else
+                    vim.lsp.buf.hover()
+                end
+            end
+
+            local function diagnostics(direction, level)
+                if direction == "next" then
+                    vim.diagnostic.goto_next({ severity = { min = level } })
+                else
+                    vim.diagnostic.goto_prev({ severity = { min = level } })
+                end
+            end
+
+            local function toggle_inlay_hints(buf, value)
+                local ih = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+                if type(ih) == "function" then
+                    ih(buf, value)
+                elseif type(ih) == "table" and ih.enable then
+                    if value == nil then
+                        value = not ih.is_enabled(buf)
+                    end
+                    ih.enable(value)
+                end
+            end
+
             require("lazyvim.plugins.lsp.keymaps")._keys = {}
             local keys = require("lazyvim.plugins.lsp.keymaps").get()
             keys[#keys + 1] = {
@@ -205,7 +207,7 @@ return {
             }
             keys[#keys + 1] = {
                 "fa",
-                "<cmd>lua require('actions-preview').code_actions()<cr>",
+                require("actions-preview").code_actions,
                 desc = theme.icons.codelens .. "Code actions",
                 mode = { "n", "x" },
                 has = "codeAction",
@@ -318,7 +320,9 @@ return {
 
             keys[#keys + 1] = {
                 "fW",
-                "<cmd>lua require('utils.whitespaces').trim(true)<cr>",
+                function()
+                    require("utils.whitespaces").trim(true)
+                end,
                 desc = theme.icons.project .. "Trim whitespaces",
             }
         end,
