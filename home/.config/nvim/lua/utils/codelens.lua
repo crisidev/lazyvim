@@ -1,18 +1,17 @@
-local module = {}
+local M = {}
 
 local SIGN_GROUP = "nvim-lightbulblens"
 local SIGN_NAME = "LightBulbSign"
-local icons = require("config.theme").icons
 
 -- Set default sign
 if vim.tbl_isempty(vim.fn.sign_getdefined(SIGN_NAME)) then
-    vim.fn.sign_define(SIGN_NAME, { text = icons.code_action, texthl = "MoreMsg" })
+    vim.fn.sign_define(SIGN_NAME, { text = require("config.theme").icons.code_action, texthl = "MoreMsg" })
 end
 
-function module.show_line_sign()
+M.show_line_sign = function()
     -- Check for code action capability
     local code_action_cap_found = false
-    for _, client in pairs(vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })) do
+    for _, client in pairs(vim.lsp.buf_get_clients()) do
         if client then
             if client.supports_method("textDocument/codeAction") then
                 code_action_cap_found = true
@@ -27,15 +26,13 @@ function module.show_line_sign()
     local params = require("vim.lsp.util").make_range_params()
     params.context = context
     local bufnr = vim.api.nvim_get_current_buf()
-    vim.lsp.buf_request_all(
-        0,
-        "textDocument/codeAction",
-        params,
-        module.handler_factory(params.range.start.line, bufnr)
-    )
+    vim.lsp.buf_request_all(0, "textDocument/codeAction", params, M.handler_factory(params.range.start.line, bufnr))
 end
 
-function module.code_lens_available(cursor)
+--- Check if the current line contains a codelens action
+---@param cursor {number, number} The cursor position
+---@return boolean True if the line contains a codelens action
+M.code_lens_available = function(cursor)
     local codelens_actions = {}
     for _, l in ipairs(vim.lsp.codelens.get(0)) do
         table.insert(codelens_actions, { start = l.range.start, finish = l.range["end"] })
@@ -57,7 +54,7 @@ end
 ---
 --- @param line number The line when the the code action request is called
 --- @param bufnr number|nil Buffer handle
-function module.handler_factory(line, bufnr)
+M.handler_factory = function(line, bufnr)
     --- Handler for textDocument/codeAction.
     ---
     --- See lsp-handler for more information.
@@ -89,25 +86,25 @@ function module.handler_factory(line, bufnr)
 
         local cursor = vim.api.nvim_win_get_cursor(0)
         cursor[1] = cursor[1] - 1
-        if module.code_lens_available(cursor) then
-            module.update_sign(10, vim.b.lightbulb_line, cursor[1] + 1, bufnr, "code_lens_action")
+        if M.code_lens_available(cursor) then
+            M.update_sign(10, vim.b.lightbulb_line, cursor[1] + 1, bufnr, "code_lens_action")
             return
         end
 
         -- No available code actions
         if not has_actions then
-            module.update_sign(10, vim.b.lightbulb_line, nil, bufnr, "code_action")
+            M.update_sign(10, vim.b.lightbulb_line, nil, bufnr, "code_action")
         else
-            module.update_sign(10, vim.b.lightbulb_line, line + 1, bufnr, "code_action")
+            M.update_sign(10, vim.b.lightbulb_line, line + 1, bufnr, "code_action")
         end
     end
 
-    return module.mk_handler(code_action_handler)
+    return M.mk_handler(code_action_handler)
 end
 
 --- Patch for breaking neovim master update to LSP handlers
 --- See: https://github.com/neovim/neovim/issues/14090#issuecomment-913198455
-function module.mk_handler(fn)
+M.mk_handler = function(fn)
     return function(...)
         local config_or_client_id = select(4, ...)
         local is_new = type(config_or_client_id) ~= "number"
@@ -125,8 +122,6 @@ function module.mk_handler(fn)
     end
 end
 
---- Write a function to requests
-
 --- Update sign position from `old_line` to `new_line`.
 ---
 --- Either line can be optional, and will result in just adding/removing
@@ -138,7 +133,7 @@ end
 --- @param bufnr number|nil Buffer handle
 --- @param text string the sign icon
 ---
-function module.update_sign(priority, old_line, new_line, bufnr, text)
+M.update_sign = function(priority, old_line, new_line, bufnr, text)
     bufnr = bufnr or "%"
 
     if old_line then
@@ -154,11 +149,11 @@ function module.update_sign(priority, old_line, new_line, bufnr, text)
         -- Update current lightbulb line
         vim.b.lightbulb_line = new_line
     end
-    local icon = icons.hint
+    local icon = require("config.theme").icons.code_action
     if text == "code_lens_action" then
-        icon = icons.code_lens_action
+        icon = require("config.theme").icons.code_lens_action
     end
     vim.fn.sign_define(SIGN_NAME, { text = icon, texthl = "MoreMsg" })
 end
 
-return module
+return M

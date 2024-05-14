@@ -101,17 +101,18 @@ return {
     {
         "neovim/nvim-lspconfig",
         opts = function(_, opts)
-            local python = require("utils.lang.python")
             local theme = require("config.theme")
+            local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
             opts.diagnostics = {
                 virtual_text = false,
-                update_in_insert = true,
+                update_in_insert = false,
                 float = {
                     spacing = 4,
                     border = "rounded",
                     focusable = true,
                     source = "if_many",
                 },
+                severity_sort = true,
                 signs = {
                     text = {
                         [vim.diagnostic.severity.ERROR] = theme.diagnostics_icons.Error,
@@ -122,15 +123,41 @@ return {
                 },
             }
             opts.inlay_hints = { enabled = true }
+            opts.codelens = { enabled = false }
             opts.servers = {
                 typos_lsp = { enabled = true },
-                basedpyright = { enabled = true, cmd = python.basedpyright_cmd() },
-                ruff_lsp = { enabled = true, cmd = python.ruff_lsp_cmd() },
+                basedpyright = {
+                    enabled = true,
+                    cmd = function()
+                        local cmd_path = mason_install_path .. "/basedpyright-langserver"
+                        local cmd = { cmd_path, "--stdio" }
+                        local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
+                        if match ~= "" then
+                            cmd = { "poetry", "run", cmd_path, "--stdio" }
+                        end
+                        return cmd
+                    end,
+                },
+                ruff_lsp = {
+                    enabled = true,
+                    cmd = function()
+                        local cmd_path = mason_install_path .. "/ruff-lsp"
+                        local cmd = { cmd_path }
+                        local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
+                        if match ~= "" then
+                            cmd = { "poetry", "run", cmd_path }
+                        end
+                        return cmd
+                    end,
+                },
                 gitlab_ci_ls = { enabled = true },
                 snyk_ls = { enabled = true, autostart = false },
             }
             opts.setup = {
-                typos_lsp = function(_, opts)
+                rust_analyzer = function()
+                    return true
+                end,
+                typos_lsp = function()
                     require("lspconfig").typos_lsp.setup({
                         init_options = {
                             diagnosticSeverity = "Hint",
@@ -138,7 +165,7 @@ return {
                     })
                     return true
                 end,
-                ruff_lsp = function(_, opts)
+                ruff_lsp = function()
                     LazyVim.lsp.on_attach(function(client, _)
                         if client.name == "ruff_lsp" then
                             client.server_capabilities.documentFormattingProvider = false
@@ -199,6 +226,13 @@ return {
                 "fA",
                 "<cmd>lua vim.lsp.codelens.run()<cr>",
                 desc = theme.icons.codelens .. "Code lens",
+                mode = { "n", "x" },
+                has = "codeLens",
+            }
+            keys[#keys + 1] = {
+                "fL",
+                "<cmd>lua vim.lsp.codelens.refresh()<cr>",
+                desc = theme.icons.codelens .. "Refresh lenses",
                 mode = { "n", "x" },
                 has = "codeLens",
             }

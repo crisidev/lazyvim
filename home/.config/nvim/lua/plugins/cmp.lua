@@ -17,8 +17,6 @@ return {
     opts = function(_, opts)
         local theme = require("config.theme")
         local cmp = require("cmp")
-        local cmp_lsp_rs = require("cmp_lsp_rs")
-        local compare = require("cmp").config.compare
         require("cmp_git").setup()
         theme.cmp()
         opts.formatting = {

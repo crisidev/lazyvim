@@ -61,14 +61,21 @@ return {
                 input = {},
             },
         },
-        lsp = {
-            progress = {
-                ignored_clients = { "grammar_guard" },
-                throttle = 10000 / 30,
-            },
-        },
         messages = {
             view_search = false,
+        },
+        routes = {
+            {
+                filter = {
+                    event = "lsp",
+                    kind = "progress",
+                    cond = function(message)
+                        local client = vim.tbl_get(message.opts, "progress", "client")
+                        return client == "null-ls" or client == "grammar_guard"
+                    end,
+                },
+                opts = { skip = true },
+            },
         },
     },
     keys = function()

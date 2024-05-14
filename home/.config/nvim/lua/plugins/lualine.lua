@@ -357,14 +357,10 @@ return {
 
         local function lsp_servers()
             return {
-                function(msg)
-                    msg = msg or icons.ls_inactive
+                function()
                     local buf_clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
                     if next(buf_clients) == nil then
-                        if type(msg) == "boolean" or #msg == 0 then
-                            return icons.ls_inactive
-                        end
-                        return msg
+                        return icons.ls_inactive .. "none"
                     end
                     local buf_ft = vim.bo.filetype
                     local buf_client_names = {}
@@ -398,7 +394,12 @@ return {
                         end
                         table.insert(buf_client_names, _added_linter)
                     end
-                    return icons.ls_active .. table.concat(buf_client_names, " ")
+
+                    if #buf_client_names == 0 then
+                        return icons.ls_inactive .. "none"
+                    else
+                        return icons.ls_active .. table.concat(buf_client_names, " ")
+                    end
                 end,
                 color = { fg = colors.fg, bg = colors.bg },
                 cond = conditions.hide_in_width,
@@ -435,9 +436,9 @@ return {
                     if not vim.bo.readonly or not vim.bo.modifiable then
                         return ""
                     end
-                    return icons.lock
+                    return string.gsub(icons.lock, "%s+", "")
                 end,
-                color = { fg = colors.red },
+                color = { fg = colors.red, bg = colors.bg },
             }
         end
 
@@ -468,10 +469,21 @@ return {
             }
         end
 
+        local function space()
+            return {
+                function()
+                    return " "
+                end,
+                padding = 0,
+                color = { fg = colors.blue, bg = colors.bg },
+                cond = conditions.hide_in_width,
+            }
+        end
+
         local function null_ls()
             return {
                 function()
-                    return " " .. lsp_server_icon("null-ls", icons.code_lens_action)
+                    return lsp_server_icon("null-ls", icons.code_lens_action)
                 end,
                 padding = 0,
                 color = { fg = colors.blue, bg = colors.bg },
@@ -482,7 +494,7 @@ return {
         local function typos_lsp()
             return {
                 function()
-                    return " " .. lsp_server_icon("typos_lsp", icons.typos)
+                    return lsp_server_icon("typos_lsp", icons.typos)
                 end,
                 padding = 0,
                 color = { fg = colors.yellow, bg = colors.bg },
@@ -511,10 +523,10 @@ return {
             },
             lualine_x = {
                 circle_icon("left"),
-                file_read_only(),
                 diagnostics(),
             },
             lualine_y = {
+                space(),
                 dap_status(),
                 null_ls(),
                 codeium(),
@@ -523,8 +535,10 @@ return {
                 lsp_servers(),
             },
             lualine_z = {
+                space(),
                 location(),
                 file_size(),
+                file_read_only(),
                 file_format(),
                 file_position(),
             },
