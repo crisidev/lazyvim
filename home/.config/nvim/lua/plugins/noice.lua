@@ -35,7 +35,7 @@ spinners.spinners["moon"] = {
 }
 
 return {
-    "crisidev/noice.nvim",
+    "folke/noice.nvim",
     opts = {
         format = {
             spinner = {
