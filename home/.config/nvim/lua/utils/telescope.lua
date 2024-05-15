@@ -98,6 +98,7 @@ function module.find_string()
         hidden = true,
     }
     require("telescope").extensions.live_grep_args.live_grep_args(theme.telescope(opts))
+    -- builtin.live_grep(module.get_theme(opts))
 end
 
 function module.find_string_visual()

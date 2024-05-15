@@ -34,8 +34,8 @@ return {
             nls.builtins.code_actions.refactoring.with({
                 filetypes = { "typescript", "javascript", "c", "cpp", "go", "python" },
             }),
-            nls.builtins.code_actions.gitrebase,
-            nls.builtins.code_actions.gitsigns,
+            -- nls.builtins.code_actions.gitrebase,
+            -- nls.builtins.code_actions.gitsigns,
 
             -- Hover
             nls.builtins.hover.dictionary,
