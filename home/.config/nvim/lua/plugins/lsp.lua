@@ -1,3 +1,16 @@
+local theme = require("config.theme")
+local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
+
+local function poetry_cmd(bin)
+    local cmd_path = mason_install_path .. "/" .. bin
+    local cmd = { cmd_path }
+    local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
+    if match ~= "" then
+        cmd = { "poetry", "run", cmd_path }
+    end
+    return cmd
+end
+
 return {
     {
         "aznhe21/actions-preview.nvim",
@@ -35,7 +48,6 @@ return {
         lazy = true,
         config = function()
             local text_format = function(symbol)
-                local theme = require("config.theme")
                 local res = {}
                 local ins = table.insert
 
@@ -100,10 +112,8 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        opts = function(_, opts)
-            local theme = require("config.theme")
-            local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
-            opts.diagnostics = {
+        opts = {
+            diagnostics = {
                 virtual_text = false,
                 update_in_insert = false,
                 float = {
@@ -121,14 +131,14 @@ return {
                         [vim.diagnostic.severity.INFO] = theme.diagnostics_icons.Info,
                     },
                 },
-            }
-            opts.inlay_hints = { enabled = true }
-            opts.codelens = { enabled = false }
-            opts.servers = {
+            },
+            inlay_hints = { enabled = true },
+            codelens = { enabled = false },
+            servers = {
                 typos_lsp = { enabled = true },
                 basedpyright = {
                     enabled = true,
-                    cmd = function()
+                    cmd = (function()
                         local cmd_path = mason_install_path .. "/basedpyright-langserver"
                         local cmd = { cmd_path, "--stdio" }
                         local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
@@ -136,11 +146,11 @@ return {
                             cmd = { "poetry", "run", cmd_path, "--stdio" }
                         end
                         return cmd
-                    end,
+                    end)(),
                 },
                 ruff_lsp = {
                     enabled = true,
-                    cmd = function()
+                    cmd = (function()
                         local cmd_path = mason_install_path .. "/ruff-lsp"
                         local cmd = { cmd_path }
                         local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
@@ -148,12 +158,12 @@ return {
                             cmd = { "poetry", "run", cmd_path }
                         end
                         return cmd
-                    end,
+                    end)(),
                 },
                 gitlab_ci_ls = { enabled = true },
                 snyk_ls = { enabled = true, autostart = false },
-            }
-            opts.setup = {
+            },
+            setup = {
                 rust_analyzer = function()
                     return true
                 end,
@@ -172,12 +182,9 @@ return {
                         end
                     end)
                 end,
-            }
-            return opts
-        end,
+            },
+        },
         init = function()
-            local theme = require("config.theme")
-
             local function show_documentation()
                 local filetype = vim.bo.filetype
                 if vim.tbl_contains({ "vim", "help" }, filetype) then
