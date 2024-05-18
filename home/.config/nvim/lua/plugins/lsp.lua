@@ -104,7 +104,7 @@ return {
         opts = {
             diagnostics = {
                 virtual_text = false,
-                update_in_insert = false,
+                update_in_insert = true,
                 float = {
                     spacing = 4,
                     border = "rounded",
@@ -121,43 +121,13 @@ return {
                     },
                 },
             },
-            inlay_hints = { enabled = true },
             codelens = { enabled = false },
             servers = {
                 typos_lsp = { enabled = true },
-                basedpyright = {
-                    enabled = true,
-                    cmd = (function()
-                        local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
-                        local cmd_path = mason_install_path .. "/basedpyright-langserver"
-                        local cmd = { cmd_path, "--stdio" }
-                        local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
-                        if match ~= "" then
-                            cmd = { "poetry", "run", cmd_path, "--stdio" }
-                        end
-                        return cmd
-                    end)(),
-                },
-                ruff_lsp = {
-                    enabled = true,
-                    cmd = (function()
-                        local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
-                        local cmd_path = mason_install_path .. "/ruff-lsp"
-                        local cmd = { cmd_path }
-                        local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
-                        if match ~= "" then
-                            cmd = { "poetry", "run", cmd_path }
-                        end
-                        return cmd
-                    end)(),
-                },
                 gitlab_ci_ls = { enabled = true },
                 snyk_ls = { enabled = true, autostart = false },
             },
             setup = {
-                rust_analyzer = function()
-                    return true
-                end,
                 typos_lsp = function()
                     require("lspconfig").typos_lsp.setup({
                         init_options = {
@@ -165,13 +135,6 @@ return {
                         },
                     })
                     return true
-                end,
-                ruff_lsp = function()
-                    LazyVim.lsp.on_attach(function(client, _)
-                        if client.name == "ruff_lsp" then
-                            client.server_capabilities.documentFormattingProvider = false
-                        end
-                    end)
                 end,
             },
         },

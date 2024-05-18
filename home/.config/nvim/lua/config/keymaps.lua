@@ -68,11 +68,29 @@ vim.api.nvim_set_keymap("x", "<c-c>", '"*y :let @+=@*<CR>', { noremap = true, si
 
 -- Terminals
 vim.keymap.set({ "n", "i", "t" }, "<c-]>", function()
-    LazyVim.terminal(nil, { env = { LAZYTERM_TYPE = "horizontal" } })
+    LazyVim.terminal(nil, {
+        ft = "lazyterm",
+        border = "rounded",
+        cwd = LazyVim.root.get(),
+        env = { LAZYTERM_TYPE = "horizontal" },
+    })
 end, { desc = "Horizontal terminal" })
 vim.keymap.set({ "n", "i", "t" }, "<c-\\>", function()
-    LazyVim.terminal(nil, { ft = "term", env = { LAZYTERM_TYPE = "vertical" }, border = "rounded" })
+    LazyVim.terminal(nil, {
+        ft = "term",
+        border = "rounded",
+        cwd = LazyVim.root.get(),
+        env = { LAZYTERM_TYPE = "vertical" },
+    })
 end, { desc = "Full screen terminal" })
+vim.keymap.set({ "n", "i", "t" }, "<c-g>", function()
+    LazyVim.terminal.open({ "lazygit" }, {
+        border = "rounded",
+        cwd = LazyVim.root.get(),
+        esc_esc = false,
+        ctrl_hjkl = false,
+    })
+end, { desc = "LazyGit" })
 
 -- Snippets
 vim.keymap.set("i", "<c-x>", "<cmd>lua require('utils.telescope').lua_snips()<cr>", { desc = "Snippets" })

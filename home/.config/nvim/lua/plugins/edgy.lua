@@ -28,6 +28,12 @@ return {
                         return not vim.b[buf].lazyterm_cmd
                     end,
                 },
+                {
+                    ft = "bacon",
+                    title = "Bacon",
+                    size = { height = 0.4 },
+                },
+
                 "Trouble",
                 { ft = "qf", title = "QuickFix" },
                 {

@@ -338,6 +338,15 @@ return {
             })
         end
 
+        local stats = require("lazy").stats()
+        local ms = math.floor((stats.startuptime * 100 + 0.5) / 100)
+        local length = #tostring(ms)
+        local suffix = "   "
+        if length == 3 then
+            suffix = " "
+        elseif length == 2 then
+            suffix = "  "
+        end
         local opts = {
             layout = {
                 { type = "padding", val = 1 },
@@ -356,7 +365,18 @@ return {
                         .. vim.version().patch
                         .. "   │"
                 ),
-                text("│                           │"),
+                text(
+                    "│ "
+                        .. theme.icons.package
+                        .. stats.loaded
+                        .. "/"
+                        .. stats.count
+                        .. " plugins in "
+                        .. ms
+                        .. "ms"
+                        .. suffix
+                        .. "│"
+                ),
                 text("╰───────────────────────────╯"),
                 { type = "padding", val = 1 },
                 mru(),
@@ -370,35 +390,6 @@ return {
         }
 
         require("alpha").setup(opts)
-
-        vim.api.nvim_create_autocmd("User", {
-            once = true,
-            pattern = "LazyVimStarted",
-            callback = function()
-                local stats = require("lazy").stats()
-                local ms = math.floor((stats.startuptime * 100 + 0.5) / 100)
-                local length = #tostring(ms)
-                local suffix = "   "
-                if length == 3 then
-                    suffix = " "
-                elseif length == 2 then
-                    suffix = "  "
-                end
-                opts.layout[7] = text(
-                    "│ "
-                        .. theme.icons.package
-                        .. stats.loaded
-                        .. "/"
-                        .. stats.count
-                        .. " plugins in "
-                        .. ms
-                        .. "ms"
-                        .. suffix
-                        .. "│"
-                )
-                pcall(vim.cmd.AlphaRedraw)
-            end,
-        })
     end,
     keys = {
         { "<leader>;", "<cmd>Alpha<cr>", desc = require("config.theme").icons.dashboard .. "Dashboard" },

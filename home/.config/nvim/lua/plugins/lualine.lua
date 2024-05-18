@@ -528,10 +528,10 @@ return {
             lualine_y = {
                 space(),
                 dap_status(),
+                treesitter(),
+                typos_lsp(),
                 null_ls(),
                 codeium(),
-                typos_lsp(),
-                treesitter(),
                 lsp_servers(),
             },
             lualine_z = {
