@@ -378,7 +378,11 @@ return {
 
             keys[#keys + 1] = {
                 "fW",
-                "<cmd>lua require('utils.whitespaces').trim(true)<cr>",
+                function()
+                    local save_cursor = vim.fn.getpos(".")
+                    vim.cmd([[%s/\s\+$//e]])
+                    vim.fn.setpos(".", save_cursor)
+                end,
                 desc = theme.icons.project .. "Trim whitespaces",
             }
         end,

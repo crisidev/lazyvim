@@ -56,7 +56,7 @@
     "description": "#[cfg(test)]"
   },
   "debug": {
-    "prefix": "debug",
+    "prefix": ["debug", "db"],
     "body": ["tracing::debug!(\"${1}\");"],
     "description": "Tracing debug! statement"
   },
