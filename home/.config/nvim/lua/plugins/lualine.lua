@@ -5,7 +5,7 @@ local diagnostics_icons = require("config.theme").diagnostics_icons
 local lazy_icons = require("lazyvim.config").icons
 local file_icons = require("config.theme").file_icons
 local mode_icons = require("config.theme").modes_icons
-local cdm = require("utils.codeium")
+local cdm = require("config.codeium")
 local nls = require("null-ls")
 
 local file_icon_colors = {

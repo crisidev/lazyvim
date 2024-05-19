@@ -15,6 +15,10 @@ return {
                 cmd = "Codeium",
                 build = ":Codeium Auth",
                 opts = {},
+                keys = {
+                    { "fCe", "<cmd>lua require('config.codeium').enable()<cr>", desc = "Enable" },
+                    { "fCd", "<cmd>lua require('config.codeium').disable()<cr>", desc = "Disable" },
+                },
             },
         },
         opts = function(_, opts)
@@ -49,10 +53,6 @@ return {
             opts.experimental.ghost_text = false
             return opts
         end,
-        keys = {
-            { "fCe", "<cmd>lua require('utils.codeium').enable()<cr>", desc = "Enable" },
-            { "fCd", "<cmd>lua require('utils.codeium').disable()<cr>", desc = "Disable" },
-        },
     },
     {
         "aznhe21/actions-preview.nvim",
@@ -168,7 +168,7 @@ return {
                     hl = "MoreMsg",
                 },
                 ignore = {
-                    clients = { "typos_lsp", "bacon-ls" },
+                    clients = { "bacon-ls" },
                 },
             })
         end,
@@ -299,7 +299,7 @@ return {
             }
             keys[#keys + 1] = {
                 "ft",
-                "<cmd>lua require('utils.telescope').lsp_type_definitions()<cr>",
+                "<cmd>Telescope lsp_type_definitions<cr>",
                 desc = theme.icons.go .. "Goto type definition",
             }
             keys[#keys + 1] = {
@@ -309,12 +309,12 @@ return {
             }
             keys[#keys + 1] = {
                 "fr",
-                "<cmd>lua require('utils.telescope').lsp_references()<cr>",
+                "<cmd>Telescope lsp_references jump_type=never<cr>",
                 desc = theme.icons.go .. "References",
             }
             keys[#keys + 1] = {
                 "fi",
-                "<cmd>lua require('utils.telescope').lsp_implementations()<cr>",
+                "<cmd>Telescope lsp_implementations jump_type=never reuse_win=true<cr>",
                 desc = theme.icons.go .. "Implementations",
             }
             keys[#keys + 1] = {

@@ -92,15 +92,6 @@ vim.keymap.set({ "n", "i", "t" }, "<c-g>", function()
     })
 end, { desc = "LazyGit" })
 
--- Snippets
-vim.keymap.set("i", "<c-x>", "<cmd>lua require('utils.telescope').lua_snips()<cr>", { desc = "Snippets" })
-vim.keymap.set(
-    "n",
-    "fS",
-    "<cmd>lua require('utils.telescope').lua_snips()<cr>",
-    { desc = icons.snippets .. "Snippets" }
-)
-
 -- Misc
 vim.keymap.set("n", "<leader>w", "<cmd>w! | lua vim.notify('File written')<cr>", { desc = icons.ok .. "Save buffer" })
 vim.keymap.set("n", "<leader>`", "<cmd>e #<cr>", { desc = icons.buffer .. "Switch buffer" })

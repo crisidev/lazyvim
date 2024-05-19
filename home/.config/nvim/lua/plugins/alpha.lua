@@ -277,33 +277,35 @@ local function buttons()
             {
                 type = "group",
                 val = {
-                    button(
-                        "r",
-                        theme.icons.clock .. " Smart open",
-                        "<cmd>lua require('utils.telescope').smart_open()<cr>"
-                    ),
+                    button("r", theme.icons.clock .. " Smart open", "<cmd>Telescope smart_open<cr>"),
                     button(
                         "l",
                         theme.icons.magic .. " Last session",
                         "<cmd>lua require('persistence').load({ last = true })<cr>"
                     ),
-                    button("z", theme.icons.folder .. " Zoxide", "<cmd>lua require('utils.telescope').zoxide()<cr>"),
-                    button(
-                        "f",
-                        theme.icons.file .. " Find file",
-                        "<cmd>lua require('utils.telescope').find_project_files()<cr>"
-                    ),
-                    button(
-                        "s",
-                        theme.icons.text .. " Find word",
-                        "<cmd>lua require('utils.telescope').find_string()<cr>"
-                    ),
+                    button("z", theme.icons.folder .. " Zoxide", "<cmd>Telescope zoxide<cr>"),
+                    button("f", theme.icons.file .. " Find file", function()
+                        local builtin = require("telescope.builtin")
+                        local utils = require("telescope.utils")
+                        local opts = {
+                            cwd = vim.loop.cwd(),
+                        }
+                        local _, ret = utils.get_os_command_output({ "git", "rev-parse", "--show-toplevel" }, opts.cwd)
+                        if ret ~= 0 then
+                            local in_worktree =
+                                utils.get_os_command_output({ "git", "rev-parse", "--is-inside-work-tree" }, opts.cwd)
+                            local in_bare =
+                                utils.get_os_command_output({ "git", "rev-parse", "--is-bare-repository" }, opts.cwd)
+                            if in_worktree[1] ~= "true" and in_bare[1] ~= "true" then
+                                builtin.find_files(opts)
+                                return
+                            end
+                        end
+                        builtin.git_files(opts)
+                    end),
+                    button("s", theme.icons.text .. " Find word", "<cmd>Telescope live_grep_args hidden=true<cr>"),
                     button("n", theme.icons.stuka .. " New file", "<cmd>ene <BAR> startinsert <cr>"),
-                    button(
-                        "b",
-                        theme.icons.files .. " File browser",
-                        "<cmd>lua require('utils.telescope').file_browser()<cr>"
-                    ),
+                    button("b", theme.icons.files .. " File browser", "<cmd>Telescope file_browser<cr>"),
                     button("q", theme.icons.exit .. " Quit", "<cmd>quit<cr>"),
                 },
                 opts = { shrink_margin = false },
