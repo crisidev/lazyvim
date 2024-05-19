@@ -8,4 +8,12 @@ return {
             },
         },
     },
+    -- {
+    --     "williamboman/mason.nvim",
+    --     opts = {
+    --         registries = {
+    --             "file:~/github/mason-registry"
+    --         },
+    --     },
+    -- },
 }

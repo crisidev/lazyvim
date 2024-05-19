@@ -5,25 +5,7 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
-                rust_analyzer = { enable = false },
                 bacon_ls = { enable = true },
-            },
-            setup = {
-                bacon_ls = function()
-                    local lspconfig = require("lspconfig")
-                    local configs = require("lspconfig.configs")
-                    if not configs.bacon_ls then
-                        configs.bacon_ls = {
-                            default_config = {
-                                cmd = { "/users/matteobigoi/github/bacon-ls/target/debug/bacon-ls" },
-                                root_dir = lspconfig.util.root_pattern(".git"),
-                                filetypes = { "rust" },
-                            },
-                        }
-                    end
-                    lspconfig.bacon_ls.setup({})
-                    return true
-                end,
             },
         },
     },
@@ -48,15 +30,59 @@ return {
             end, 2000)
             vim.keymap.set({ "n", "i", "t" }, "<c-y>", bacon_term, { desc = "Bacon" })
 
-            opts.server.on_attach = function(client, bufnr)
-                local _, _ = pcall(vim.lsp.codelens.refresh)
-            end
-            opts.server.default_settings["rust-analyzer"].diagnostics = { enable = false }
-            opts.server.default_settings["rust-analyzer"].checkOnSave["enable"] = false
+            opts.server.default_settings["rust-analyzer"] = {
+                checkOnSave = {
+                    enable = false,
+                    command = "clippy",
+                    extraArgs = { "--no-deps" },
+                    -- target = "aarch64-unknown-linux-musl",
+                },
+                callInfo = {
+                    full = true,
+                },
+                lens = {
+                    enable = true,
+                    references = true,
+                    implementations = true,
+                    enumVariantReferences = true,
+                    methodReferences = true,
+                },
+                inlayHints = {
+                    enable = true,
+                    typeHints = true,
+                    parameterHints = true,
+                },
+                cachePriming = {
+                    enable = false,
+                },
+                diagnostics = {
+                    enable = false,
+                },
+                cargo = {
+                    autoreload = true,
+                    loadOutDirsFromCheck = true,
+                    allFeatures = true,
+                    buildScripts = {
+                        enable = true,
+                    },
+                    -- target = "aarch64-unknown-linux-musl",
+                },
+                hoverActions = {
+                    enable = true,
+                    references = true,
+                },
+                procMacro = {
+                    enable = true,
+                    ignored = {
+                        ["async-trait"] = { "async_trait" },
+                        ["napi-derive"] = { "napi" },
+                        ["async-recursion"] = { "async_recursion" },
+                    },
+                },
+            }
             opts.dap = {
                 adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
             }
         end,
-        -- enabled = false,
     },
 }

@@ -1,35 +1,10 @@
 local icons = require("config.theme").icons
 local spinners = require("noice.util.spinners")
 spinners.spinners["moon"] = {
+    -- stylua: ignore
     frames = {
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
-        " ",
+        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ",
+        " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "
     },
     interval = 80,
 }
@@ -74,6 +49,10 @@ return {
                         return client == "null-ls" or client == "grammar_guard"
                     end,
                 },
+                opts = { skip = true },
+            },
+            {
+                filter = { find = "method textDocument/codeLens is not supported" },
                 opts = { skip = true },
             },
         },
