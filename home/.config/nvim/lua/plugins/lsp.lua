@@ -18,7 +18,6 @@ return {
             },
         },
         opts = function(_, opts)
-            local theme = require("config.theme")
             local cmp = require("cmp")
             require("cmp_git").setup()
             theme.cmp()
@@ -150,6 +149,25 @@ return {
                 definition = { enabled = true },
                 implementation = { enabled = true },
                 disable = { filetypes = { "sh" } },
+            })
+        end,
+    },
+    {
+        "kosayoda/nvim-lightbulb",
+        config = function()
+            require("nvim-lightbulb").setup({
+                autocmd = {
+                    enabled = true,
+                    updatetime = 500,
+                },
+                sign = {
+                    enabled = true,
+                    text = theme.icons.code_action,
+                    hl = "MoreMsg",
+                },
+                ignore = {
+                    clients = { "typos_lsp", "bacon-ls" },
+                },
             })
         end,
     },

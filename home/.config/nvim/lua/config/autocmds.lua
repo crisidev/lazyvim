@@ -42,15 +42,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     end,
 })
 
-vim.api.nvim_create_autocmd("CursorHold", {
-    group = augroup("codelens_line_sign"),
-    pattern = { "*" },
-    desc = "Show codelens indicator",
-    callback = function()
-        require("utils.codelens").show_line_sign()
-    end,
-})
-
 -- Python
 vim.api.nvim_create_autocmd("FileType", {
     group = augroup("python_build_tools"),
