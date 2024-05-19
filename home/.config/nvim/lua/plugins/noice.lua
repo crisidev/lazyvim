@@ -60,6 +60,10 @@ return {
                 filter = { find = "method textDocument/codeLens is not supported" },
                 opts = { skip = true },
             },
+            {
+                filter = { find = "Invalid offset" },
+                opts = { skip = true },
+            },
         },
     },
     keys = function()

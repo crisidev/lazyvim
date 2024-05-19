@@ -153,16 +153,18 @@ return {
         end,
     },
     {
-        "kosayoda/nvim-lightbulb",
+        "crisidev/nvim-lightbulb",
         config = function()
             require("nvim-lightbulb").setup({
                 autocmd = {
                     enabled = true,
                     updatetime = 500,
                 },
+                code_lenses = true,
                 sign = {
                     enabled = true,
                     text = theme.icons.code_action,
+                    lens_text = theme.icons.codelens,
                     hl = "MoreMsg",
                 },
                 ignore = {
