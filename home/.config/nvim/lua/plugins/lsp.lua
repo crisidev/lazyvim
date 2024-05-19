@@ -59,21 +59,7 @@ return {
         event = "LspAttach",
         lazy = true,
         config = function()
-            require("actions-preview").setup({
-                telescope = {
-                    sorting_strategy = "ascending",
-                    layout_strategy = "vertical",
-                    layout_config = {
-                        width = 0.8,
-                        height = 0.9,
-                        prompt_position = "top",
-                        preview_cutoff = 20,
-                        preview_height = function(_, _, max_lines)
-                            return max_lines - 20
-                        end,
-                    },
-                },
-            })
+            require("actions-preview").setup({ telescope = {} })
         end,
     },
     {
@@ -293,7 +279,7 @@ return {
             }
             keys[#keys + 1] = {
                 "ff",
-                "<cmd>lua vim.lsp.buf.definition()<cr>",
+                "<cmd>lua Telescope lsp_definitions<cr>",
                 desc = theme.icons.go .. "Goto definition",
                 has = "definition",
             }
@@ -362,7 +348,7 @@ return {
             }
             keys[#keys + 1] = {
                 "fe",
-                "<cmd>Trouble diagnostics<cr>",
+                "<cmd>Telescope diagnostics<cr>",
                 desc = theme.diagnostics_icons.Hint .. "Diagnostics",
             }
             keys[#keys + 1] = {
@@ -375,7 +361,6 @@ return {
                 "<cmd>LspStart snyk_ls<cr>",
                 desc = theme.icons.codelens .. "Enable snyk",
             }
-
             keys[#keys + 1] = {
                 "fW",
                 function()

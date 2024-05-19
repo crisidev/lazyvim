@@ -35,9 +35,10 @@ return {
                     width = 0.9,
                     height = 0.4,
                     preview_cutoff = 135,
+                    preview_width = 0.4,
                     prompt_position = "bottom",
                     horizontal = {
-                        preview_width = 0.32,
+                        preview_width = 0.4,
                     },
                     vertical = {
                         width = 0.9,
@@ -47,6 +48,9 @@ return {
                     flex = {
                         horizontal = {
                             preview_width = 0.4,
+                        },
+                        vertical = {
+                            preview_height = 0.5,
                         },
                     },
                 },
@@ -233,11 +237,6 @@ return {
                     "<cmd>Telescope todo_comments<cr>",
                     desc = icons.todo .. "Todos",
                 },
-                {
-                    "<leader><space>",
-                    "<cmd>Telescope commander<cr>",
-                    desc = icons.commander .. "Commander",
-                },
                 { "<c-x>", "<cmd>Telescope luasnip<cr>", desc = "Snippets", mode = { "i" } },
                 { "fS", "<cmd>Telescope luasnip<cr>", desc = icons.snippets .. "Snippets" },
             }
@@ -272,33 +271,5 @@ return {
         "benfowler/telescope-luasnip.nvim",
         module = "telescope._extensions.luasnip",
         lazy = true,
-    },
-    {
-        "FeiyouG/commander.nvim",
-        dependencies = { "nvim-telescope/telescope.nvim" },
-        config = function()
-            require("commander").setup({
-                components = {
-                    "DESC",
-                    "CAT",
-                    "KEYS",
-                    "CMD",
-                },
-                sort_by = {
-                    "DESC",
-                    "CAT",
-                },
-                integration = {
-                    telescope = {
-                        enable = true,
-                        theme = require("config.theme").telescope,
-                    },
-                    lazy = {
-                        enable = true,
-                        set_plugin_name_as_cat = true,
-                    },
-                },
-            })
-        end,
     },
 }

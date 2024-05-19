@@ -25,7 +25,7 @@ return {
         },
         lsp = {
             progress = {
-                throttle = 500,
+                throttle = 1000 / 30,
             },
         },
         cmdline = {
