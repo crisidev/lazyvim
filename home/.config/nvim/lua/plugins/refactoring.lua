@@ -1,36 +1,56 @@
 return {
     "ThePrimeagen/refactoring.nvim",
-    dependencies = {
-        "nvim-lua/plenary.nvim",
-        "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-        require("refactoring").setup({})
-    end,
     keys = {
+        {
+            "fXr",
+            "<cmd>lua require('telescope').extensions.refactoring.refactors()<cr>",
+            mode = "v",
+            desc = "Refactor",
+        },
+        {
+            "fXP",
+            "<cmd>lua require('refactoring').debug.print_var({below = false})<cr>",
+            desc = "Debug Print",
+        },
+        {
+            "fXp",
+            "<cmd>lua require('refactoring').debug.print_var({normal = true})<cr>",
+            desc = "Debug Print Variable",
+        },
+        {
+            "fXC",
+            "<cmd>lua require('refactoring').debug.cleanup({})<cr>",
+            desc = "Debug Cleanup",
+        },
+        {
+            "fXp",
+            "<cmd>lua require('refactoring').debug.print_var()<cr>",
+            mode = "v",
+            desc = "Debug Print Variable",
+        },
         {
             "fXf",
             "<cmd>lua require('refactoring').refactor('Extract Function')<cr>",
             desc = "Extract function",
-            mode = { "x" },
+            mode = { "v" },
         },
         {
             "fXF",
             "<cmd>lua require('refactoring').refactor('Extract Function To File')<cr>",
             desc = "Extract function to file",
-            mode = { "x" },
+            mode = { "v" },
         },
         {
             "fXv",
             "<cmd>lua require('refactoring').refactor('Extract Variable')<cr>",
             desc = "Extract variable",
-            mode = { "x" },
+            mode = { "v" },
         },
         {
             "fXi",
             "<cmd>lua require('refactoring').refactor('Inline Variable')<cr>",
             desc = "Inline variable",
-            mode = { "n", "x" },
+            mode = { "n", "v" },
         },
         {
             "fXI",
