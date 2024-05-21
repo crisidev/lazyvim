@@ -1,5 +1,65 @@
 local theme = require("config.theme")
 
+local function symbol_usage_configure()
+    local text_format = function(symbol)
+        local res = {}
+        local ins = table.insert
+
+        local round_start = { theme.symbol_usage.circle_left, "SymbolUsageRounding" }
+        local round_end = { theme.symbol_usage.circle_right, "SymbolUsageRounding" }
+
+        if symbol.references and symbol.references > 0 then
+            local usage = symbol.references <= 1 and "usage" or "usages"
+            local num = symbol.references == 0 and "no" or symbol.references
+            ins(res, round_start)
+            ins(res, { theme.symbol_usage.ref, "SymbolUsageRef" })
+            ins(res, { ("%s %s"):format(num, usage), "SymbolUsageContent" })
+            ins(res, round_end)
+        end
+
+        if symbol.definition and symbol.definition > 0 then
+            if #res > 0 then
+                table.insert(res, { " ", "NonText" })
+            end
+            ins(res, round_start)
+            ins(res, { theme.symbol_usage.def, "SymbolUsageDef" })
+            ins(res, { symbol.definition .. " defs", "SymbolUsageContent" })
+            ins(res, round_end)
+        end
+
+        if symbol.implementation and symbol.implementation > 0 then
+            if #res > 0 then
+                table.insert(res, { " ", "NonText" })
+            end
+            ins(res, round_start)
+            ins(res, { theme.symbol_usage.impl, "SymbolUsageImpl" })
+            ins(res, { symbol.implementation .. " impls", "SymbolUsageContent" })
+            ins(res, round_end)
+        end
+
+        return res
+    end
+
+    local function h(name)
+        return vim.api.nvim_get_hl(0, { name = name })
+    end
+
+    vim.api.nvim_set_hl(0, "SymbolUsageRounding", { fg = h("CursorLine").bg, italic = true })
+    vim.api.nvim_set_hl(0, "SymbolUsageContent", { bg = h("CursorLine").bg, fg = h("Comment").fg, italic = true })
+    vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg = h("Function").fg, bg = h("CursorLine").bg, italic = true })
+    vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg = h("Type").fg, bg = h("CursorLine").bg, italic = true })
+    vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg = h("@keyword").fg, bg = h("CursorLine").bg, italic = true })
+    ---@diagnostic disable-next-line: missing-fields
+    require("symbol-usage").setup({
+        vt_position = "end_of_line",
+        text_format = text_format,
+        references = { enabled = true, include_declaration = false },
+        definition = { enabled = true },
+        implementation = { enabled = true },
+        disable = { filetypes = { "sh" } },
+    })
+end
+
 return {
     {
         "hrsh7th/nvim-cmp",
@@ -43,6 +103,14 @@ return {
                 if item.name == "path" then
                     opts.sources[i] = { name = "async_path" }
                 end
+                if item.name == "nvim_lsp" then
+                    opts.sources[i] = {
+                        name = "nvim_lsp",
+                        env_filter = function(entry, ctx)
+                            return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
+                        end,
+                    }
+                end
             end
             opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
                 { name = "git" },
@@ -51,116 +119,60 @@ return {
                 { name = "dotenv" },
             }))
             opts.experimental.ghost_text = false
-            return opts
-        end,
-    },
-    {
-        "aznhe21/actions-preview.nvim",
-        event = "LspAttach",
-        lazy = true,
-        config = function()
-            require("actions-preview").setup({ telescope = {} })
-        end,
-    },
-    {
-        "icholy/lsplinks.nvim",
-        event = "LspAttach",
-        lazy = true,
-        config = function()
-            require("lsplinks").setup()
-        end,
-    },
-    {
-        "Wansmer/symbol-usage.nvim",
-        event = "LspAttach",
-        lazy = true,
-        config = function()
-            local text_format = function(symbol)
-                local res = {}
-                local ins = table.insert
-
-                local round_start = { theme.symbol_usage.circle_left, "SymbolUsageRounding" }
-                local round_end = { theme.symbol_usage.circle_right, "SymbolUsageRounding" }
-
-                if symbol.references and symbol.references > 0 then
-                    local usage = symbol.references <= 1 and "usage" or "usages"
-                    local num = symbol.references == 0 and "no" or symbol.references
-                    ins(res, round_start)
-                    ins(res, { theme.symbol_usage.ref, "SymbolUsageRef" })
-                    ins(res, { ("%s %s"):format(num, usage), "SymbolUsageContent" })
-                    ins(res, round_end)
-                end
-
-                if symbol.definition and symbol.definition > 0 then
-                    if #res > 0 then
-                        table.insert(res, { " ", "NonText" })
-                    end
-                    ins(res, round_start)
-                    ins(res, { theme.symbol_usage.def, "SymbolUsageDef" })
-                    ins(res, { symbol.definition .. " defs", "SymbolUsageContent" })
-                    ins(res, round_end)
-                end
-
-                if symbol.implementation and symbol.implementation > 0 then
-                    if #res > 0 then
-                        table.insert(res, { " ", "NonText" })
-                    end
-                    ins(res, round_start)
-                    ins(res, { theme.symbol_usage.impl, "SymbolUsageImpl" })
-                    ins(res, { symbol.implementation .. " impls", "SymbolUsageContent" })
-                    ins(res, round_end)
-                end
-
-                return res
-            end
-
-            local function h(name)
-                return vim.api.nvim_get_hl(0, { name = name })
-            end
-
-            vim.api.nvim_set_hl(0, "SymbolUsageRounding", { fg = h("CursorLine").bg, italic = true })
-            vim.api.nvim_set_hl(
-                0,
-                "SymbolUsageContent",
-                { bg = h("CursorLine").bg, fg = h("Comment").fg, italic = true }
-            )
-            vim.api.nvim_set_hl(0, "SymbolUsageRef", { fg = h("Function").fg, bg = h("CursorLine").bg, italic = true })
-            vim.api.nvim_set_hl(0, "SymbolUsageDef", { fg = h("Type").fg, bg = h("CursorLine").bg, italic = true })
-            vim.api.nvim_set_hl(0, "SymbolUsageImpl", { fg = h("@keyword").fg, bg = h("CursorLine").bg, italic = true })
-            ---@diagnostic disable-next-line: missing-fields
-            require("symbol-usage").setup({
-                vt_position = "end_of_line",
-                text_format = text_format,
-                references = { enabled = true, include_declaration = false },
-                definition = { enabled = true },
-                implementation = { enabled = true },
-                disable = { filetypes = { "sh" } },
-            })
-        end,
-    },
-    {
-        "crisidev/nvim-lightbulb",
-        config = function()
-            require("nvim-lightbulb").setup({
-                autocmd = {
-                    enabled = true,
-                    updatetime = 500,
-                },
-                code_lenses = true,
-                sign = {
-                    enabled = true,
-                    text = theme.icons.code_action,
-                    lens_text = theme.icons.codelens,
-                    hl = "MoreMsg",
-                },
-                ignore = {
-                    clients = { "bacon-ls" },
-                },
-            })
         end,
     },
     {
         "neovim/nvim-lspconfig",
+        dependencies = {
+            {
+                "crisidev/nvim-lightbulb",
+                config = function()
+                    require("nvim-lightbulb").setup({
+                        autocmd = {
+                            enabled = true,
+                            updatetime = 500,
+                        },
+                        code_lenses = true,
+                        sign = {
+                            enabled = true,
+                            text = theme.icons.code_action,
+                            lens_text = theme.icons.codelens,
+                            hl = "MoreMsg",
+                        },
+                        ignore = {
+                            clients = { "bacon-ls", "lua_ls", "typos_lsp" },
+                        },
+                    })
+                end,
+            },
+            {
+                "Wansmer/symbol-usage.nvim",
+                event = "LspAttach",
+                lazy = true,
+                config = symbol_usage_configure,
+            },
+            {
+                "aznhe21/actions-preview.nvim",
+                event = "LspAttach",
+                lazy = true,
+                config = function()
+                    require("actions-preview").setup({
+                        telescope = {
+                            sorting_strategy = "descending",
+                            layout_strategy = "bottom_pane",
+                        },
+                    })
+                end,
+            },
+            {
+                "icholy/lsplinks.nvim",
+                event = "LspAttach",
+                lazy = true,
+                config = function()
+                    require("lsplinks").setup()
+                end,
+            },
+        },
         opts = {
             diagnostics = {
                 virtual_text = false,
@@ -279,7 +291,7 @@ return {
             }
             keys[#keys + 1] = {
                 "ff",
-                "<cmd>lua Telescope lsp_definitions<cr>",
+                "<cmd>Telescope lsp_definitions<cr>",
                 desc = theme.icons.go .. "Goto definition",
                 has = "definition",
             }

@@ -354,8 +354,8 @@ return {
                 { type = "padding", val = 1 },
                 header(),
                 { type = "padding", val = 1 },
-                text("╭───────────────────────────╮"),
-                text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "     │"),
+                text("╭──────────────────────────╮"),
+                text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "    │"),
                 text(
                     "│ "
                         .. theme.icons.vim
@@ -365,7 +365,7 @@ return {
                         .. vim.version().minor
                         .. "."
                         .. vim.version().patch
-                        .. "   │"
+                        .. "  │"
                 ),
                 text(
                     "│ "
@@ -379,7 +379,7 @@ return {
                         .. suffix
                         .. "│"
                 ),
-                text("╰───────────────────────────╯"),
+                text("╰──────────────────────────╯"),
                 { type = "padding", val = 1 },
                 mru(),
                 { type = "padding", val = 1 },

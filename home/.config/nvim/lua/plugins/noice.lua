@@ -64,6 +64,10 @@ return {
                 filter = { find = "Invalid offset" },
                 opts = { skip = true },
             },
+            {
+                filter = { kind = "echo", find = "[WakaTime]" },
+                opts = { skip = true },
+            },
         },
     },
     keys = function()

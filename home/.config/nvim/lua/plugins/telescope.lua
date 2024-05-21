@@ -35,10 +35,10 @@ return {
                     width = 0.9,
                     height = 0.4,
                     preview_cutoff = 135,
-                    preview_width = 0.4,
+                    preview_width = 0.32,
                     prompt_position = "bottom",
                     horizontal = {
-                        preview_width = 0.4,
+                        preview_width = 0.32,
                     },
                     vertical = {
                         width = 0.9,
@@ -47,7 +47,7 @@ return {
                     },
                     flex = {
                         horizontal = {
-                            preview_width = 0.4,
+                            preview_width = 0.32,
                         },
                         vertical = {
                             preview_height = 0.5,
@@ -237,8 +237,7 @@ return {
                     "<cmd>Telescope todo_comments<cr>",
                     desc = icons.todo .. "Todos",
                 },
-                { "<c-x>", "<cmd>Telescope luasnip<cr>", desc = "Snippets", mode = { "i" } },
-                { "fS", "<cmd>Telescope luasnip<cr>", desc = icons.snippets .. "Snippets" },
+                { "<c-x>", "<cmd>Telescope luasnip<cr>", desc = "Snippets", mode = { "i", "n", "x" } },
             }
         end,
     },
