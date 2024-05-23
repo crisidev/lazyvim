@@ -2,7 +2,7 @@ local function process_grep_under_text(value, opts)
     local helpers = require("telescope-live-grep-args.helpers")
     opts = opts or {}
     opts = vim.tbl_extend("force", {
-        postfix = " -f ",
+        -- postfix = " -f ",
         quote = true,
         trim = true,
     }, opts)

@@ -61,7 +61,8 @@ return {
             local bg = vim.api.nvim_get_hl(0, { name = "StatusLine" }).bg
             local hl = vim.api.nvim_get_hl(0, { name = "Folded" })
             hl.bg = bg
-            vim.api.nvim_set_hl(0, "Folded", hl)
+            vim.api.nvim_set_hl(0, "Folded", { fg = hl.fg, bg = hl.bg })
+            -- vim.opt.foldtext = [[luaeval('HighlightedFoldtext')()]]
         end,
     },
 }
