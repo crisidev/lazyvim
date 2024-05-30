@@ -41,9 +41,9 @@ return {
                 input = {},
             },
         },
-        messages = {
-            view_search = false,
-        },
+        -- messages = {
+        --     view_search = false,
+        -- },
         routes = {
             {
                 filter = {

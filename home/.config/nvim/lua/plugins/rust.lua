@@ -5,7 +5,12 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
-                bacon_ls = { enable = true },
+                bacon_ls = { enabled = true },
+            },
+            setup = {
+                rust_analyzer = function()
+                    return true
+                end,
             },
         },
     },
