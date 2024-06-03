@@ -193,7 +193,7 @@ return {
                 },
                 {
                     "<leader>z",
-                    "<cmd>Telescope zoxide<cr>",
+                    "<cmd>lua require('telescope').extensions.zoxide.list()<cr>",
                     desc = icons.calendar .. "Zoxide",
                 },
                 {

@@ -5,7 +5,9 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             servers = {
-                bacon_ls = { enabled = true },
+                bacon_ls = {
+                    enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "bacon-ls",
+                },
             },
             setup = {
                 rust_analyzer = function()
@@ -21,26 +23,32 @@ return {
             local package_path = require("mason-registry").get_package("codelldb"):get_install_path()
             local codelldb_path = package_path .. "/codelldb"
             local liblldb_path = package_path .. "/extension/lldb/lib/liblldb.dylib"
-            local function bacon_term()
-                LazyVim.terminal.open({ "bacon", "clippy" }, {
-                    ft = "bacon",
-                    cwd = LazyVim.root.get(),
-                    env = { LAZYTERM_TYPE = "bacon" },
-                })
-            end
 
-            bacon_term()
-            vim.defer_fn(function()
+            if vim.env.NEOVIM_RUST_DIAGNOSTICS == "bacon-ls" then
+                local function bacon_term()
+                    LazyVim.terminal.open(
+                        { "bacon", "clippy", "--", "--all-features", "--target", vim.env.NEOVIM_RUST_TARGET },
+                        {
+                            ft = "bacon",
+                            cwd = LazyVim.root.get(),
+                            env = { LAZYTERM_TYPE = "bacon" },
+                        }
+                    )
+                end
+
                 bacon_term()
-            end, 2000)
-            vim.keymap.set({ "n", "i", "t" }, "<c-y>", bacon_term, { desc = "Bacon" })
+                vim.defer_fn(function()
+                    bacon_term()
+                end, 2000)
+                vim.keymap.set({ "n", "i", "t" }, "<c-y>", bacon_term, { desc = "Bacon" })
+            end
 
             opts.server.default_settings["rust-analyzer"] = {
                 checkOnSave = {
-                    enable = false,
+                    enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "rust_analyzer",
                     command = "clippy",
                     extraArgs = { "--no-deps" },
-                    -- target = "aarch64-unknown-linux-musl",
+                    target = vim.env.NEOVIM_RUST_TARGET,
                 },
                 callInfo = {
                     full = true,
@@ -86,10 +94,10 @@ return {
                     },
                 },
                 cachePriming = {
-                    enable = false,
+                    enable = true,
                 },
                 diagnostics = {
-                    enable = false,
+                    enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "rust_analyzer",
                 },
                 cargo = {
                     autoreload = true,
@@ -98,7 +106,7 @@ return {
                     buildScripts = {
                         enable = true,
                     },
-                    -- target = "aarch64-unknown-linux-musl",
+                    target = vim.env.NEOVIM_RUST_TARGET,
                 },
                 hoverActions = {
                     enable = true,

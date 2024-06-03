@@ -283,7 +283,11 @@ local function buttons()
                         theme.icons.magic .. " Last session",
                         "<cmd>lua require('persistence').load({ last = true })<cr>"
                     ),
-                    button("z", theme.icons.folder .. " Zoxide", "<cmd>Telescope zoxide<cr>"),
+                    button(
+                        "z",
+                        theme.icons.folder .. " Zoxide",
+                        "<cmd>lua require('Telescope').extensions.zoxide.list()<cr>"
+                    ),
                     button("f", theme.icons.file .. " Find file", function()
                         local builtin = require("telescope.builtin")
                         local utils = require("telescope.utils")
