@@ -14,6 +14,7 @@ return {
         },
         triggers = {
             "<leader>",
+            "<space>",
             "f",
             "z",
             "]",
@@ -58,6 +59,8 @@ return {
             ["fG"] = { name = icons.gpt .. "Chat GPT" },
             ["fX"] = { name = icons.palette .. "Refactoring" },
             ["fC"] = { name = icons.copilot .. "Codeium" },
+            ["<space>"] = { name = icons.gitlab .. "Gitlab" },
+            ["<space>m"] = { name = "Merge request" },
         }
         local wk = require("which-key")
         wk.setup(opts)

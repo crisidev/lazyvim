@@ -20,6 +20,7 @@
   "cmp-path": { "branch": "main", "commit": "91ff86cd9c29299a64f968ebb45846c485725f23" },
   "codeium.nvim": { "branch": "main", "commit": "d3b88eb3aa1de6da33d325c196b8a41da2bcc825" },
   "crates.nvim": { "branch": "main", "commit": "d556c00d60c9421c913ee54ff690df2a34f6264e" },
+  "diffview.nvim": { "branch": "main", "commit": "3afa6a053f680e9f1329c4a151db988a482306cd" },
   "dressing.nvim": { "branch": "master", "commit": "e3714c8049b2243e792492c4149e4cc395c68eb9" },
   "earthly.vim": { "branch": "main", "commit": "cb0440a357a09fb9234ece56a6b09e04d25c1b1d" },
   "edgy.nvim": { "branch": "main", "commit": "de79b7d92a5979cd71a9a1d8b6282515345e5055" },
