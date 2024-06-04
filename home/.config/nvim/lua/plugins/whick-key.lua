@@ -44,6 +44,7 @@ return {
             ["<leader>d"] = { name = icons.debug .. "Debug" },
             ["<leader>t"] = { name = icons.test .. "Tests" },
             ["<leader>g"] = { name = icons.git .. "Git" },
+            ["<leader>gh"] = { name = "Git" },
             ["<leader>x"] = { name = icons.pinned .. "Trouble" },
             ["<leader>n"] = { name = icons.package .. "Noice" },
             ["<leader>R"] = { name = icons.replace .. "Replace" },

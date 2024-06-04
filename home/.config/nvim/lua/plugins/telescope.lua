@@ -238,6 +238,11 @@ return {
                     desc = icons.todo .. "Todos",
                 },
                 { "<c-x>", "<cmd>Telescope luasnip<cr>", desc = "Snippets", mode = { "i", "n", "x" } },
+                {
+                    "<leader>H",
+                    "<cmd>Telescope heading<cr>",
+                    desc = icons.telescope .. "Heading",
+                },
             }
         end,
     },
@@ -269,6 +274,11 @@ return {
     {
         "benfowler/telescope-luasnip.nvim",
         module = "telescope._extensions.luasnip",
+        lazy = true,
+    },
+    {
+        "crispgm/telescope-heading.nvim",
+        module = "telescope._extensions.heading",
         lazy = true,
     },
 }
