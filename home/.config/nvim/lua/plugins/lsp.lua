@@ -127,10 +127,11 @@ return {
             {
                 "crisidev/nvim-lightbulb",
                 config = function()
-                    require("nvim-lightbulb").setup({
+                    local lightbulb = require("nvim-lightbulb")
+                    lightbulb.setup({
                         autocmd = {
                             enabled = true,
-                            updatetime = 500,
+                            -- updatetime = 500,
                         },
                         code_lenses = true,
                         sign = {
@@ -228,9 +229,9 @@ return {
 
             local function diagnostics(direction, level)
                 if direction == "next" then
-                    vim.diagnostic.goto_next({ severity = { min = level } })
+                    vim.diagnostic.jump({ count = 1, severity = { min = level } })
                 else
-                    vim.diagnostic.goto_prev({ severity = { min = level } })
+                    vim.diagnostic.jump({ count = -1, severity = { min = level } })
                 end
             end
 

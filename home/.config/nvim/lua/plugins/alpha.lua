@@ -346,13 +346,6 @@ return {
 
         local stats = require("lazy").stats()
         local ms = math.floor((stats.startuptime * 100 + 0.5) / 100)
-        local length = #tostring(ms)
-        local suffix = "   "
-        if length == 3 then
-            suffix = " "
-        elseif length == 2 then
-            suffix = "  "
-        end
         local opts = {
             layout = {
                 { type = "padding", val = 1 },
@@ -380,8 +373,7 @@ return {
                         .. " plugins in "
                         .. ms
                         .. "ms"
-                        .. suffix
-                        .. "│"
+                        .. "  │"
                 ),
                 text("╰──────────────────────────╯"),
                 { type = "padding", val = 1 },

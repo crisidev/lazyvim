@@ -6,6 +6,21 @@ local function augroup(name)
     vim.api.nvim_create_augroup("crisidev_" .. name, { clear = true })
 end
 
+local timestamps = {
+    rust_fly_check = 0,
+}
+
+local function maybe_run_callback_after_wait_time(name, wait, callback)
+    local recorded_ts = timestamps[name]
+    if recorded_ts ~= nil then
+        local ts = os.time(os.date("!*t"))
+        if ts - recorded_ts > wait then
+            callback()
+            timestamps[name] = os.time(os.date("!*t"))
+        end
+    end
+end
+
 -- Faster yank
 vim.api.nvim_create_autocmd("TextYankPost", {
     group = augroup("fast_yank"),
@@ -77,6 +92,27 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Rust
+vim.api.nvim_create_autocmd("BufWritePost", {
+    group = augroup("rust_diagnostics_on_save"),
+    pattern = "*.rs",
+    desc = "Request diagnostics after save",
+    callback = function()
+        vim.cmd.RustLsp({ "flyCheck", "run" })
+    end,
+})
+
+vim.api.nvim_create_autocmd("CursorHold", {
+    group = augroup("rust_diagnostics_on_hold"),
+    pattern = "*.rs",
+    desc = "Request diagnostics on cursor hold",
+    callback = function()
+        maybe_run_callback_after_wait_time("rust_fly_check", 10, function()
+            vim.cmd.write()
+            vim.cmd.RustLsp({ "flyCheck", "run" })
+        end)
+    end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
     group = augroup("rust_build_tools"),
     pattern = "rust",

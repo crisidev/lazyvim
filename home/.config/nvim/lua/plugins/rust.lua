@@ -1,5 +1,3 @@
-local ONCE = true
-
 return {
     {
         "neovim/nvim-lspconfig",
@@ -13,6 +11,11 @@ return {
                 rust_analyzer = function()
                     return true
                 end,
+                bacon_ls = function()
+                    if vim.env.NEOVIM_RUST_DIAGNOSTICS ~= "bacon-ls" then
+                        return true
+                    end
+                end,
             },
         },
     },
@@ -24,18 +27,18 @@ return {
             local codelldb_path = package_path .. "/codelldb"
             local liblldb_path = package_path .. "/extension/lldb/lib/liblldb.dylib"
 
-            if vim.env.NEOVIM_RUST_DIAGNOSTICS == "bacon-ls" then
-                local function bacon_term()
-                    LazyVim.terminal.open(
-                        { "bacon", "clippy", "--", "--all-features", "--target", vim.env.NEOVIM_RUST_TARGET },
-                        {
-                            ft = "bacon",
-                            cwd = LazyVim.root.get(),
-                            env = { LAZYTERM_TYPE = "bacon" },
-                        }
-                    )
-                end
+            local function bacon_term()
+                LazyVim.terminal.open(
+                    { "bacon", "clippy", "--", "--all-features", "--target", vim.env.NEOVIM_RUST_TARGET },
+                    {
+                        ft = "bacon",
+                        cwd = LazyVim.root.get(),
+                        env = { LAZYTERM_TYPE = "bacon" },
+                    }
+                )
+            end
 
+            if vim.env.NEOVIM_RUST_DIAGNOSTICS == "bacon-ls" then
                 bacon_term()
                 vim.defer_fn(function()
                     bacon_term()
@@ -45,7 +48,8 @@ return {
 
             opts.server.default_settings["rust-analyzer"] = {
                 checkOnSave = {
-                    enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "rust_analyzer",
+                    -- enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "rust_analyzer",
+                    enable = false,
                     command = "clippy",
                     extraArgs = { "--no-deps" },
                     target = vim.env.NEOVIM_RUST_TARGET,
@@ -124,6 +128,8 @@ return {
             opts.dap = {
                 adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
             }
+
+            return opts
         end,
     },
 }
