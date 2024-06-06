@@ -2,6 +2,48 @@ local plenary_path = require("plenary.path")
 local nwd = require("nvim-web-devicons")
 local theme = require("config.theme")
 
+local use_last_commit = false
+
+local function get_last_config_commit_date()
+    local handle = io.popen("git -C " .. vim.fn.stdpath("config") .. " log -1 --format=%ct")
+    if not handle then
+        return 0
+    else
+        local result = handle:read("*a")
+        handle:close()
+        return tonumber(result)
+    end
+end
+
+-- Calculates the time since the last modification or the last commit date
+local function time_since_last_config_change()
+    local last_modified = 0
+
+    if use_last_commit then
+        last_modified = get_last_config_commit_date()
+    else
+        local config_dir = vim.fn.stdpath("config")
+        local files = vim.fn.split(vim.fn.glob(config_dir .. "/**/*.lua"), "\n")
+
+        for _, file in pairs(files) do
+            local modified_time = vim.fn.getftime(file)
+            last_modified = modified_time > last_modified and modified_time or last_modified
+        end
+    end
+
+    local current_time = os.time()
+    local diff_seconds = os.difftime(current_time, last_modified)
+    local days = vim.fn.floor(diff_seconds / 86400)
+    local hours = vim.fn.floor((diff_seconds % 86400) / 3600)
+    local minutes = vim.fn.floor((diff_seconds % 3600) / 60)
+    local seconds = vim.fn.floor(diff_seconds % 60)
+
+    return string.format("%02d", days),
+        string.format("%02d", hours),
+        string.format("%02d", minutes),
+        string.format("%02d", seconds)
+end
+
 local function get_extension(fn)
     local match = fn:match("^.+(%..+)$")
     local ext = ""
@@ -346,13 +388,14 @@ return {
 
         local stats = require("lazy").stats()
         local ms = math.floor((stats.startuptime * 100 + 0.5) / 100)
+        local days, hours, minutes, seconds = time_since_last_config_change()
         local opts = {
             layout = {
                 { type = "padding", val = 1 },
                 header(),
                 { type = "padding", val = 1 },
-                text("╭──────────────────────────╮"),
-                text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "    │"),
+                text("╭───────────────────────────╮"),
+                text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "     │"),
                 text(
                     "│ "
                         .. theme.icons.vim
@@ -362,7 +405,7 @@ return {
                         .. vim.version().minor
                         .. "."
                         .. vim.version().patch
-                        .. "  │"
+                        .. "   │"
                 ),
                 text(
                     "│ "
@@ -373,9 +416,22 @@ return {
                         .. " plugins in "
                         .. ms
                         .. "ms"
-                        .. "  │"
+                        .. "   │"
                 ),
-                text("╰──────────────────────────╯"),
+                text(
+                    "│ "
+                        .. theme.icons.config
+                        .. "Changed "
+                        .. days
+                        .. "d "
+                        .. hours
+                        .. "h "
+                        .. minutes
+                        .. "m "
+                        .. seconds
+                        .. "s │"
+                ),
+                text("╰───────────────────────────╯"),
                 { type = "padding", val = 1 },
                 mru(),
                 { type = "padding", val = 1 },

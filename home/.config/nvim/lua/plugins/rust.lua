@@ -21,6 +21,9 @@ return {
     },
     {
         "mrcjkb/rustaceanvim",
+        dependencies = {
+            "adaszko/tree_climber_rust.nvim",
+        },
         opts = function(_, opts)
             local cfg = require("rustaceanvim.config")
             local package_path = require("mason-registry").get_package("codelldb"):get_install_path()
@@ -125,6 +128,32 @@ return {
                     },
                 },
             }
+
+            opts.server.on_attach = function(client, bufnr)
+                local opts = { noremap = true, silent = true }
+                vim.api.nvim_buf_set_keymap(
+                    bufnr,
+                    "n",
+                    "s",
+                    '<cmd>lua require("tree_climber_rust").init_selection()<CR>',
+                    opts
+                )
+                vim.api.nvim_buf_set_keymap(
+                    bufnr,
+                    "x",
+                    "s",
+                    '<cmd>lua require("tree_climber_rust").select_incremental()<CR>',
+                    opts
+                )
+                vim.api.nvim_buf_set_keymap(
+                    bufnr,
+                    "x",
+                    "S",
+                    '<cmd>lua require("tree_climber_rust").select_previous()<CR>',
+                    opts
+                )
+            end
+
             opts.dap = {
                 adapter = cfg.get_codelldb_adapter(codelldb_path, liblldb_path),
             }
