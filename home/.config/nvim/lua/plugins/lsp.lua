@@ -76,9 +76,14 @@ return {
                 build = ":Codeium Auth",
                 opts = {},
                 keys = {
-                    { "fCe", "<cmd>lua require('config.codeium').enable()<cr>", desc = "Enable" },
-                    { "fCd", "<cmd>lua require('config.codeium').disable()<cr>", desc = "Disable" },
+                    { "gCe", "<cmd>lua require('config.codeium').enable()<cr>", desc = "Enable" },
+                    { "gCd", "<cmd>lua require('config.codeium').disable()<cr>", desc = "Disable" },
                 },
+            },
+            {
+                "ravibrock/spellwarn.nvim",
+                event = "VeryLazy",
+                config = true,
             },
         },
         opts = function(_, opts)
@@ -247,142 +252,175 @@ return {
                 end
             end
 
-            require("lazyvim.plugins.lsp.keymaps")._keys = {}
-            local keys = require("lazyvim.plugins.lsp.keymaps").get()
-            keys[#keys + 1] = {
-                "fF",
-                "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
-                mode = { "n", "x" },
-                desc = theme.icons.magic .. "Format file",
+            local keys = {
+                {
+                    "gF",
+                    "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
+                    mode = { "n", "x" },
+                    icon = theme.icons.magic,
+                    desc = "Format File",
+                },
+                { "K", show_documentation, desc = "Hover" },
+                {
+                    "gA",
+                    "<cmd>lua vim.lsp.codelens.run()<cr>",
+                    desc = "Code Lens",
+                    icon = theme.icons.codelens,
+                    mode = { "n", "x" },
+                },
+                {
+                    "gL",
+                    "<cmd>lua vim.lsp.codelens.refresh()<cr>",
+                    desc = "Refresh Lenses",
+                    icon = theme.icons.codelens,
+                    mode = { "n", "x" },
+                },
+                {
+                    "ga",
+                    "<cmd>lua require('actions-preview').code_actions()<cr>",
+                    desc = "Code Actions",
+                    icon = theme.icons.codelens,
+                    mode = { "n", "x" },
+                },
+                {
+                    "<c-k>",
+                    "<cmd>lua vim.lsp.buf.signature_help()<cr>",
+                    desc = "Signature Help",
+                    icon = theme.icons.Function,
+                    mode = "i",
+                },
+                {
+                    "gz",
+                    "<cmd>lua vim.lsp.buf.signature_help()<cr>",
+                    desc = "Signature Help",
+                    icon = theme.icons.Function,
+                },
+                {
+                    "gg",
+                    "<cmd>Telescope lsp_definitions<cr>",
+                    desc = "Goto Definition",
+                    icon = theme.icons.go,
+                },
+                {
+                    "gt",
+                    "<cmd>Telescope lsp_type_definitions<cr>",
+                    desc = "Goto Type Definition",
+                    icon = theme.icons.go,
+                },
+                {
+                    "gd",
+                    "<cmd>lua vim.lsp.buf.declaration()<cr>",
+                    desc = "Goto Declaration",
+                    icon = theme.icons.go,
+                },
+                {
+                    "gr",
+                    "<cmd>Telescope lsp_references jump_type=never<cr>",
+                    desc = "Goto References",
+                    icon = theme.icons.go,
+                },
+                {
+                    "gi",
+                    "<cmd>Telescope lsp_implementations jump_type=never reuse_win=true<cr>",
+                    desc = "Goto Implementations",
+                    icon = theme.icons.go,
+                },
+                {
+                    "gl",
+                    "<cmd>lua vim.diagnostic.open_float({ border = 'rounded', focusable = true })<cr>",
+                    desc = "Line Diagnostics",
+                    icon = theme.diagnostics_icons.Hint,
+                },
+                {
+                    "gR",
+                    "<cmd>lua vim.lsp.buf.rename()<cr>",
+                    desc = "Rename Symbol",
+                    icon = theme.icons.rename,
+                },
+                {
+                    "gx",
+                    require("lsplinks").gx,
+                    desc = "Open Link",
+                    icon = theme.icons.world,
+                },
+                {
+                    "gN",
+                    function()
+                        diagnostics("next", vim.diagnostic.severity.ERROR)
+                    end,
+                    desc = "Next ERROR",
+                    icon = theme.diagnostics_icons.Error,
+                },
+                {
+                    "gP",
+                    function()
+                        diagnostics("prev", vim.diagnostic.severity.ERROR)
+                    end,
+                    desc = "Previous ERROR",
+                    icon = theme.diagnostics_icons.Error,
+                },
+                {
+                    "gn",
+                    function()
+                        diagnostics("next", vim.diagnostic.severity.WARN)
+                    end,
+                    desc = "Next WARN",
+                    icon = theme.diagnostics_icons.Warn,
+                },
+                {
+                    "gp",
+                    function()
+                        diagnostics("prev", vim.diagnostic.severity.WARN)
+                    end,
+                    desc = "Previous WARN",
+                    icon = theme.diagnostics_icons.Warn,
+                },
+                {
+                    "gT",
+                    function()
+                        diagnostics("next", vim.diagnostic.severity.HINT)
+                    end,
+                    desc = "Next HINT",
+                    icon = theme.diagnostics_icons.Hint,
+                },
+                {
+                    "ge",
+                    "<cmd>Telescope diagnostics<cr>",
+                    desc = "Diagnostics",
+                    icon = theme.diagnostics_icons.Hint,
+                },
+                {
+                    "gw",
+                    toggle_inlay_hints,
+                    desc = "Toggle Inlay Hints",
+                    icon = theme.icons.inlay,
+                },
+                {
+                    "gk",
+                    "<cmd>LspStart snyk_ls<cr>",
+                    desc = "Enable Snyk",
+                    icon = theme.icons.codelens,
+                },
+                {
+                    "gW",
+                    function()
+                        local save_cursor = vim.fn.getpos(".")
+                        vim.cmd([[%s/\s\+$//e]])
+                        vim.fn.setpos(".", save_cursor)
+                    end,
+                    desc = "Trim Whitespaces",
+                    icon = theme.icons.project,
+                },
+                { "gD", "", hidden = true },
+                { "gI", "", hidden = true },
+                { "gy", "", hidden = true },
+                { "gh", "", hidden = true },
+                { "gH", "", hidden = true },
+                { "g[", "", hidden = true },
+                { "g]", "", hidden = true },
+                { "g]", "", hidden = true },
             }
-            keys[#keys + 1] = { "K", show_documentation, desc = "Hover" }
-            keys[#keys + 1] = {
-                "fA",
-                "<cmd>lua vim.lsp.codelens.run()<cr>",
-                desc = theme.icons.codelens .. "Code lens",
-                mode = { "n", "x" },
-                has = "codeLens",
-            }
-            keys[#keys + 1] = {
-                "fL",
-                "<cmd>lua vim.lsp.codelens.refresh()<cr>",
-                desc = theme.icons.codelens .. "Refresh lenses",
-                mode = { "n", "x" },
-                has = "codeLens",
-            }
-            keys[#keys + 1] = {
-                "fa",
-                "<cmd>lua require('actions-preview').code_actions()<cr>",
-                desc = theme.icons.codelens .. "Code actions",
-                mode = { "n", "x" },
-                has = "codeAction",
-            }
-            keys[#keys + 1] = {
-                "<c-k>",
-                "<cmd>lua vim.lsp.buf.signature_help()<cr>",
-                mode = "i",
-                desc = "Signature Help",
-                has = "signatureHelp",
-            }
-            keys[#keys + 1] = {
-                "fz",
-                "<cmd>lua vim.lsp.buf.signature_help()<cr>",
-                desc = theme.icons.Function .. "Signature Help",
-                has = "signatureHelp",
-            }
-            keys[#keys + 1] = {
-                "ff",
-                "<cmd>Telescope lsp_definitions<cr>",
-                desc = theme.icons.go .. "Goto definition",
-                has = "definition",
-            }
-            keys[#keys + 1] = {
-                "ft",
-                "<cmd>Telescope lsp_type_definitions<cr>",
-                desc = theme.icons.go .. "Goto type definition",
-            }
-            keys[#keys + 1] = {
-                "fd",
-                "<cmd>lua vim.lsp.buf.declaration()<cr>",
-                desc = theme.icons.go .. "Goto declaration",
-            }
-            keys[#keys + 1] = {
-                "fr",
-                "<cmd>Telescope lsp_references jump_type=never<cr>",
-                desc = theme.icons.go .. "References",
-            }
-            keys[#keys + 1] = {
-                "fi",
-                "<cmd>Telescope lsp_implementations jump_type=never reuse_win=true<cr>",
-                desc = theme.icons.go .. "Implementations",
-            }
-            keys[#keys + 1] = {
-                "fl",
-                "<cmd>lua vim.diagnostic.open_float({ border = 'rounded', focusable = true })<cr>",
-                desc = theme.diagnostics_icons.Hint .. "Line diagnostics",
-            }
-            keys[#keys + 1] =
-                { "fR", "<cmd>lua vim.lsp.buf.rename()<cr>", desc = theme.icons.rename .. "Rename", has = "rename" }
-            keys[#keys + 1] = { "fx", require("lsplinks").gx, desc = theme.icons.world .. "Open link" }
-            keys[#keys + 1] = {
-                "fN",
-                function()
-                    diagnostics("next", vim.diagnostic.severity.ERROR)
-                end,
-                desc = theme.diagnostics_icons.Error .. "Next ERROR",
-            }
-            keys[#keys + 1] = {
-                "fP",
-                function()
-                    diagnostics("prev", vim.diagnostic.severity.ERROR)
-                end,
-                desc = theme.diagnostics_icons.Error .. "Previous ERROR",
-            }
-            keys[#keys + 1] = {
-                "fn",
-                function()
-                    diagnostics("next", vim.diagnostic.severity.WARN)
-                end,
-                desc = theme.diagnostics_icons.Warn .. "Next diagnostic",
-            }
-            keys[#keys + 1] = {
-                "fp",
-                function()
-                    diagnostics("prev", vim.diagnostic.severity.WARN)
-                end,
-                desc = theme.diagnostics_icons.Warn .. "Previous diagnostic",
-            }
-            keys[#keys + 1] = {
-                "fT",
-                function()
-                    diagnostics("next", vim.diagnostic.severity.HINT)
-                end,
-                desc = theme.diagnostics_icons.Hint .. "Next typo",
-            }
-            keys[#keys + 1] = {
-                "fe",
-                "<cmd>Telescope diagnostics<cr>",
-                desc = theme.diagnostics_icons.Hint .. "Diagnostics",
-            }
-            keys[#keys + 1] = {
-                "fw",
-                toggle_inlay_hints,
-                desc = theme.icons.inlay .. "Toggle inlays",
-            }
-            keys[#keys + 1] = {
-                "fk",
-                "<cmd>LspStart snyk_ls<cr>",
-                desc = theme.icons.codelens .. "Enable snyk",
-            }
-            keys[#keys + 1] = {
-                "fW",
-                function()
-                    local save_cursor = vim.fn.getpos(".")
-                    vim.cmd([[%s/\s\+$//e]])
-                    vim.fn.setpos(".", save_cursor)
-                end,
-                desc = theme.icons.project .. "Trim whitespaces",
-            }
+            require("which-key").add(keys)
         end,
     },
 }

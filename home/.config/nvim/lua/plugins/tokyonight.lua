@@ -40,7 +40,7 @@ return {
             hl.Cursor = { fg = theme.colors.bg, bg = theme.colors.fg }
             hl.NormalNC = { fg = theme.colors.fg_dark, bg = "#1c1d28" }
             hl.Normal = { fg = theme.colors.fg, bg = "#1f2335" }
-            hl.CursorLineNr = { fg = theme.colors.orange, style = "bold" }
+            hl.CursorLineNr = { fg = theme.colors.orange }
             local function link(group, other)
                 vim.cmd("highlight! link " .. group .. " " .. other)
             end

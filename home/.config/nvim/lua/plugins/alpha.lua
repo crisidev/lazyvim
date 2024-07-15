@@ -1,5 +1,5 @@
 local plenary_path = require("plenary.path")
-local nwd = require("nvim-web-devicons")
+local mini = require("mini.icons")
 local theme = require("config.theme")
 
 local use_last_commit = false
@@ -55,7 +55,12 @@ end
 
 local function icon(fn)
     local ext = get_extension(fn)
-    return nwd.get_icon(fn, ext, { default = true })
+    if type(ext) == "string" then
+        return mini.get("extension", ext)
+    end
+    if type(fn) == "string" then
+        return mini.get("file", fn)
+    end
 end
 
 local function shortcut_and_short_fn(cwd, fn, i, start)
@@ -445,7 +450,11 @@ return {
 
         require("alpha").setup(opts)
     end,
-    keys = {
-        { "<leader>;", "<cmd>Alpha<cr>", desc = require("config.theme").icons.dashboard .. "Dashboard" },
-    },
+    keys = function()
+        local keys = {
+            { "<leader>;", "<cmd>Alpha<cr>", desc = "Dashboard", icon = theme.icons.dashboard },
+        }
+        require("which-key").add(keys)
+        return {}
+    end,
 }

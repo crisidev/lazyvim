@@ -88,12 +88,13 @@ return {
             local icons = require("config.theme").icons
             local builtin = require("telescope.builtin")
             local utils = require("telescope.utils")
-            return {
+            local keys = {
                 -- Main group
                 {
                     "<leader>T",
                     "<cmd>Telescope resume<cr>",
-                    desc = icons.clock .. "Last search",
+                    desc = "Last Search",
+                    icon = icons.clock,
                 },
                 {
                     "<leader>i",
@@ -105,7 +106,8 @@ return {
                         }
                         require("telescope").extensions.live_grep_args.live_grep_args(opts)
                     end,
-                    desc = icons.find .. "Find identifier",
+                    desc = "Find Identifier",
+                    icon = icons.find,
                 },
                 {
                     "<leader>i",
@@ -129,13 +131,15 @@ return {
                         }
                         require("telescope").extensions.live_grep_args.live_grep_args(opts)
                     end,
-                    desc = icons.find .. "Find visual selection",
+                    desc = "Find Visual Selection",
+                    icon = icons.find,
                     mode = { "x" },
                 },
                 {
                     "<leader>e",
                     "<cmd>Telescope file_browser hidden=true<cr>",
-                    desc = icons.folder .. "File browser",
+                    desc = "File Browser",
+                    icon = icons.folder,
                 },
                 {
                     "<leader>f",
@@ -156,18 +160,21 @@ return {
                         end
                         builtin.git_files(opts)
                     end,
-                    desc = icons.files .. "Find project files",
+                    desc = "Find Project Files",
+                    icon = icons.files,
                 },
                 {
                     "<leader>F",
                     "<cmd>Telescope find_files hidden=true<cr>",
-                    desc = icons.files .. "Find all files",
+                    desc = "Find All Files",
+                    icon = icons.files,
                 },
 
                 {
                     "<leader>s",
                     "<cmd>Telescope live_grep_args hidden=true<cr>",
-                    desc = icons.find .. "Find string",
+                    desc = "Find String",
+                    icon = icons.find,
                     mode = { "n" },
                 },
                 {
@@ -183,18 +190,21 @@ return {
                         end
                         builtin.live_grep({ default_text = visual_selection() })
                     end,
-                    desc = icons.find .. "Find string",
+                    desc = "Find String",
+                    icon = icons.find,
                     mode = { "x" },
                 },
                 {
                     "<leader>r",
                     "<cmd>Telescope smart_open<cr>",
-                    desc = icons.calendar .. "Smart open",
+                    icon = icons.calendar,
+                    desc = "Smart Open",
                 },
                 {
                     "<leader>z",
                     "<cmd>lua require('telescope').extensions.zoxide.list()<cr>",
-                    desc = icons.calendar .. "Zoxide",
+                    icon = icons.calendar,
+                    desc = "Zoxide",
                 },
                 {
                     "<leader>b",
@@ -208,7 +218,8 @@ return {
                         }
                         builtin.buffers(opts)
                     end,
-                    desc = icons.buffers .. "Buffers",
+                    desc = "Buffers",
+                    icon = icons.buffers,
                 },
 
                 {
@@ -230,20 +241,25 @@ return {
                             vim.cmd("q!")
                         end
                     end,
-                    desc = icons.no .. "Quit",
+                    desc = "Quit",
+                    icon = icons.sno,
                 },
                 {
                     "<leader>C",
                     "<cmd>Telescope todo_comments<cr>",
-                    desc = icons.todo .. "Todos",
+                    desc = "Todos",
+                    icon = icons.todo,
                 },
                 { "<c-x>", "<cmd>Telescope luasnip<cr>", desc = "Snippets", mode = { "i", "n", "x" } },
                 {
                     "<leader>H",
                     "<cmd>Telescope heading<cr>",
-                    desc = icons.telescope .. "Heading",
+                    desc = "Heading",
+                    icon = icons.telescope,
                 },
             }
+            require("which-key").add(keys)
+            return {}
         end,
     },
     {

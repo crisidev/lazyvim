@@ -7,6 +7,7 @@
     "lazyvim.plugins.extras.lang.ansible",
     "lazyvim.plugins.extras.lang.clangd",
     "lazyvim.plugins.extras.lang.docker",
+    "lazyvim.plugins.extras.lang.git",
     "lazyvim.plugins.extras.lang.go",
     "lazyvim.plugins.extras.lang.helm",
     "lazyvim.plugins.extras.lang.java",
@@ -28,7 +29,7 @@
     "lazyvim.plugins.extras.util.project"
   ],
   "news": {
-    "NEWS.md": "5204"
+    "NEWS.md": "6077"
   },
   "version": 6
 }
