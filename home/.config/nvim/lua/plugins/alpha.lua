@@ -421,7 +421,7 @@ return {
                         .. " plugins in "
                         .. ms
                         .. "ms"
-                        .. "   │"
+                        .. "    │"
                 ),
                 text(
                     "│ "

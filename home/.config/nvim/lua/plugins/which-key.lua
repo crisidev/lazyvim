@@ -41,6 +41,7 @@ return {
                 { "<leader>u", desc = "Ui", icon = icons.ui },
                 { "gG", desc = "Chat GPT", icon = icons.gpt },
                 { "gC", desc = "Codeium", icon = icons.copilot },
+                { "gX", desc = "Refactoring", icon = icons.palette },
             },
         },
     },
