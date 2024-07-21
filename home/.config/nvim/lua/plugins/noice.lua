@@ -23,11 +23,6 @@ return {
             long_message_to_split = true,
             inc_rename = false,
         },
-        lsp = {
-            progress = {
-                throttle = 1000 / 30,
-            },
-        },
         cmdline = {
             view = "cmdline",
             format = {
@@ -51,7 +46,8 @@ return {
                     kind = "progress",
                     cond = function(message)
                         local client = vim.tbl_get(message.opts, "progress", "client")
-                        return client == "null-ls" or client == "grammar_guard"
+                        local title = vim.tbl_get(message.opts, "progress", "title")
+                        return title == "Finding references" or client == "null-ls" or client == "grammar_guard"
                     end,
                 },
                 opts = { skip = true },
