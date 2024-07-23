@@ -333,7 +333,7 @@ local function buttons()
                     button(
                         "z",
                         theme.icons.folder .. " Zoxide",
-                        "<cmd>lua require('Telescope').extensions.zoxide.list()<cr>"
+                        "<cmd>lua require('telescope').extensions.zoxide.list()<cr>"
                     ),
                     button("f", theme.icons.file .. " Find file", function()
                         local builtin = require("telescope.builtin")
@@ -392,7 +392,6 @@ return {
         end
 
         local stats = require("lazy").stats()
-        local ms = math.floor((stats.startuptime * 100 + 0.5) / 100)
         local days, hours, minutes, seconds = time_since_last_config_change()
         local opts = {
             layout = {
@@ -412,17 +411,7 @@ return {
                         .. vim.version().patch
                         .. "   │"
                 ),
-                text(
-                    "│ "
-                        .. theme.icons.package
-                        .. stats.loaded
-                        .. "/"
-                        .. stats.count
-                        .. " plugins in "
-                        .. ms
-                        .. "ms"
-                        .. "    │"
-                ),
+                text("│ " .. theme.icons.package .. stats.loaded .. "/" .. stats.count .. " plugins loaded   │"),
                 text(
                     "│ "
                         .. theme.icons.config
