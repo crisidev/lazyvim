@@ -42,6 +42,7 @@ return {
                 { "gG", desc = "Chat GPT", icon = icons.gpt },
                 { "gC", desc = "Codeium", icon = icons.copilot },
                 { "gX", desc = "Refactoring", icon = icons.palette },
+                { "gx", desc = "Follow link", icon = icons.link },
             },
         },
     },
