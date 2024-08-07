@@ -217,21 +217,6 @@ return {
             },
         },
         init = function()
-            local function show_documentation()
-                local filetype = vim.bo.filetype
-                if vim.tbl_contains({ "vim", "help" }, filetype) then
-                    vim.cmd("h " .. vim.fn.expand("<cword>"))
-                elseif vim.fn.expand("%:t") == "Cargo.toml" then
-                    require("crates").show_popup()
-                elseif vim.tbl_contains({ "man" }, filetype) then
-                    vim.cmd("Man " .. vim.fn.expand("<cword>"))
-                elseif filetype == "rust" then
-                    vim.cmd.RustLsp({ "hover", "actions" })
-                else
-                    vim.lsp.buf.hover()
-                end
-            end
-
             local function diagnostics(direction, level)
                 if direction == "next" then
                     vim.diagnostic.jump({ count = 1, severity = { min = level } })
@@ -260,7 +245,6 @@ return {
                     icon = theme.icons.magic,
                     desc = "Format File",
                 },
-                { "K", show_documentation, desc = "Hover" },
                 {
                     "gA",
                     "<cmd>lua vim.lsp.codelens.run()<cr>",
@@ -391,7 +375,17 @@ return {
                 },
                 {
                     "gw",
-                    toggle_inlay_hints,
+                    function(buf, value)
+                        local ih = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+                        if type(ih) == "function" then
+                            ih(buf, value)
+                        elseif type(ih) == "table" and ih.enable then
+                            if value == nil then
+                                value = not ih.is_enabled(buf)
+                            end
+                            ih.enable(value)
+                        end
+                    end,
                     desc = "Toggle Inlay Hints",
                     icon = theme.icons.inlay,
                 },

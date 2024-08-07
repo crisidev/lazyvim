@@ -31,35 +31,6 @@ return {
             opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
                 sorting_strategy = "descending",
                 layout_strategy = "bottom_pane",
-                layout_config = {
-                    width = 0.9,
-                    height = 0.4,
-                    preview_cutoff = 135,
-                    preview_width = 0.32,
-                    prompt_position = "bottom",
-                    horizontal = {
-                        preview_width = 0.32,
-                    },
-                    vertical = {
-                        width = 0.9,
-                        height = 0.4,
-                        preview_height = 0.5,
-                    },
-                    flex = {
-                        horizontal = {
-                            preview_width = 0.32,
-                        },
-                        vertical = {
-                            preview_height = 0.5,
-                        },
-                    },
-                },
-                border = true,
-                borderchars = {
-                    prompt = { " ", " ", "─", " ", " ", " ", "─", "─" },
-                    results = { "─", " ", " ", " ", "─", "─", " ", " " },
-                    preview = { "─", " ", "─", "│", "┬", "─", "─", "╰" },
-                },
                 mappings = {
                     n = {
                         ["<esc>"] = actions.close,

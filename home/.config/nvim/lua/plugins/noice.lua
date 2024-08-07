@@ -61,6 +61,10 @@ return {
                 opts = { skip = true },
             },
             {
+                filter = { find = "No information available" },
+                opts = { skip = true },
+            },
+            {
                 filter = { kind = "echo", find = "[WakaTime]" },
                 opts = { skip = true },
             },
