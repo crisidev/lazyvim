@@ -405,6 +405,12 @@ return {
                     desc = "Trim Whitespaces",
                     icon = theme.icons.project,
                 },
+                {
+                    "gb",
+                    require("dap").toggle_breakpoint,
+                    desc = "Toggle Breakpoint",
+                    icon = theme.icons.debug,
+                },
                 { "gD", "", hidden = true },
                 { "gI", "", hidden = true },
                 { "gy", "", hidden = true },

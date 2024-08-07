@@ -130,6 +130,16 @@ local function codelldb_adapter()
     local pkg = home .. "/.local/share/nvim/mason/packages/codelldb"
     local codelldb = pkg .. "/extension/adapter/codelldb"
     local liblldb = pkg .. "/extension/lldb/lib/liblldb.dylib"
+    local dap = require("dap")
+    dap.adapters.codelldb = {
+        type = "server",
+        port = "${port}",
+        host = "127.0.0.1",
+        executable = {
+            command = codelldb_path,
+            args = { "--liblldb", liblldb_path, "--port", "${port}" },
+        },
+    }
     return cfg.get_codelldb_adapter(codelldb, liblldb)
 end
 
