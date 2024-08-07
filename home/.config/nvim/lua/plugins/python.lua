@@ -1,3 +1,5 @@
+local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
+
 return {
     {
         "wookayin/semshi", -- use a maintained fork
@@ -38,7 +40,6 @@ return {
                 basedpyright = {
                     enabled = true,
                     cmd = (function()
-                        local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
                         local cmd_path = mason_install_path .. "/basedpyright-langserver"
                         local cmd = { cmd_path, "--stdio" }
                         local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
@@ -51,7 +52,6 @@ return {
                 ruff_lsp = {
                     enabled = true,
                     cmd = (function()
-                        local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
                         local cmd_path = mason_install_path .. "/ruff-lsp"
                         local cmd = { cmd_path }
                         local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
@@ -72,5 +72,31 @@ return {
                 end,
             },
         },
+    },
+    {
+        "mfussenegger/nvim-dap-python",
+        keys = function()
+            return {
+                {
+                    "<leader>dm",
+                    function()
+                        require("dap-python").test_method()
+                    end,
+                    desc = "Debug Method (python)",
+                    ft = "python",
+                },
+                {
+                    "<leader>dM",
+                    function()
+                        require("dap-python").test_class()
+                    end,
+                    desc = "Debug Class (python)",
+                    ft = "python",
+                },
+            }
+        end,
+        config = function()
+            require("dap-python").setup(vim.env.HOME .. "/.bin/poetry-debugpy")
+        end,
     },
 }

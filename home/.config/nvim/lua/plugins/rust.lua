@@ -136,8 +136,8 @@ local function codelldb_adapter()
         port = "${port}",
         host = "127.0.0.1",
         executable = {
-            command = codelldb_path,
-            args = { "--liblldb", liblldb_path, "--port", "${port}" },
+            command = codelldb,
+            args = { "--liblldb", liblldb, "--port", "${port}" },
         },
     }
     return cfg.get_codelldb_adapter(codelldb, liblldb)
