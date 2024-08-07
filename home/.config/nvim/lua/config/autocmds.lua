@@ -57,6 +57,21 @@ vim.api.nvim_create_autocmd("FileType", {
         local mappings = {
             mode = "n",
             buffer = vim.fn.bufnr(),
+            {
+                "<leader>dm",
+                function()
+                    require("dap-python").test_method()
+                end,
+                desc = "Debug Method (python)",
+            },
+            {
+                "<leader>dM",
+                function()
+                    require("dap-python").test_class()
+                end,
+                desc = "Debug Class (python)",
+            },
+
             { "gB", group = "Build Helpers", icon = theme.languages.python },
             { "gBi", "<cmd>PyrightOrganizeImports<cr>", desc = "Organize imports" },
             {
@@ -69,7 +84,20 @@ vim.api.nvim_create_autocmd("FileType", {
                 desc = "Insert # pyright: ignore",
             },
         }
+        local vmappings = {
+            mode = "v",
+            buffer = vim.fn.bufnr(),
+            {
+                "<leader>ds",
+                function()
+                    require("dap-python").debug_selection()
+                end,
+                desc = "Debug Selection(python)",
+            },
+        }
+
         which_key.add(mappings)
+        which_key.add(vmappings)
     end,
 })
 

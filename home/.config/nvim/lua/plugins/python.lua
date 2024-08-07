@@ -76,24 +76,7 @@ return {
     {
         "mfussenegger/nvim-dap-python",
         keys = function()
-            return {
-                {
-                    "<leader>dm",
-                    function()
-                        require("dap-python").test_method()
-                    end,
-                    desc = "Debug Method (python)",
-                    ft = "python",
-                },
-                {
-                    "<leader>dM",
-                    function()
-                        require("dap-python").test_class()
-                    end,
-                    desc = "Debug Class (python)",
-                    ft = "python",
-                },
-            }
+            return {}
         end,
         config = function()
             require("dap-python").setup(vim.env.HOME .. "/.bin/poetry-debugpy")

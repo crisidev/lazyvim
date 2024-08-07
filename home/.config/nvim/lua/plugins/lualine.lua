@@ -497,6 +497,18 @@ local function typos_lsp()
     }
 end
 
+local function multicursors()
+    return {
+        function()
+            return require("hydra.statusline").get_name()
+        end,
+        color = { bg = colors.bg },
+        cond = function()
+            return require("hydra.statusline").is_active()
+        end,
+    }
+end
+
 return {
     "nvim-lualine/lualine.nvim",
     opts = {
@@ -527,6 +539,7 @@ return {
             },
             lualine_y = {
                 space(),
+                multicursors(),
                 dap_status(),
                 treesitter(),
                 typos_lsp(),
