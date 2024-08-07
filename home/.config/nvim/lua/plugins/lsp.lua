@@ -219,21 +219,9 @@ return {
         init = function()
             local function diagnostics(direction, level)
                 if direction == "next" then
-                    vim.diagnostic.jump({ count = 1, severity = { min = level } })
+                    vim.diagnostic.jump({ count = 1, severity = { min = level }, float = true, focusable = true })
                 else
-                    vim.diagnostic.jump({ count = -1, severity = { min = level } })
-                end
-            end
-
-            local function toggle_inlay_hints(buf, value)
-                local ih = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
-                if type(ih) == "function" then
-                    ih(buf, value)
-                elseif type(ih) == "table" and ih.enable then
-                    if value == nil then
-                        value = not ih.is_enabled(buf)
-                    end
-                    ih.enable(value)
+                    vim.diagnostic.jump({ count = -1, severity = { min = level }, float = true, focusable = true })
                 end
             end
 

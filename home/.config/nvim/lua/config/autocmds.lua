@@ -10,17 +10,6 @@ local timestamps = {
     rust_fly_check = 0,
 }
 
-local function maybe_run_callback_after_wait_time(name, wait, callback)
-    local recorded_ts = timestamps[name]
-    if recorded_ts ~= nil then
-        local ts = os.time(os.date("!*t"))
-        if ts - recorded_ts > wait then
-            callback()
-            timestamps[name] = os.time(os.date("!*t"))
-        end
-    end
-end
-
 -- Faster yank
 vim.api.nvim_create_autocmd("TextYankPost", {
     group = augroup("fast_yank"),
@@ -94,25 +83,6 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     end,
 })
 
--- vim.api.nvim_create_autocmd("CursorHold", {
---     group = augroup("rust_diagnostics_on_hold"),
---     pattern = "*.rs",
---     desc = "Request diagnostics on cursor hold",
---     callback = function()
---         if vim.env.NEOVIM_RUST_DEVELOP_RUSTC == "true" then
---             maybe_run_callback_after_wait_time("rust_fly_check", 30, function()
---                 vim.cmd.write()
---                 vim.cmd.RustLsp({ "flyCheck", "run" })
---             end)
---         else
---             maybe_run_callback_after_wait_time("rust_fly_check", 30, function()
---                 vim.cmd.write()
---                 vim.cmd.RustLsp({ "flyCheck", "run" })
---             end)
---         end
---     end,
--- })
-
 vim.api.nvim_create_autocmd("FileType", {
     group = augroup("rust_build_tools"),
     pattern = "rust",
@@ -161,11 +131,49 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = "go",
     desc = "Set additional buffer keymaps for Go files",
     callback = function()
+        local which_key = require("which-key")
+        local theme = require("config.theme")
+        local mappings = {
+            mode = "n",
+            buffer = vim.fn.bufnr(),
+            {
+                "<leader>dm",
+                "<cmd>lua require('dap.go').debug_test()<cr>",
+                desc = "Debug Test (Go)",
+                icon = theme.icons.docs,
+            },
+            {
+                "gE",
+                "<cmd>GoIfErr<cr>",
+                desc = "Generate if err",
+                icon = theme.icons.exit,
+            },
+            { "gB", group = "Build Helpers", icon = theme.languages.go },
+            { "gBj", "<cmd>GoTagAdd json<cr>", desc = "Add JSON Tags" },
+            { "gBJ", "<cmd>GoTagRm json<cr>", desc = "Remove JSON Tags" },
+            { "gBy", "<cmd>GoTagAdd yaml<cr>", desc = "Add YAML Tags" },
+            { "gBY", "<cmd>GoTagRm yaml<cr>", desc = "Remove YAML Tags" },
+            { "gBt", "<cmd>GoTestAdd<cr>", desc = "Add test for function under cursor" },
+            { "gBT", "<cmd>GoTestAll<cr>", desc = "Add tests for all functions in file" },
+            { "gBe", "<cmd>GoTestExp<cr>", desc = "Add tests for exported functions in file" },
+            { "gBm", "<cmd>GoMod tidy<cr>", desc = "Tidy go.mod" },
+            { "gBi", "<cmd>GoImpl<cr>", desc = "Implement interface" },
+            { "gBd", "<cmd>GoCmt<cr>", desc = "Generate documentation" },
+        }
+        which_key.add(mappings)
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = augroup("c_build_tools"),
+    pattern = { "c", "cpp" },
+    desc = "Set additional buffer keymaps for C/C++ files",
+    callback = function()
         vim.keymap.set(
             { "n" },
-            "<leader>dT",
+            "<leader>dm",
             "lua require('dap-go').debug_test()<cr>",
-            { desc = "Debug test", buffer = vim.fn.bufnr() }
+            { desc = "Debug test (Go)", buffer = vim.fn.bufnr() }
         )
     end,
 })

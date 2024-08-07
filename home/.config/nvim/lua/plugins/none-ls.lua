@@ -1,6 +1,7 @@
 local methods = require("null-ls.methods")
 local c = require("null-ls.config")
 local loop = require("null-ls.loop")
+local nls = require("null-ls")
 local code_action = methods.internal.CODE_ACTION
 
 local function extract_struct_name(params)
@@ -125,23 +126,24 @@ end
 
 return {
     "nvimtools/none-ls.nvim",
-    opts = function(_, opts)
-        local nls = require("null-ls")
-        local home = vim.env.HOME
-        opts.sources = vim.list_extend(opts.sources or {}, {
+    opts = {
+        sources = {
+            -- Completion
+            nls.builtins.completion.luasnip,
             -- Formatting
             nls.builtins.formatting.clang_format.with({
                 filetypes = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
             }),
             nls.builtins.formatting.cmake_format,
             nls.builtins.formatting.isort.with({
-                command = home .. "/.bin/poetry-isort",
+                command = vim.env.HOME .. "/.bin/poetry-isort",
                 extra_args = { "--profile=black" },
             }),
             nls.builtins.formatting.black.with({
-                command = home .. "/.bin/poetry-black",
+                command = vim.env.HOME .. "/.bin/poetry-black",
                 extra_args = { "--fast", "--line-length=120" },
             }),
+            nls.builtins.formatting.stylua,
 
             -- Diagnostics
             nls.builtins.diagnostics.alex,
@@ -192,6 +194,6 @@ return {
 
             -- Hover
             nls.builtins.hover.dictionary,
-        })
-    end,
+        },
+    },
 }
