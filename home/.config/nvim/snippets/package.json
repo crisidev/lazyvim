@@ -20,13 +20,6 @@
             },
             {
                 "language": [
-                    "global",
-                    "all"
-                ],
-                "path": "./license.json"
-            },
-            {
-                "language": [
                     "sh"
                 ],
                 "path": "./sh.json"
