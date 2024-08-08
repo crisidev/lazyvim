@@ -363,4 +363,15 @@ function module.alpha_banner()
     }
 end
 
+function module.poetry_run(args)
+    local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
+    local file = vim.fn.findfile("poetry.lock", ".;")
+    if file == "poetry.lock" then
+        args[1] = mason_install_path .. "/" .. args[1]
+        table.insert(args, 1, "poetry")
+        table.insert(args, 2, "run")
+    end
+    return args
+end
+
 return module

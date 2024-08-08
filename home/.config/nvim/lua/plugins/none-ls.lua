@@ -2,6 +2,7 @@ local methods = require("null-ls.methods")
 local c = require("null-ls.config")
 local loop = require("null-ls.loop")
 local nls = require("null-ls")
+local theme = require("config.theme")
 local code_action = methods.internal.CODE_ACTION
 
 local function extract_struct_name(params)
@@ -130,18 +131,21 @@ return {
         sources = {
             -- Completion
             nls.builtins.completion.luasnip,
+
             -- Formatting
             nls.builtins.formatting.clang_format.with({
                 filetypes = { "c", "cpp", "objc", "objcpp", "h", "hpp" },
             }),
             nls.builtins.formatting.cmake_format,
             nls.builtins.formatting.isort.with({
-                command = vim.env.HOME .. "/.bin/poetry-isort",
-                extra_args = { "--profile=black" },
+                dynamic_command = function()
+                    return theme.poetry_run({ "isort", "--profile=black" })
+                end,
             }),
             nls.builtins.formatting.black.with({
-                command = vim.env.HOME .. "/.bin/poetry-black",
-                extra_args = { "--fast", "--line-length=120" },
+                dynamic_command = function()
+                    return theme.poetry_run({ "black", "--fast", "--line-length=120" })
+                end,
             }),
             nls.builtins.formatting.stylua,
 
@@ -163,6 +167,7 @@ return {
             }),
             -- nls.builtins.code_actions.gitrebase,
             nls.builtins.code_actions.gitsigns,
+            -- go struct helper
             make_code_action({
                 name = "gostructhelper",
                 method = code_action,

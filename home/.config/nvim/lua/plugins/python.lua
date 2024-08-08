@@ -1,4 +1,4 @@
-local mason_install_path = vim.fn.stdpath("data") .. "/mason/bin"
+local utils = require("config.theme")
 
 return {
     {
@@ -39,27 +39,11 @@ return {
             servers = {
                 basedpyright = {
                     enabled = true,
-                    cmd = (function()
-                        local cmd_path = mason_install_path .. "/basedpyright-langserver"
-                        local cmd = { cmd_path, "--stdio" }
-                        local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
-                        if match ~= "" then
-                            cmd = { "poetry", "run", cmd_path, "--stdio" }
-                        end
-                        return cmd
-                    end)(),
+                    cmd = utils.poetry_run({ "basedpyright-langserver", "--stdio" }),
                 },
                 ruff_lsp = {
                     enabled = true,
-                    cmd = (function()
-                        local cmd_path = mason_install_path .. "/ruff-lsp"
-                        local cmd = { cmd_path }
-                        local match = vim.fn.glob(vim.fn.getcwd() .. "/poetry.lock")
-                        if match ~= "" then
-                            cmd = { "poetry", "run", cmd_path }
-                        end
-                        return cmd
-                    end)(),
+                    cmd = utils.poetry_run({ "ruff-lsp" }),
                 },
             },
             setup = {
