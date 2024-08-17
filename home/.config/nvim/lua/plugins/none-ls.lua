@@ -158,6 +158,11 @@ return {
                 end,
             }),
             nls.builtins.diagnostics.checkmake,
+            nls.builtins.diagnostics.selene.with({
+                condition = function(utils)
+                    return utils.root_has_file({ "selene.toml" })
+                end,
+            }),
             nls.builtins.diagnostics.vint,
             nls.builtins.diagnostics.zsh,
 

@@ -137,6 +137,7 @@ module.symbol_usage = {
 }
 
 module.languages = {
+    lua = " ",
     c = " ",
     rust = "󱘗 ",
     js = " ",

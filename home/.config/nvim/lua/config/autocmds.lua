@@ -6,9 +6,13 @@ local function augroup(name)
     vim.api.nvim_create_augroup("crisidev_" .. name, { clear = true })
 end
 
-local timestamps = {
-    rust_fly_check = 0,
-}
+local function love()
+    LazyVim.terminal.open({ "love", "." }, {
+        ft = "term",
+        cwd = LazyVim.root.get(),
+        env = { LAZYTERM_TYPE = "loove" },
+    })
+end
 
 -- Faster yank
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -192,17 +196,39 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
+-- C / C++
 vim.api.nvim_create_autocmd("FileType", {
     group = augroup("c_build_tools"),
     pattern = { "c", "cpp" },
     desc = "Set additional buffer keymaps for C/C++ files",
     callback = function()
-        vim.keymap.set(
-            { "n" },
-            "<leader>dm",
-            "lua require('dap-go').debug_test()<cr>",
-            { desc = "Debug test (Go)", buffer = vim.fn.bufnr() }
-        )
+        local which_key = require("which-key")
+        local theme = require("config.theme")
+        local mappings = {
+            mode = "n",
+            buffer = vim.fn.bufnr(),
+            { "gB", group = "Build Helpers", icon = theme.languages.c },
+        }
+        which_key.add(mappings)
+    end,
+})
+
+-- Lua
+vim.api.nvim_create_autocmd("FileType", {
+    group = augroup("lua_build_tools"),
+    pattern = "lua",
+    desc = "Set additional buffer keymaps for Lua files",
+    callback = function()
+        local which_key = require("which-key")
+        local theme = require("config.theme")
+
+        local mappings = {
+            mode = "n",
+            buffer = vim.fn.bufnr(),
+            { "gB", group = "Build Helpers", icon = theme.languages.lua },
+            { "gBl", love, desc = "Run LÖVE" },
+        }
+        which_key.add(mappings)
     end,
 })
 
