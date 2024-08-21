@@ -77,7 +77,7 @@ module.icons = {
     circular = " ",
     circle_left = "",
     circle_right = "",
-    neotest = "ﭧ ",
+    neotest = "󰙨 ",
     rename = " ",
     amazon = " ",
     inlay = " ",
@@ -167,8 +167,8 @@ module.file_icons = {
     DarkOrange = { "", "", "", "", "" },
     Pink = { "", "" },
     Salmon = { "" },
-    Green = { "", "", "", "", "", "" },
-    LightGreen = { "", "", "", "﵂" },
+    Green = { "", "", "", "", "", "󰌛" },
+    LightGreen = { "", "", "", "󰡄" },
     White = { "", "", "", "", "", "" },
 }
 
@@ -282,7 +282,7 @@ function module.dap()
     })
     vim.fn.sign_define(
         "DapLogPoint",
-        { text = "", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" }
+        { text = "󰍩", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" }
     )
 end
 
