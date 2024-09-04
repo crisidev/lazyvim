@@ -11,9 +11,7 @@ return {
                 diagnostic = false,
                 lsp_cfg = true,
                 lsp_keymaps = false,
-                lsp_inlay_hints = {
-                    enable = false,
-                },
+                lsp_inlay_hints = {},
             })
         end,
         event = { "CmdlineEnter" },

@@ -178,6 +178,13 @@ return {
                     require("lsplinks").setup()
                 end,
             },
+            {
+                "rachartier/tiny-inline-diagnostic.nvim",
+                event = "VeryLazy",
+                config = function()
+                    require("tiny-inline-diagnostic").setup()
+                end,
+            },
         },
         opts = {
             diagnostics = {
