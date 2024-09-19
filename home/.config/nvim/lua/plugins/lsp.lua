@@ -211,6 +211,7 @@ return {
                 typos_lsp = { enabled = true },
                 gitlab_ci_ls = { enabled = true },
                 snyk_ls = { enabled = true, autostart = false },
+                protobuf_language_server = { enabled = true },
             },
             setup = {
                 typos_lsp = function()
@@ -218,6 +219,24 @@ return {
                         init_options = {
                             diagnosticSeverity = "Hint",
                         },
+                    })
+                    return true
+                end,
+                protobuf_language_server = function()
+                    require("lspconfig.configs").protobuf_language_server = {
+                        default_config = {
+                            cmd = { "protobuf-language-server" },
+                            filetypes = { "proto", "cpp" },
+                            root_fir = require("lspconfig.util").root_pattern(".git"),
+                            single_file_support = true,
+                        },
+                    }
+                    require("lspconfig").protobuf_language_server.setup({})
+                    return true
+                end,
+                clangd = function()
+                    require("lspconfig").clangd.setup({
+                        filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
                     })
                     return true
                 end,

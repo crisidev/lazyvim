@@ -125,7 +125,6 @@ vim.api.nvim_create_autocmd("FileType", {
         local mappings = {
             mode = "n",
             buffer = vim.fn.bufnr(),
-            { "gK", "<cmd>RustLsp externalDocs<cr>", desc = "Open docs.rs", icon = theme.icons.docs },
             {
                 "gL",
                 "<cmd>RustLsp renderDiagnostic<cr>",
@@ -133,6 +132,7 @@ vim.api.nvim_create_autocmd("FileType", {
                 icon = theme.diagnostics_icons.Hint,
             },
             { "gB", group = "Build Helpers", icon = theme.languages.rust },
+            { "gBK", "<cmd>RustLsp externalDocs<cr>", desc = "Open docs.rs" },
             { "gBA", group = "Rust Analyzer" },
             { "gBAs", "<cmd>RustAnalyzer start<cr>", desc = "Start" },
             { "gBAS", "<cmd>RustAnalyzer stop<cr>", desc = "Stop" },

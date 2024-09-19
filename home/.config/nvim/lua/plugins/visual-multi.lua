@@ -16,9 +16,9 @@ return {
             },
         },
         config = function()
-            require("multicursors").setup({
-                hint_config = false,
-            })
+            -- require("multicursors").setup({
+            --     hint_config = false,
+            -- })
         end,
     },
 }
