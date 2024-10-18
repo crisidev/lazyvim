@@ -130,7 +130,7 @@ return {
         "neovim/nvim-lspconfig",
         dependencies = {
             {
-                "crisidev/nvim-lightbulb",
+                "kosayoda/nvim-lightbulb",
                 config = function()
                     local lightbulb = require("nvim-lightbulb")
                     lightbulb.setup({
@@ -184,6 +184,7 @@ return {
                 config = function()
                     require("tiny-inline-diagnostic").setup()
                 end,
+                enabled = false,
             },
         },
         opts = {

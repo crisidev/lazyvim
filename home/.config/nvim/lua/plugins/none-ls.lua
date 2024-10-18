@@ -165,6 +165,7 @@ return {
             }),
             nls.builtins.diagnostics.vint,
             nls.builtins.diagnostics.zsh,
+            nls.builtins.diagnostics.protolint,
 
             -- Code actions
             nls.builtins.code_actions.refactoring.with({

@@ -32,7 +32,7 @@ local function rust_analyzer_settings()
                 enable = true,
             },
             lifetimeElisionHints = {
-                enable = true,
+                enable = false,
                 useParameterNames = true,
             },
             parameterHints = {
@@ -53,6 +53,7 @@ local function rust_analyzer_settings()
         },
         diagnostics = {
             enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "rust_analyzer",
+            -- disabled = { "unresolved-proc-macro" },
         },
         cargo = {
             autoreload = true,
@@ -184,15 +185,18 @@ return {
     },
     {
         "mrcjkb/rustaceanvim",
-        opts = {
-            server = {
-                default_settings = {
-                    ["rust-analyzer"] = rust_analyzer_settings(),
+        version = "^5",
+        opts = function()
+            return {
+                server = {
+                    default_settings = {
+                        ["rust-analyzer"] = rust_analyzer_settings(),
+                    },
                 },
-            },
-            dap = {
-                adapter = codelldb_adapter(),
-            },
-        },
+                dap = {
+                    adapter = codelldb_adapter(),
+                },
+            }
+        end,
     },
 }
