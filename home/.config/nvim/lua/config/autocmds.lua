@@ -111,7 +111,44 @@ vim.api.nvim_create_autocmd("BufWritePost", {
     pattern = "*.rs",
     desc = "Request diagnostics after save",
     callback = function()
-        vim.cmd.RustLsp({ "flyCheck", "run" })
+        if vim.g.lazyvim_rust_diagnostics == "rust-analyzer" then
+            vim.cmd.RustLsp({ "flyCheck", "run" })
+        end
+    end,
+})
+
+local terminal = nil
+
+vim.api.nvim_create_autocmd("FileType", {
+    group = augroup("rust_diagnostics_bacon"),
+    pattern = "rust",
+    desc = "Handle bacon in terminal",
+    callback = function()
+        -- if vim.g.lazyvim_rust_diagnostics == "bacon-ls" then
+        --     if terminal == nil then
+        --         local snacks = require("snacks")
+        --         terminal = snacks.terminal.open({ "bacon", "clippy", "--", "--all-features" }, {
+        --             cwd = LazyVim.root.get(),
+        --             env = { TERM_TYPE = "bacon" },
+        --             win = {
+        --                 position = "bottom",
+        --                 border = "rounded",
+        --             },
+        --         })
+        --
+        --         vim.defer_fn(function()
+        --             terminal:toggle()
+        --         end, 2000)
+        --         vim.keymap.set({ "n", "i", "t" }, "<c-y>", function()
+        --             terminal:toggle()
+        --         end, { desc = "Bacon" })
+        --     end
+        -- end
+        if vim.g.lazyvim_rust_diagnostics == "rust-analyzer" then
+            vim.defer_fn(function()
+                vim.cmd.RustLsp({ "flyCheck", "run" })
+            end, 10000)
+        end
     end,
 })
 

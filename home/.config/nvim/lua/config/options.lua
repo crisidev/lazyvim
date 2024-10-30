@@ -4,9 +4,10 @@
 vim.g.mapleader = ","
 vim.g.autoformat = false
 vim.g.lazyvim_python_lsp = "basedpyright"
-vim.g.lazyvim_python_ruff = "ruff_lsp"
+vim.g.lazyvim_python_ruff = "ruff"
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
+vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
 
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4

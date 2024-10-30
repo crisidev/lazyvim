@@ -1,7 +1,7 @@
 local function rust_analyzer_settings()
     local opts = {
         checkOnSave = {
-            -- enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "rust_analyzer",
+            -- enable = vim.g.lazyvim_rust_diagnostics == "rust-analyzer",
             enable = false,
             command = "clippy",
             extraArgs = { "--no-deps" },
@@ -52,8 +52,7 @@ local function rust_analyzer_settings()
             enable = true,
         },
         diagnostics = {
-            enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "rust_analyzer",
-            -- disabled = { "unresolved-proc-macro" },
+            enable = vim.g.lazyvim_rust_diagnostics == "rust-analyzer",
         },
         cargo = {
             autoreload = true,
@@ -125,78 +124,25 @@ local function rust_analyzer_settings()
     return opts
 end
 
-local function codelldb_adapter()
-    local cfg = require("rustaceanvim.config")
-    local home = vim.env.HOME
-    local pkg = home .. "/.local/share/nvim/mason/packages/codelldb"
-    local codelldb = pkg .. "/extension/adapter/codelldb"
-    local liblldb = pkg .. "/extension/lldb/lib/liblldb.dylib"
-    local dap = require("dap")
-    dap.adapters.codelldb = {
-        type = "server",
-        port = "${port}",
-        host = "127.0.0.1",
-        executable = {
-            command = codelldb,
-            args = { "--liblldb", liblldb, "--port", "${port}" },
-        },
-    }
-    return cfg.get_codelldb_adapter(codelldb, liblldb)
-end
-
 return {
-    {
-        "neovim/nvim-lspconfig",
-        opts = {
-            servers = {
-                bacon_ls = {
-                    enable = vim.env.NEOVIM_RUST_DIAGNOSTICS == "bacon-ls",
+    "mrcjkb/rustaceanvim",
+    opts = function()
+        local package_path = require("mason-registry").get_package("codelldb"):get_install_path()
+        local codelldb = package_path .. "/extension/adapter/codelldb"
+        local library_path = package_path .. "/extension/lldb/lib/liblldb.dylib"
+        local uname = io.popen("uname"):read("*l")
+        if uname == "Linux" then
+            library_path = package_path .. "/extension/lldb/lib/liblldb.so"
+        end
+        return {
+            server = {
+                default_settings = {
+                    ["rust-analyzer"] = rust_analyzer_settings(),
                 },
             },
-            setup = {
-                rust_analyzer = function()
-                    return true
-                end,
-                bacon_ls = function()
-                    if vim.env.NEOVIM_RUST_DIAGNOSTICS ~= "bacon-ls" then
-                        return true
-                    else
-                        local function bacon_term()
-                            LazyVim.terminal.open(
-                                { "bacon", "clippy", "--", "--all-features", "--target", vim.env.NEOVIM_RUST_TARGET },
-                                {
-                                    ft = "bacon",
-                                    cwd = LazyVim.root.get(),
-                                    env = { LAZYTERM_TYPE = "bacon" },
-                                }
-                            )
-                        end
-
-                        bacon_term()
-                        vim.defer_fn(function()
-                            bacon_term()
-                        end, 2000)
-                        vim.keymap.set({ "n", "i", "t" }, "<c-y>", bacon_term, { desc = "Bacon" })
-                        return false
-                    end
-                end,
+            dap = {
+                adapter = require("rustaceanvim.config").get_codelldb_adapter(codelldb, library_path),
             },
-        },
-    },
-    {
-        "mrcjkb/rustaceanvim",
-        version = "^5",
-        opts = function()
-            return {
-                server = {
-                    default_settings = {
-                        ["rust-analyzer"] = rust_analyzer_settings(),
-                    },
-                },
-                dap = {
-                    adapter = codelldb_adapter(),
-                },
-            }
-        end,
-    },
+        }
+    end,
 }

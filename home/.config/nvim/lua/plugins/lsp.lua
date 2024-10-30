@@ -199,9 +199,10 @@ return {
             },
             codelens = { enabled = true },
             servers = {
-                typos_lsp = { enabled = true },
+                typos_lsp = { enabled = false },
                 gitlab_ci_ls = { enabled = true },
-                snyk_ls = { enabled = true, autostart = false },
+                snyk_ls = { enabled = false, autostart = false },
+                harper_ls = { enabled = true },
                 protobuf_language_server = { enabled = true },
             },
             setup = {
@@ -209,6 +210,16 @@ return {
                     require("lspconfig").typos_lsp.setup({
                         init_options = {
                             diagnosticSeverity = "Hint",
+                        },
+                    })
+                    return true
+                end,
+                bacon_ls = function()
+                    require("lspconfig").bacon_ls.setup({
+                        init_options = {
+                            spawnBacon = true,
+                            spawnBaconCommand = "bacon",
+                            updateOnSave = true,
                         },
                     })
                     return true
@@ -228,6 +239,21 @@ return {
                 clangd = function()
                     require("lspconfig").clangd.setup({
                         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
+                    })
+                    return true
+                end,
+                harper_ls = function()
+                    require("lspconfig").harper_ls.setup({
+                        settings = {
+                            ["harper-ls"] = {
+                                linters = {
+                                    diagnosticSeverity = "hint",
+                                    codeActions = {
+                                        forceStable = true,
+                                    },
+                                },
+                            },
+                        },
                     })
                     return true
                 end,

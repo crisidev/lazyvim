@@ -7,12 +7,12 @@ return {
             "nvim-treesitter/nvim-treesitter",
         },
         config = function()
-            require("go").setup({
-                diagnostic = false,
-                lsp_cfg = true,
-                lsp_keymaps = false,
-                lsp_inlay_hints = {},
-            })
+            -- require("go").setup({
+            --     diagnostic = false,
+            --     lsp_cfg = true,
+            --     lsp_keymaps = false,
+            --     lsp_inlay_hints = {},
+            -- })
         end,
         event = { "CmdlineEnter" },
         ft = { "go", "gomod" },

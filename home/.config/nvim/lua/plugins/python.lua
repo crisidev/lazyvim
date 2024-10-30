@@ -41,15 +41,15 @@ return {
                     enabled = true,
                     cmd = utils.poetry_run({ "basedpyright-langserver", "--stdio" }),
                 },
-                ruff_lsp = {
+                ruff = {
                     enabled = true,
-                    cmd = utils.poetry_run({ "ruff-lsp" }),
+                    cmd = utils.poetry_run({ "ruff" }),
                 },
             },
             setup = {
-                ruff_lsp = function()
+                ruff = function()
                     LazyVim.lsp.on_attach(function(client, _)
-                        if client.name == "ruff_lsp" then
+                        if client.name == "ruff" then
                             client.server_capabilities.documentFormattingProvider = false
                         end
                     end)

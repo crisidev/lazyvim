@@ -67,28 +67,32 @@ vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and 
 vim.api.nvim_set_keymap("x", "<c-c>", '"*y :let @+=@*<CR>', { noremap = true, silent = true })
 
 -- Terminals
-vim.keymap.set({ "n", "i", "t" }, "<c-]>", function()
-    LazyVim.terminal(nil, {
-        ft = "lazyterm",
-        border = "rounded",
-        cwd = LazyVim.root.get(),
-        env = { LAZYTERM_TYPE = "horizontal" },
-    })
-end, { desc = "Horizontal terminal" })
 vim.keymap.set({ "n", "i", "t" }, "<c-\\>", function()
-    LazyVim.terminal(nil, {
-        ft = "term",
+    Snacks.terminal(nil, {
         border = "rounded",
         cwd = LazyVim.root.get(),
-        env = { LAZYTERM_TYPE = "vertical" },
+        win = {
+            position = "float",
+            border = "rounded",
+        },
+        env = { TERM_TYPE = "float" },
     })
-end, { desc = "Full screen terminal" })
-vim.keymap.set({ "n", "i", "t" }, "<c-g>", function()
-    LazyVim.terminal.open({ "lazygit" }, {
+end, { desc = "Float terminal" })
+vim.keymap.set({ "n", "i", "t" }, "<c-]>", function()
+    Snacks.terminal(nil, {
         border = "rounded",
         cwd = LazyVim.root.get(),
-        esc_esc = false,
-        ctrl_hjkl = false,
+        win = { position = "bottom" },
+        env = { TERM_TYPE = "bottom" },
+    })
+end, { desc = "Bottom terminal" })
+vim.keymap.set({ "n", "i", "t" }, "<c-g>", function()
+    Snacks.terminal.open({ "lazygit" }, {
+        cwd = LazyVim.root.get(),
+        win = {
+            position = "bottom",
+            border = "rounded",
+        },
     })
 end, { desc = "LazyGit" })
 
