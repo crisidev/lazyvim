@@ -5,7 +5,6 @@ local diagnostics_icons = require("config.theme").diagnostics_icons
 local lazy_icons = require("lazyvim.config").icons
 local file_icons = require("config.theme").file_icons
 local mode_icons = require("config.theme").modes_icons
-local cdm = require("config.codeium")
 local nls = require("null-ls")
 
 local file_icon_colors = {
@@ -287,21 +286,6 @@ local function circle_icon(direction)
     }
 end
 
-local function codeium()
-    return {
-        function()
-            if cdm.is_enabled() == nil then
-                return ""
-            else
-                return icons.copilot
-            end
-        end,
-        padding = 0,
-        color = { fg = colors.purple, bg = colors.bg },
-        cond = conditions.hide_in_width,
-    }
-end
-
 local function treesitter()
     return {
         function()
@@ -531,7 +515,6 @@ return {
                 treesitter(),
                 typos_lsp(),
                 null_ls(),
-                codeium(),
                 lsp_servers(),
             },
             lualine_z = {

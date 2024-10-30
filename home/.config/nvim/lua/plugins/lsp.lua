@@ -71,16 +71,6 @@ return {
             "https://codeberg.org/FelipeLema/cmp-async-path",
             "SergioRibera/cmp-dotenv",
             {
-                "Exafunction/codeium.nvim",
-                cmd = "Codeium",
-                build = ":Codeium Auth",
-                opts = {},
-                keys = {
-                    { "gCe", "<cmd>lua require('config.codeium').enable()<cr>", desc = "Enable" },
-                    { "gCd", "<cmd>lua require('config.codeium').disable()<cr>", desc = "Disable" },
-                },
-            },
-            {
                 "ravibrock/spellwarn.nvim",
                 event = "VeryLazy",
                 config = true,
