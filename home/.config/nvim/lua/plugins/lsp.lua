@@ -203,6 +203,7 @@ return {
                 gitlab_ci_ls = { enabled = true },
                 snyk_ls = { enabled = false, autostart = false },
                 harper_ls = { enabled = true },
+                nil_ls = { enabled = true },
                 protobuf_language_server = { enabled = true },
             },
             setup = {
