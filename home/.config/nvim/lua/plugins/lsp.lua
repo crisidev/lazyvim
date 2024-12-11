@@ -203,7 +203,6 @@ return {
                 gitlab_ci_ls = { enabled = true },
                 snyk_ls = { enabled = false, autostart = false },
                 harper_ls = { enabled = true },
-                nil_ls = { enabled = true },
                 protobuf_language_server = { enabled = true },
             },
             setup = {
@@ -252,6 +251,18 @@ return {
                                     codeActions = {
                                         forceStable = true,
                                     },
+                                },
+                            },
+                        },
+                    })
+                    return true
+                end,
+                nil_ls = function()
+                    require("lspconfig").nil_ls.setup({
+                        settings = {
+                            ["nil"] = {
+                                formatting = {
+                                    command = { "nixfmt" },
                                 },
                             },
                         },
