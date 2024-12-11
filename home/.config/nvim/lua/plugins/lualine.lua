@@ -348,7 +348,7 @@ local function lsp_servers()
             local trim = vim.fn.winwidth(0) < trim_width
 
             for _, client in pairs(buf_clients) do
-                if not (client.name == "null-ls" or client.name == "typos_lsp") then
+                if not (client.name == "null-ls" or client.name == "typos_lsp" or client.name == "harper_ls") then
                     local _added_client = client.name
                     if trim then
                         _added_client = string.sub(client.name, 1, 4)
@@ -481,11 +481,22 @@ local function typos_lsp()
     }
 end
 
+local function harper_ls()
+    return {
+        function()
+            return lsp_server_icon("harper_ls", icons.typos)
+        end,
+        padding = 0,
+        color = { fg = colors.yellow, bg = colors.bg },
+        cond = conditions.hide_in_width,
+    }
+end
+
 return {
     "nvim-lualine/lualine.nvim",
     opts = {
         options = {
-            theme = theme.lualine(),
+            -- theme = theme.lualine(),
             globalstatus = true,
             component_separators = { left = "", right = "" },
             section_separators = { left = "", right = "" },
@@ -514,6 +525,7 @@ return {
                 dap_status(),
                 treesitter(),
                 typos_lsp(),
+                harper_ls(),
                 null_ls(),
                 lsp_servers(),
             },

@@ -36,16 +36,16 @@ return {
     {
         "neovim/nvim-lspconfig",
         opts = {
-            servers = {
-                basedpyright = {
-                    enabled = true,
-                    cmd = utils.poetry_run({ "basedpyright-langserver", "--stdio" }),
-                },
-                ruff = {
-                    enabled = true,
-                    cmd = utils.poetry_run({ "ruff" }),
-                },
-            },
+            -- servers = {
+            --     basedpyright = {
+            --         enabled = true,
+            --         cmd = utils.poetry_run({ "basedpyright-langserver", "--stdio" }),
+            --     },
+            --     ruff = {
+            --         enabled = true,
+            --         cmd = utils.poetry_run({ "ruff" }),
+            --     },
+            -- },
             setup = {
                 ruff = function()
                     LazyVim.lsp.on_attach(function(client, _)

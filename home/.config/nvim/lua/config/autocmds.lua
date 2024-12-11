@@ -318,3 +318,16 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
         vim.bo.filetype = "yaml.gitlab"
     end,
 })
+
+-- Nix
+vim.api.nvim_create_autocmd("FileType", {
+    group = augroup("nix_indent"),
+    pattern = "nix",
+    desc = "Use 2 spaces indentation in Nix files",
+    callback = function()
+        vim.opt_local.tabstop = 2
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.expandtab = true
+        vim.opt_local.softtabstop = 2
+    end,
+})

@@ -1,19 +1,28 @@
 local theme = require("config.theme")
 
+local function styles()
+    if vim.g.transparent then
+        return {
+            comments = { italic = true },
+            keywords = { italic = true },
+            sidebars = "transparent",
+            floats = "transparent",
+        }
+    else
+        return {
+            comments = { italic = true },
+            keywords = { italic = true },
+        }
+    end
+end
+
 return {
     "folke/tokyonight.nvim",
     opts = {
         style = "storm",
-        transparent = true,
+        transparent = vim.g.transparent,
         terminal_colors = true,
-        styles = {
-            comments = { italic = true },
-            keywords = { italic = true },
-            functions = {},
-            variables = {},
-            sidebars = "transparent",
-            floats = "transparent",
-        },
+        styles = styles(),
         sidebars = {
             "qf",
             "lazy",
@@ -26,15 +35,24 @@ return {
         dim_inactive = true,
         lualine_bold = true,
         on_colors = function(col)
-            col.git = { change = "#6183bb", add = "#449dab", delete = "#f7768e", conflict = "#bb7a61" }
-            col.bg_dark = "#1a1e30"
-            col.bg_dim = "#1f2335"
-            col.bg_float = "#1a1e30"
+            col.git = {
+                change = theme.colors.git.change,
+                add = theme.colors.git.add,
+                delete = theme.colors.git.delete,
+                conflict = theme.colors.git.conflict,
+            }
+            if vim.g.transparent then
+                vim.cmd([[
+                    highlight Normal guibg=none
+                    highlight NormalFloat guibg=none
+                    highlight NormalNC guibg=none
+                    highlight NonText guibg=none
+                    highlight Normal ctermbg=none
+                    highlight NonText ctermbg=none
+                ]])
+            end
         end,
         on_highlights = function(hl, c)
-            c.bg_dark = "#1a1e30"
-            c.bg_dim = "#1f2335"
-            c.bg_float = "#1a1e30"
             hl["@variable"] = { fg = c.fg }
             hl.NormalFloat = { fg = theme.colors.fg, bg = "#181924" }
             hl.Cursor = { fg = theme.colors.bg, bg = theme.colors.fg }
@@ -57,12 +75,6 @@ return {
             set_fg_bg("diffChanged", theme.colors.git.change, "NONE")
             set_fg_bg("SignColumn", theme.colors.bg, "NONE")
             set_fg_bg("SignColumnSB", theme.colors.bg, "NONE")
-
-            local bg = vim.api.nvim_get_hl(0, { name = "StatusLine" }).bg
-            local hl = vim.api.nvim_get_hl(0, { name = "Folded" })
-            hl.bg = bg
-            vim.api.nvim_set_hl(0, "Folded", { fg = hl.fg, bg = hl.bg })
-            -- vim.opt.foldtext = [[luaeval('HighlightedFoldtext')()]]
         end,
     },
 }
