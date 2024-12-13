@@ -74,6 +74,7 @@ vim.keymap.set({ "n", "i", "t" }, "<c-\\>", function()
         win = {
             position = "float",
             border = "rounded",
+            relative = "editor",
         },
         env = { TERM_TYPE = "float" },
     })
@@ -82,19 +83,10 @@ vim.keymap.set({ "n", "i", "t" }, "<c-]>", function()
     Snacks.terminal(nil, {
         border = "rounded",
         cwd = LazyVim.root.get(),
-        win = { position = "bottom" },
+        win = { position = "bottom", relative = "editor" },
         env = { TERM_TYPE = "bottom" },
     })
 end, { desc = "Bottom terminal" })
-vim.keymap.set({ "n", "i", "t" }, "<c-g>", function()
-    Snacks.terminal.open({ "lazygit" }, {
-        cwd = LazyVim.root.get(),
-        win = {
-            position = "bottom",
-            border = "rounded",
-        },
-    })
-end, { desc = "LazyGit" })
 
 -- Misc
 vim.keymap.set("n", "<leader>w", "<cmd>w! | lua vim.notify('File written')<cr>", { desc = icons.ok .. "Save buffer" })
