@@ -89,8 +89,8 @@ vim.keymap.set({ "n", "i", "t" }, "<c-]>", function()
 end, { desc = "Bottom terminal" })
 
 -- Misc
-vim.keymap.set("n", "<leader>w", "<cmd>w! | lua vim.notify('File written')<cr>", { desc = icons.ok .. "Save buffer" })
-vim.keymap.set("n", "<leader>`", "<cmd>e #<cr>", { desc = icons.buffer .. "Switch buffer" })
+vim.keymap.set("n", "<leader>w", "<cmd>w! | lua vim.notify('File written')<cr>", { desc = "Save buffer" })
+vim.keymap.set("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch buffer" })
 vim.keymap.set("n", "<leader>um", "<cmd>MouseToggle<cr>", { desc = "Toggle mouse mode" })
 vim.keymap.set("n", "<leader>ur", "<cmd>NuModeToggle<cr>", { desc = "Toggle number mode" })
 vim.keymap.set("n", "<leader>uN", "<cmd>NoNuMode<cr>", { desc = "No number mode" })

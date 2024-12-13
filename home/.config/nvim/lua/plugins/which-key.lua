@@ -14,14 +14,6 @@ return {
                 g = false, -- bindings for prefixed with g
             },
         },
-        -- triggers = {
-        --     "<leader>",
-        --     "<space>",
-        --     "f",
-        --     "z",
-        --     "]",
-        --     "[",
-        -- },
         icons = {
             breadcrumb = "»", -- symbol used in the command line area that shows your active key combo
             separator = "➜", -- symbol used between a key and it's label
@@ -39,8 +31,9 @@ return {
                 { "<leader>R", desc = "Rename", icon = icons.rename },
                 { "<leader>x", desc = "Trouble", icon = icons.pinned },
                 { "<leader>u", desc = "Ui", icon = icons.ui },
-                { "gG", desc = "Chat GPT", icon = icons.gpt },
-                { "gC", desc = "Codeium", icon = icons.copilot },
+                { "<leader>k", desc = "K8s", icon = icons.k8s },
+                { "<leader>G", desc = "Gitlab", icon = icons.gitlab },
+                { "<leader>Gm", desc = "Merge Request", icon = icons.gitlab },
                 { "gX", desc = "Refactoring", icon = icons.palette },
                 { "gx", desc = "Follow link", icon = icons.link },
             },

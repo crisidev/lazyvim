@@ -110,6 +110,7 @@ module.icons = {
     floppy = " ",
     commander = "󰘳 ",
     gitlab = "󰮠 ",
+    k8s = "󱃾 ",
 }
 
 module.battery_icons = {

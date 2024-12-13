@@ -127,6 +127,9 @@ end
 
 return {
     "nvimtools/none-ls.nvim",
+    dependencies = {
+        "nvimtools/none-ls-extras.nvim",
+    },
     opts = {
         sources = {
             -- Completion
@@ -138,16 +141,13 @@ return {
             }),
             nls.builtins.formatting.cmake_format,
             nls.builtins.formatting.isort.with({
-                dynamic_command = function()
-                    return theme.poetry_run({ "isort", "--profile=black" })
-                end,
+                extra_args = { "isort", "--profile=black" },
             }),
             nls.builtins.formatting.black.with({
-                dynamic_command = function()
-                    return theme.poetry_run({ "black", "--fast", "--line-length=120" })
-                end,
+                extra_args = { "--fast", "--line-length=120" },
             }),
             nls.builtins.formatting.stylua,
+            nls.builtins.formatting.shfmt,
 
             -- Diagnostics
             nls.builtins.diagnostics.alex,
