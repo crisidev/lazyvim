@@ -274,11 +274,27 @@ return {
         init = function()
             local function diagnostics(direction, level)
                 if direction == "next" then
-                    -- vim.diagnostic.jump({ count = 1, severity = { min = level }, float = true, focusable = true })
-                    vim.diagnostic.goto_next({ count = 1, severity = { min = level }, float = true, focusable = true })
+                    if vim.fn.has("0.10") then
+                        vim.diagnostic.goto_next({
+                            count = 1,
+                            severity = { min = level },
+                            float = true,
+                            focusable = true,
+                        })
+                    else
+                        vim.diagnostic.jump({ count = 1, severity = { min = level }, float = true, focusable = true })
+                    end
                 else
-                    -- vim.diagnostic.jump({ count = -1, severity = { min = level }, float = true, focusable = true })
-                    vim.diagnostic.goto_prev({ count = -1, severity = { min = level }, float = true, focusable = true })
+                    if vim.fn.has("0.10") then
+                        vim.diagnostic.goto_prev({
+                            count = -1,
+                            severity = { min = level },
+                            float = true,
+                            focusable = true,
+                        })
+                    else
+                        vim.diagnostic.jump({ count = -1, severity = { min = level }, float = true, focusable = true })
+                    end
                 end
             end
 
