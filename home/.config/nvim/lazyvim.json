@@ -24,13 +24,12 @@
     "lazyvim.plugins.extras.test.core",
     "lazyvim.plugins.extras.ui.alpha",
     "lazyvim.plugins.extras.ui.edgy",
-    "lazyvim.plugins.extras.ui.mini-indentscope",
     "lazyvim.plugins.extras.util.dot",
     "lazyvim.plugins.extras.util.mini-hipatterns",
     "lazyvim.plugins.extras.util.project"
   ],
   "news": {
-    "NEWS.md": "7429"
+    "NEWS.md": "10960"
   },
   "version": 7
 }

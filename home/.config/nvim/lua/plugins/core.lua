@@ -1,3 +1,5 @@
+local theme = require("config.theme")
+
 return {
     -- Configure LazyVim to load gruvbox
     {
@@ -6,6 +8,11 @@ return {
             defaults = {
                 keymaps = false,
             },
+            icons = {
+                kinds = {
+                    Snippet = " ", -- Emoji for snippets
+                }
+            }
         },
     },
     { "folke/flash.nvim", enabled = false },

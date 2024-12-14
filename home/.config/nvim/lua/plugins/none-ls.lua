@@ -133,7 +133,7 @@ return {
     opts = {
         sources = {
             -- Completion
-            nls.builtins.completion.luasnip,
+            -- nls.builtins.completion.luasnip,
 
             -- Formatting
             nls.builtins.formatting.clang_format.with({

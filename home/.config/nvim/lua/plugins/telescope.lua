@@ -112,11 +112,6 @@ return {
             lazy = true,
         },
         {
-            "benfowler/telescope-luasnip.nvim",
-            module = "telescope._extensions.luasnip",
-            lazy = true,
-        },
-        {
             "crispgm/telescope-heading.nvim",
             module = "telescope._extensions.heading",
             lazy = true,
@@ -259,7 +254,6 @@ return {
                 desc = "Buffers",
                 icon = icons.buffers,
             },
-
             {
                 "<leader>Q",
                 function()
@@ -288,7 +282,6 @@ return {
                 desc = "Todos",
                 icon = icons.todo,
             },
-            { "<c-x>", "<cmd>Telescope luasnip<cr>", desc = "Snippets", mode = { "i", "n", "x" } },
             {
                 "<leader>H",
                 "<cmd>Telescope heading<cr>",

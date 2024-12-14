@@ -113,15 +113,6 @@ module.icons = {
     k8s = "󱃾 ",
 }
 
-module.battery_icons = {
-    _100 = "􀛨",
-    _75 = "􀺸",
-    _50 = "􀺶",
-    _25 = "􀛩",
-    _0 = "􀛪",
-    _charging = "􀢋",
-}
-
 module.dap_icons = {
     breakpoint = "",
     breakpoint_rejected = "",
@@ -213,32 +204,6 @@ module.colors = {
     gitSigns = { add = "#164846", change = "#394b70", delete = "#823c41" },
 }
 
-module.cmp_icons = {
-    Class = " Class", -- Emoji for classes
-    Color = " Color", -- Emoji for colors
-    Constant = " Constant", -- Emoji for constants
-    Enum = " Enum", -- Emoji for enums
-    EnumMember = " Enum Member", -- Emoji for enum members
-    Field = " Field", -- Emoji for fields
-    File = " File", -- Emoji for files
-    Folder = " Folder", -- Emoji for folders
-    Function = "󰡱 Function", -- Emoji for functions
-    Interface = " Interface", -- Emoji for interfaces
-    Keyword = " Keyword", -- Emoji for keywords
-    Method = " Method", -- Emoji for methods
-    Module = "󰕳 Module", -- Emoji for modules
-    Operator = " Operator", -- Emoji for operators
-    Property = " Property", -- Emoji for properties
-    Reference = " Reference", -- Emoji for references
-    Snippet = " Snippet", -- Emoji for snippets
-    Struct = " Struct", -- Emoji for structs
-    Text = " Text", -- Emoji for text
-    TypeParameter = " Typed Param", -- Emoji for type parameters
-    Unit = "󰭍 Unit", -- Emoji for units
-    Value = "󱇇 Value", -- Emoji for values
-    Variable = " Variable", -- Emoji for variables
-}
-
 module.diagnostics_icons = {
     Error = " ",
     Warn = " ",
@@ -285,15 +250,6 @@ function module.dap()
         "DapLogPoint",
         { text = "󰍩", texthl = "DapLogPoint", linehl = "DapLogPoint", numhl = "DapLogPoint" }
     )
-end
-
-function module.cmp()
-    vim.api.nvim_set_hl(0, "CmpItemKindSnippet", { fg = module.colors.blue5 })
-    vim.api.nvim_set_hl(0, "CmpItemKindVariable", { fg = module.colors.yellow })
-    vim.api.nvim_set_hl(0, "CmpItemKindField", { fg = module.colors.orange })
-    vim.api.nvim_set_hl(0, "CmpItemKindFunction", { fg = module.colors.blue })
-    vim.api.nvim_set_hl(0, "CmpItemKindText", { fg = module.colors.fg_dark })
-    vim.api.nvim_set_hl(0, "CmpItemKindEnum", { fg = module.colors.violet })
 end
 
 function module.alpha_banner()
