@@ -11,8 +11,8 @@ return {
             icons = {
                 kinds = {
                     Snippet = " ", -- Emoji for snippets
-                }
-            }
+                },
+            },
         },
     },
     { "folke/flash.nvim", enabled = false },

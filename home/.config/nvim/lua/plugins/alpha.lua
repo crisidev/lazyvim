@@ -411,7 +411,7 @@ return {
                         .. vim.version().patch
                         .. "   │"
                 ),
-                text("│ " .. theme.icons.package .. stats.loaded .. "/" .. stats.count .. " plugins loaded   │"),
+                text("│ " .. theme.icons.package .. stats.loaded .. "/" .. stats.count .. " plugins loaded    │"),
                 text(
                     "│ "
                         .. theme.icons.config

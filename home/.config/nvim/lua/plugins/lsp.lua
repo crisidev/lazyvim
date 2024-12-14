@@ -413,12 +413,6 @@ return {
                     icon = theme.icons.inlay,
                 },
                 {
-                    "gk",
-                    "<cmd>LspStart snyk_ls<cr>",
-                    desc = "Enable Snyk",
-                    icon = theme.icons.codelens,
-                },
-                {
                     "gW",
                     function()
                         local save_cursor = vim.fn.getpos(".")
