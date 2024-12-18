@@ -321,6 +321,12 @@ return {
                     icon = theme.icons.go,
                 },
                 {
+                    "gO",
+                    "<cmd>Telescope lsp_document_symbols<cr>",
+                    desc = "Document Symbols",
+                    icon = theme.icons.docs,
+                },
+                {
                     "gr",
                     "<cmd>Telescope lsp_references jump_type=never<cr>",
                     desc = "Goto References",
