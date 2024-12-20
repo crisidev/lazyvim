@@ -146,6 +146,7 @@ return {
             nls.builtins.formatting.black.with({
                 extra_args = { "--fast", "--line-length=120" },
             }),
+            nls.builtins.formatting.prettier,
             nls.builtins.formatting.stylua,
             nls.builtins.formatting.shfmt,
 

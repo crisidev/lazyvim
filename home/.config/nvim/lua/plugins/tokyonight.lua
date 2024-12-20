@@ -16,6 +16,14 @@ local function styles()
     end
 end
 
+local function link(group, other)
+    vim.cmd("highlight! link " .. group .. " " .. other)
+end
+
+local function set_fg_bg(group, fg, bg)
+    vim.cmd("hi " .. group .. " guifg=" .. fg .. " guibg=" .. bg)
+end
+
 return {
     "folke/tokyonight.nvim",
     opts = {
@@ -51,23 +59,10 @@ return {
                     highlight NonText ctermbg=none
                 ]])
             end
+            vim.cmd("hi DiagnosticUnnecessary guibg=NONE guifg=" .. theme.colors.special_comment)
         end,
         on_highlights = function(hl, c)
-            hl["@variable"] = { fg = c.fg }
-            hl.NormalFloat = { fg = theme.colors.fg, bg = "#181924" }
-            hl.Cursor = { fg = theme.colors.bg, bg = theme.colors.fg }
-            hl.NormalNC = { fg = theme.colors.fg_dark, bg = "#1c1d28" }
-            hl.Normal = { fg = theme.colors.fg, bg = "#1f2335" }
-            hl.CursorLineNr = { fg = theme.colors.orange }
-            local function link(group, other)
-                vim.cmd("highlight! link " .. group .. " " .. other)
-            end
-
-            local function set_fg_bg(group, fg, bg)
-                vim.cmd("hi " .. group .. " guifg=" .. fg .. " guibg=" .. bg)
-            end
-
-            set_fg_bg("SpecialComment", "#9ca0a4", "bold")
+            set_fg_bg("SpecialComment", theme.colors.special_comment, "bold")
             link("LspCodeLens", "SpecialComment")
             set_fg_bg("Hlargs", theme.colors.hlargs, "none")
             set_fg_bg("diffAdded", theme.colors.git.add, "NONE")
@@ -76,5 +71,6 @@ return {
             set_fg_bg("SignColumn", theme.colors.bg, "NONE")
             set_fg_bg("SignColumnSB", theme.colors.bg, "NONE")
         end,
+        cache = true,
     },
 }
