@@ -62,6 +62,11 @@ return {
             vim.cmd("hi DiagnosticUnnecessary guibg=NONE guifg=" .. theme.colors.special_comment)
         end,
         on_highlights = function(hl, c)
+            hl.NormalFloat = { fg = theme.colors.fg, bg = "#181924" }
+            hl.Cursor = { fg = theme.colors.bg, bg = theme.colors.fg }
+            hl.NormalNC = { fg = theme.colors.fg_dark, bg = "#1c1d28" }
+            hl.Normal = { fg = theme.colors.fg, bg = "#1f2335" }
+            hl.CursorLineNr = { fg = theme.colors.orange }
             set_fg_bg("SpecialComment", theme.colors.special_comment, "bold")
             link("LspCodeLens", "SpecialComment")
             set_fg_bg("Hlargs", theme.colors.hlargs, "none")
@@ -71,6 +76,5 @@ return {
             set_fg_bg("SignColumn", theme.colors.bg, "NONE")
             set_fg_bg("SignColumnSB", theme.colors.bg, "NONE")
         end,
-        cache = true,
     },
 }

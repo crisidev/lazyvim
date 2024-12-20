@@ -1,7 +1,4 @@
-local theme = require("config.theme")
-
 return {
-    -- Configure LazyVim to load gruvbox
     {
         "LazyVim/LazyVim",
         opts = {
