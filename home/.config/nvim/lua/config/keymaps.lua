@@ -79,7 +79,7 @@ vim.keymap.set({ "n", "i", "t" }, "<c-\\>", function()
         env = { TERM_TYPE = "float" },
     })
 end, { desc = "Float terminal" })
-vim.keymap.set({ "n", "i", "t" }, "<c-]>", function()
+vim.keymap.set({ "n", "i", "t" }, "<c-s-\\>", function()
     Snacks.terminal(nil, {
         border = "rounded",
         cwd = LazyVim.root.get(),

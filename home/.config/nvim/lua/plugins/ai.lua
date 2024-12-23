@@ -9,8 +9,8 @@ return {
             "nvim-telescope/telescope.nvim",
         },
         keys = {
-            { "gGp", "<cmd>ChatGPT<cr>", desc = "Prompt" },
-            { "gGa", "<cmd>ChatGPTActAs<cr>", desc = "Act as" },
+            { "gGp", "<cmd>ChatGPT<cr>",                    desc = "Prompt" },
+            { "gGa", "<cmd>ChatGPTActAs<cr>",               desc = "Act as" },
             { "gGe", "<cmd>ChatGPTEditWithInstruction<cr>", desc = "Edit with instruction" },
             {
                 "gGd",
@@ -78,31 +78,27 @@ return {
         "yetone/avante.nvim",
         event = "VeryLazy",
         lazy = false,
-        version = false,
+        version = false, -- set this if you want to always pull the latest change
         enabled = vim.g.ai_plugin == "avante",
         opts = {
-            provider = "openai",
+            provider = "ollama",
+            vendors = {
+                ollama = {
+                    __inherited_from = "openai",
+                    api_key_name = "",
+                    endpoint = "http://127.0.0.1:11434/v1",
+                    model = "codellama:13b",
+                },
+            },
+            file_selector = {
+                provider = "fzf",
+            },
         },
         build = "make",
         dependencies = {
             "stevearc/dressing.nvim",
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
-            "echasnovski/mini.icons",
-            {
-                "HakonHarnes/img-clip.nvim",
-                event = "VeryLazy",
-                opts = {
-                    default = {
-                        embed_image_as_base64 = false,
-                        prompt_for_file_name = false,
-                        drag_and_drop = {
-                            insert_mode = true,
-                        },
-                        use_absolute_path = true,
-                    },
-                },
-            },
             {
                 "MeanderingProgrammer/render-markdown.nvim",
                 opts = {

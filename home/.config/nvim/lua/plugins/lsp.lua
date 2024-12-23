@@ -166,6 +166,7 @@ return {
                 snyk_ls = { enabled = false, autostart = false },
                 harper_ls = { enabled = true },
                 protobuf_language_server = { enabled = true },
+                blueprint_ls = { enabled = true },
             },
             setup = {
                 typos_lsp = function()
