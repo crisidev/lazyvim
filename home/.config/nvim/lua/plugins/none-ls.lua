@@ -173,7 +173,7 @@ return {
                 filetypes = { "typescript", "javascript", "c", "cpp", "go", "python" },
             }),
             -- nls.builtins.code_actions.gitrebase,
-            nls.builtins.code_actions.gitsigns,
+            -- nls.builtins.code_actions.gitsigns,
             -- go struct helper
             make_code_action({
                 name = "gostructhelper",

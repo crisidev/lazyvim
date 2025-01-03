@@ -53,7 +53,7 @@ local function rust_analyzer_settings()
         },
         diagnostics = {
             enable = vim.g.lazyvim_rust_diagnostics == "rust-analyzer",
-            refreshSupport = false,
+            refreshSupport = true,
         },
         cargo = {
             autoreload = true,

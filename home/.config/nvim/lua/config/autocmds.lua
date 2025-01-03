@@ -106,28 +106,28 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Rust
-vim.api.nvim_create_autocmd("BufWritePost", {
-    group = augroup("rust_diagnostics_on_save"),
-    pattern = "*.rs",
-    desc = "Request diagnostics after save",
-    callback = function()
-        if vim.g.lazyvim_rust_diagnostics == "rust-analyzer" then
+if vim.g.lazyvim_rust_diagnostics == "rust-analyzer" then
+    vim.api.nvim_create_autocmd("BufWritePost", {
+        group = augroup("rust_diagnostics_on_save"),
+        pattern = "*.rs",
+        desc = "Request diagnostics after save",
+        callback = function()
             vim.cmd.RustLsp({ "flyCheck", "run" })
-        end
-    end,
-})
+        end,
+    })
+end
 
-local terminal = nil
+if vim.g.lazyvim_rust_diagnostics == "bacon-ls" then
+    local terminal = nil
 
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("rust_diagnostics_bacon"),
-    pattern = "rust",
-    desc = "Handle bacon in terminal",
-    callback = function()
-        if vim.g.lazyvim_rust_diagnostics == "bacon-ls" then
+    vim.api.nvim_create_autocmd("FileType", {
+        group = augroup("rust_diagnostics_bacon"),
+        pattern = "rust",
+        desc = "Handle bacon in terminal",
+        callback = function()
             if terminal == nil then
                 local snacks = require("snacks")
-                terminal = snacks.terminal.open({ "bacon", "clippy", "--", "--all-features" }, {
+                terminal = snacks.terminal.open({ "bacon", "-j", "bacon-ls" }, {
                     cwd = LazyVim.root.get(),
                     env = { TERM_TYPE = "bacon" },
                     win = {
@@ -144,9 +144,9 @@ vim.api.nvim_create_autocmd("FileType", {
                     terminal:toggle()
                 end, { desc = "Bacon" })
             end
-        end
-    end,
-})
+        end,
+    })
+end
 
 vim.api.nvim_create_autocmd("FileType", {
     group = augroup("rust_build_tools"),
@@ -315,24 +315,11 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     end,
 })
 
--- Nix
+-- 2 space indentation
 vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("nix_indent"),
-    pattern = "nix",
-    desc = "Use 2 spaces indentation in Nix files",
-    callback = function()
-        vim.opt_local.tabstop = 2
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.expandtab = true
-        vim.opt_local.softtabstop = 2
-    end,
-})
-
--- Typescript
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("typescript _indent"),
-    pattern = "typescript",
-    desc = "Use 2 spaces indentation in Typescript files",
+    group = augroup("2_space_indent"),
+    pattern = { "nix", "typescript", "yaml", "helm" },
+    desc = "Use 2 spaces indentation",
     callback = function()
         vim.opt_local.tabstop = 2
         vim.opt_local.shiftwidth = 2

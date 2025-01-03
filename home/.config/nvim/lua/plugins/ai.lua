@@ -9,8 +9,8 @@ return {
             "nvim-telescope/telescope.nvim",
         },
         keys = {
-            { "gGp", "<cmd>ChatGPT<cr>",                    desc = "Prompt" },
-            { "gGa", "<cmd>ChatGPTActAs<cr>",               desc = "Act as" },
+            { "gGp", "<cmd>ChatGPT<cr>", desc = "Prompt" },
+            { "gGa", "<cmd>ChatGPTActAs<cr>", desc = "Act as" },
             { "gGe", "<cmd>ChatGPTEditWithInstruction<cr>", desc = "Edit with instruction" },
             {
                 "gGd",

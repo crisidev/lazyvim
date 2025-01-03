@@ -177,16 +177,6 @@ return {
                     })
                     return true
                 end,
-                bacon_ls = function()
-                    require("lspconfig").bacon_ls.setup({
-                        init_options = {
-                            spawnBacon = true,
-                            spawnBaconCommand = "bacon",
-                            updateOnSave = true,
-                        },
-                    })
-                    return true
-                end,
                 protobuf_language_server = function()
                     require("lspconfig.configs").protobuf_language_server = {
                         default_config = {
