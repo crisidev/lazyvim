@@ -9,7 +9,7 @@ local function scale(amount)
 end
 
 if vim.g.neovide then
-    vim.opt.guifont = "MonoLisa Nerd Font:h12"
+    vim.opt.guifont = "MonoLisa Nerd Font:h13"
     vim.opt.linespace = 0
     vim.g.neovide_scale_factor = 1.0
     vim.g.neovide_padding_top = 0
@@ -42,19 +42,19 @@ if vim.g.neovide then
     vim.g.neovide_input_use_logo = 1
 
     -- Remapping
-    vim.keymap.set("n", "<D-=>", function()
+    vim.keymap.set("n", "<D-C-=>", function()
         scale(0.1)
     end, { noremap = true, silent = true })
-    vim.keymap.set("n", "<D-->", function()
+    vim.keymap.set("n", "<D-C-->", function()
         scale(-0.1)
     end, { noremap = true, silent = true })
-    vim.keymap.set("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+    vim.keymap.set("", "<C-v>", "+p<CR>", { noremap = true, silent = true })
     vim.keymap.set("", "<D-/>", "+p<CR>", { noremap = true, silent = true })
-    vim.keymap.set("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+    vim.keymap.set("!", "<C-v>", "<C-R>+", { noremap = true, silent = true })
     vim.keymap.set("!", "<D-/>", "<C-R>+", { noremap = true, silent = true })
-    vim.keymap.set("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
-    vim.keymap.set("t", "<D-/>", "<C-R>+", { noremap = true, silent = true })
-    vim.keymap.set("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+    vim.keymap.set("t", "<C-v>", "<C-R>+", { noremap = true, silent = true })
+    vim.keymap.set("t", "<C-/>", "<C-R>+", { noremap = true, silent = true })
+    vim.keymap.set("v", "<C-v>", "<C-R>+", { noremap = true, silent = true })
     vim.keymap.set("v", "<D-/>", "<C-R>+", { noremap = true, silent = true })
-    vim.keymap.set("v", "<D-c>", "+yi", { noremap = true, silent = true })
+    vim.keymap.set("v", "<C-c>", "+yi", { noremap = true, silent = true })
 end
