@@ -18,7 +18,7 @@ Take what you need, it also comes warrant free 😊
 
 ```sh
 ❯❯❯ git clone https://github.com/andsens/homeshick.git $HOME/.homesick/repos/homeshick
-❯❯❯ git clone https://github.com/crisidev/lazyvim.git $HOME/.homesick/dotfiles
+❯❯❯ git clone https://github.com/crisidev/lazyvim.git $HOME/.homesick/repos/lazyvim
 ❯❯❯ source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 ❯❯❯ homeshick link lazyvim
 ```
