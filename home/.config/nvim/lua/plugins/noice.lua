@@ -36,9 +36,11 @@ return {
                 input = {},
             },
         },
-        -- messages = {
-        --     view_search = false,
-        -- },
+        lsp = {
+            message = {
+                enabled = false,
+            },
+        },
         routes = {
             {
                 filter = {
