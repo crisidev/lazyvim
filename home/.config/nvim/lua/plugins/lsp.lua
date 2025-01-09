@@ -231,7 +231,7 @@ return {
                         settings = {
                             ["nil"] = {
                                 formatting = {
-                                    command = { "nixfmt" },
+                                    command = { "nix", "fmt", "--", "--" },
                                 },
                             },
                         },
