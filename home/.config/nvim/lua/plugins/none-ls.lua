@@ -25,11 +25,6 @@ local darker = {
 
 return {
     {
-        "ckolkey/ts-node-action",
-        dependencies = { "nvim-treesitter" },
-        opts = {},
-    },
-    {
         "nvimtools/none-ls.nvim",
         dependencies = {
             "nvimtools/none-ls-extras.nvim",
