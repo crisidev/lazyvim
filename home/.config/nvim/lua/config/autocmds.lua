@@ -79,6 +79,11 @@ vim.api.nvim_create_autocmd("FileType", {
             { "gB", group = "Build Helpers", icon = theme.languages.python },
             { "gBi", "<cmd>PyrightOrganizeImports<cr>", desc = "Organize imports" },
             {
+                "gBf",
+                "<cmd>:w<cr>:!black --fast --line-length=120 %<cr>:!isort --profile=black %<cr>",
+                desc = "Run black and isort",
+            },
+            {
                 "gBp",
                 function()
                     local line = vim.api.nvim_get_current_line()
