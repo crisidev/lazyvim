@@ -230,6 +230,11 @@ return {
                     require("lspconfig").nil_ls.setup({
                         settings = {
                             ["nil"] = {
+                                nix = {
+                                    flake = {
+                                        autoArchive = true,
+                                    },
+                                },
                                 formatting = {
                                     command = { "nixfmt" },
                                 },
