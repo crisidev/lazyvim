@@ -71,7 +71,6 @@ return {
                 nls.builtins.code_actions.gitrebase,
                 nls.builtins.code_actions.gitsigns,
                 nls.builtins.code_actions.statix,
-                nls.builtins.code_actions.ts_node_action,
 
                 -- Hover
                 nls.builtins.hover.dictionary,
