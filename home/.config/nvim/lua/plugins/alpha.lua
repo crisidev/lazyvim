@@ -220,7 +220,7 @@ local function recent_sessions(start, cwd, items_number)
     local persistence = require("persistence")
     local sessions = {}
     for _, v in ipairs(persistence.list()) do
-        local _, end_index = string.find(v, "%%") -- Find index of first '%'
+        local _, end_index = string.find(v, "%%")           -- Find index of first '%'
         local remaining_path = string.sub(v, end_index + 1) -- Extract path after '%'
         local fn = string.gsub(remaining_path, "%%", "/")
         fn = "/" .. string.gsub(fn, "%.vim$", "")
@@ -391,6 +391,33 @@ return {
             })
         end
 
+        local vim_version = {}
+        if vim.version().prerelease == "dev" then
+            vim_version = text(
+                "│ "
+                .. theme.icons.vim
+                .. "Neovim nightly v"
+                .. vim.version().major
+                .. "."
+                .. vim.version().minor
+                .. "."
+                .. vim.version().patch
+                .. "  │"
+            )
+        else
+            vim_version = text(
+                "│ "
+                .. theme.icons.vim
+                .. "Neovim stable v"
+                .. vim.version().major
+                .. "."
+                .. vim.version().minor
+                .. "."
+                .. vim.version().patch
+                .. "   │"
+            )
+        end
+
         local stats = require("lazy").stats()
         local days, hours, minutes, seconds = time_since_last_config_change()
         local opts = {
@@ -400,30 +427,20 @@ return {
                 { type = "padding", val = 1 },
                 text("╭───────────────────────────╮"),
                 text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "     │"),
-                text(
-                    "│ "
-                        .. theme.icons.vim
-                        .. "Neovim version "
-                        .. vim.version().major
-                        .. "."
-                        .. vim.version().minor
-                        .. "."
-                        .. vim.version().patch
-                        .. "   │"
-                ),
+                vim_version,
                 text("│ " .. theme.icons.package .. stats.loaded .. "/" .. stats.count .. " plugins loaded    │"),
                 text(
                     "│ "
-                        .. theme.icons.config
-                        .. "Changed "
-                        .. days
-                        .. "d "
-                        .. hours
-                        .. "h "
-                        .. minutes
-                        .. "m "
-                        .. seconds
-                        .. "s │"
+                    .. theme.icons.config
+                    .. "Changed "
+                    .. days
+                    .. "d "
+                    .. hours
+                    .. "h "
+                    .. minutes
+                    .. "m "
+                    .. seconds
+                    .. "s │"
                 ),
                 text("╰───────────────────────────╯"),
                 { type = "padding", val = 1 },
