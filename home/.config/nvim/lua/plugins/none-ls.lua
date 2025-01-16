@@ -57,6 +57,9 @@ return {
                 nls.builtins.diagnostics.buf,
                 nls.builtins.diagnostics.checkmake,
                 nls.builtins.diagnostics.deadnix,
+                nls.builtins.diagnostics.markdownlint_cli2.with({
+                    extra_args = { "--config", vim.fn.expand("~/.config/markdownlint-cli2.yaml") },
+                }),
                 nls.builtins.diagnostics.protolint,
                 nls.builtins.diagnostics.selene.with({
                     condition = function(utils)
