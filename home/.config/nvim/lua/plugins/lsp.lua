@@ -236,7 +236,7 @@ return {
                                     },
                                 },
                                 formatting = {
-                                    command = { "nixfmt" },
+                                    command = { "nix", "fmt", "--", "--" },
                                 },
                             },
                         },
