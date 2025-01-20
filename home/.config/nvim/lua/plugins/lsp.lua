@@ -1,3 +1,4 @@
+---@diagnostic disable: deprecated
 local theme = require("config.theme")
 
 local function symbol_usage_configure()
@@ -60,6 +61,32 @@ local function symbol_usage_configure()
     })
 end
 
+local function diagnostics(direction, level)
+    if direction == "next" then
+        if vim.fn.has("0.10") then
+            vim.diagnostic.goto_next({
+                count = 1,
+                severity = { min = level },
+                float = true,
+                focusable = true,
+            })
+        else
+            vim.diagnostic.jump({ count = 1, severity = { min = level }, float = true, focusable = true })
+        end
+    else
+        if vim.fn.has("0.10") then
+            vim.diagnostic.goto_prev({
+                count = -1,
+                severity = { min = level },
+                float = true,
+                focusable = true,
+            })
+        else
+            vim.diagnostic.jump({ count = -1, severity = { min = level }, float = true, focusable = true })
+        end
+    end
+end
+
 return {
     {
         "saghen/blink.cmp",
@@ -75,7 +102,7 @@ return {
                     emoji = {
                         module = "blink-emoji",
                         name = "Emoji",
-                        score_offset = -100,
+                        score_offset = -15,
                         opts = { insert = true },
                     },
                 },
@@ -102,10 +129,7 @@ return {
                 config = function()
                     local lightbulb = require("nvim-lightbulb")
                     lightbulb.setup({
-                        autocmd = {
-                            enabled = true,
-                            -- updatetime = 500,
-                        },
+                        autocmd = { enabled = true },
                         code_lenses = true,
                         sign = {
                             enabled = true,
@@ -114,7 +138,7 @@ return {
                             hl = "MoreMsg",
                         },
                         ignore = {
-                            clients = { "bacon-ls", "lua_ls", "typos_lsp" },
+                            clients = { "bacon_ls", "lua_ls", "harper_ls" },
                         },
                     })
                 end,
@@ -146,14 +170,6 @@ return {
                     require("lsplinks").setup()
                 end,
             },
-            {
-                "rachartier/tiny-inline-diagnostic.nvim",
-                event = "VeryLazy",
-                config = function()
-                    require("tiny-inline-diagnostic").setup()
-                end,
-                enabled = false,
-            },
         },
         opts = {
             diagnostics = {
@@ -177,22 +193,12 @@ return {
             },
             codelens = { enabled = true },
             servers = {
-                typos_lsp = { enabled = false },
                 gitlab_ci_ls = { enabled = true },
-                snyk_ls = { enabled = false, autostart = false },
                 harper_ls = { enabled = true },
                 protobuf_language_server = { enabled = true },
                 blueprint_ls = { enabled = true },
             },
             setup = {
-                typos_lsp = function()
-                    require("lspconfig").typos_lsp.setup({
-                        init_options = {
-                            diagnosticSeverity = "Hint",
-                        },
-                    })
-                    return true
-                end,
                 protobuf_language_server = function()
                     require("lspconfig.configs").protobuf_language_server = {
                         default_config = {
@@ -246,32 +252,6 @@ return {
             },
         },
         init = function()
-            local function diagnostics(direction, level)
-                if direction == "next" then
-                    if vim.fn.has("0.10") then
-                        vim.diagnostic.goto_next({
-                            count = 1,
-                            severity = { min = level },
-                            float = true,
-                            focusable = true,
-                        })
-                    else
-                        vim.diagnostic.jump({ count = 1, severity = { min = level }, float = true, focusable = true })
-                    end
-                else
-                    if vim.fn.has("0.10") then
-                        vim.diagnostic.goto_prev({
-                            count = -1,
-                            severity = { min = level },
-                            float = true,
-                            focusable = true,
-                        })
-                    else
-                        vim.diagnostic.jump({ count = -1, severity = { min = level }, float = true, focusable = true })
-                    end
-                end
-            end
-
             local keys = {
                 {
                     "gF",

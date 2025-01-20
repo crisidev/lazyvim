@@ -126,14 +126,29 @@ local function rust_analyzer_settings()
 end
 
 return {
-    "mrcjkb/rustaceanvim",
-    opts = function()
-        return {
-            server = {
-                default_settings = {
-                    ["rust-analyzer"] = rust_analyzer_settings(),
+
+    {
+        "williamboman/mason.nvim",
+        optional = true,
+        opts = function(_, opts)
+            for i, v in ipairs(opts.ensure_installed) do
+                if v == "bacon" then
+                    table.remove(opts.ensure_installed, i)
+                    break
+                end
+            end
+        end,
+    },
+    {
+        "mrcjkb/rustaceanvim",
+        opts = function()
+            return {
+                server = {
+                    default_settings = {
+                        ["rust-analyzer"] = rust_analyzer_settings(),
+                    },
                 },
-            },
-        }
-    end,
+            }
+        end,
+    },
 }
