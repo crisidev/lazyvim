@@ -3,12 +3,8 @@
 -- Add any additional options here
 vim.g.mapleader = ","
 vim.g.autoformat = false
-vim.g.lazyvim_python_lsp = "basedpyright"
-vim.g.lazyvim_python_ruff = "ruff"
-vim.g.lazyvim_picker = "telescope"
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
-vim.g.lazyvim_rust_diagnostics = "bacon-ls"
 vim.g.transparent = false
 vim.g.ai_plugin = false
 vim.g.gitlab = false
@@ -24,5 +20,10 @@ vim.opt.cursorline = true
 vim.opt.mousescroll = { "ver:3", "hor:6" }
 vim.opt.mousefocus = true
 vim.opt.mousemoveevent = true
+
+vim.g.lazyvim_python_lsp = "basedpyright"
+vim.g.lazyvim_python_ruff = "ruff"
+vim.g.lazyvim_picker = "telescope"
+vim.g.lazyvim_rust_diagnostics = "bacon-ls"
 
 require("config.neovide")

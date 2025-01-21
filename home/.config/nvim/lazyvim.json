@@ -1,10 +1,10 @@
 {
   "extras": [
+    "lazyvim.plugins.extras.coding.mini-surround",
     "lazyvim.plugins.extras.coding.neogen",
     "lazyvim.plugins.extras.dap.core",
     "lazyvim.plugins.extras.dap.nlua",
     "lazyvim.plugins.extras.editor.inc-rename",
-    "lazyvim.plugins.extras.editor.mini-diff",
     "lazyvim.plugins.extras.editor.refactoring",
     "lazyvim.plugins.extras.formatting.prettier",
     "lazyvim.plugins.extras.lang.ansible",

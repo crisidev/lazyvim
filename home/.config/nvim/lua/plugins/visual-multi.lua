@@ -1,10 +1,18 @@
 return {
-    "mg979/vim-visual-multi",
-    init = function()
-        vim.cmd([[
-                    let g:VM_maps = {}
-                    let g:VM_maps['Find Under'] = '<C-l>'
-                ]])
-    end,
-    branch = "master",
+    "smoka7/multicursors.nvim",
+    event = "VeryLazy",
+    dependencies = {
+        -- "nvimtools/hydra.nvim",
+        "cathyprime/hydra.nvim",
+    },
+    opts = {},
+    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
+    keys = {
+        {
+            mode = { "v", "n" },
+            "<c-l>",
+            "<cmd>MCstart<cr>",
+            desc = "Create a selection for selected text or word under the cursor",
+        },
+    },
 }

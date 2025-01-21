@@ -36,6 +36,7 @@ return {
                 { "<leader>Gm", desc = "Merge Request", icon = icons.gitlab },
                 { "gX", desc = "Refactoring", icon = icons.palette },
                 { "gx", desc = "Follow link", icon = icons.link },
+                { "gs", desc = "Surround", icon = icons.circular },
             },
         },
     },
