@@ -14,8 +14,7 @@ return {
     lazy = true,
     config = function()
         local home = vim.env.HOME
-        local llvm_path = home
-            .. "/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/x86_64-unknown-linux-gnu/bin"
+        local llvm_path = home .. "/.nix-profile/bin"
         require("coverage").setup({
             auto_reload = true,
             lang = {
