@@ -111,6 +111,7 @@ module.icons = {
     commander = "󰘳 ",
     gitlab = "󰮠 ",
     k8s = "󱃾 ",
+    coverage = "󱃖 ",
 }
 
 module.dap_icons = {

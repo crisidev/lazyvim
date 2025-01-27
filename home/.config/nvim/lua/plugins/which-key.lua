@@ -34,6 +34,7 @@ return {
                 { "<leader>t", desc = "Tests" },
                 { "<leader>G", desc = "Gitlab", icon = icons.gitlab },
                 { "<leader>Gm", desc = "Merge Request", icon = icons.gitlab },
+                { "<leader>tc", desc = "Code Coverage", icon = icons.coverage },
                 { "gX", desc = "Refactoring", icon = icons.palette },
                 { "gx", desc = "Follow link", icon = icons.link },
                 { "gs", desc = "Surround", icon = icons.circular },
