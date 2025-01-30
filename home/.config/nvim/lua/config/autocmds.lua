@@ -301,3 +301,13 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.softtabstop = 2
     end,
 })
+
+-- Code coverage
+vim.api.nvim_create_autocmd("FileType", {
+    group = augroup("code_coverage"),
+    pattern = "rust",
+    desc = "Collect code coverage",
+    callback = function()
+        -- vim.api.nvim_command("Coverage")
+    end,
+})
