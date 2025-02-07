@@ -21,7 +21,7 @@ return {
                 rust = {
                     coverage_command = "grcov ${cwd} -s ${cwd} --llvm-path "
                         .. llvm_path
-                        .. " --binary-path ./target/debug/ -t coveralls --branch --ignore-not-existing --token NO_TOKEN",
+                        .. " --binary-path ./target/coverage/debug/ -t coveralls --branch --ignore-not-existing --token NO_TOKEN",
                 },
             },
         })

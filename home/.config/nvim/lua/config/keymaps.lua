@@ -46,8 +46,8 @@ vim.cmd([[
 -- Open neotree
 local function focus_neotree()
     local neotree = require("neo-tree.command")
-    local bufname = vim.fn.bufname()
-    if bufname:match(".*tree filesystem.*") then
+    local bufname = vim.bo.filetype
+    if bufname == "neo-tree" then
         vim.api.nvim_command("wincmd l")
     else
         neotree.execute({ action = "focus" })
