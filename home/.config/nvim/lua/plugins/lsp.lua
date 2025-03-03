@@ -249,6 +249,13 @@ return {
                     })
                     return true
                 end,
+                ruff = function()
+                    LazyVim.lsp.on_attach(function(client, _)
+                        if client.name == "ruff" then
+                            client.server_capabilities.documentFormattingProvider = false
+                        end
+                    end)
+                end,
             },
         },
         init = function()

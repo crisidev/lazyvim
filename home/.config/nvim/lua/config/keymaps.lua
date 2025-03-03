@@ -54,15 +54,29 @@ local function focus_neotree()
     end
 end
 
-vim.keymap.set({ "n", "i" }, "<F3>", focus_neotree, { desc = "Toggle and focus Neo-tree with F3" })
-vim.keymap.set({ "n", "i" }, "<S-F3>", "<lua>Neotree close<cr>", { desc = "Close Neo-tree with Shift+F3" })
-vim.keymap.set("n", "<S-F3>", function()
+-- Make sure we close neo-tree if there is only a single buffer
+vim.api.nvim_create_user_command("Q", function(opts)
+    vim.cmd("Neotree close")
+    if opts.bang then
+        vim.cmd("q!")
+    else
+        vim.cmd("q")
+    end
+end, { bang = true, nargs = "*" })
+vim.cmd("cabbrev <expr> q getcmdline() == 'q' ? 'Q' : 'q'")
+vim.keymap.set(
+    { "n", "i" },
+    "<F3>",
+    focus_neotree,
+    { noremap = true, silent = true, desc = "Toggle and focus Neo-tree with F3" }
+)
+vim.keymap.set({ "n", "i" }, "<F15>", function()
     vim.cmd("Neotree close")
 end, { noremap = true, silent = true, desc = "Close neotree" })
-vim.keymap.set("n", "<F4>", function()
+vim.keymap.set({ "n", "i" }, "<F4>", function()
     require("neotest").summary.toggle()
 end, { noremap = true, silent = true, desc = "Toggle Neotest summary" })
-vim.keymap.set("n", "<F5>", function()
+vim.keymap.set({ "n", "i" }, "<F5>", function()
     vim.cmd("CoverageSummary")
 end, { noremap = true, silent = true, desc = "Toggle Coverage summary" })
 vim.keymap.set("n", "<F6>", "<cmd>MouseToggle<cr>", { noremap = true, silent = true, desc = "Toggle mouse mode" })

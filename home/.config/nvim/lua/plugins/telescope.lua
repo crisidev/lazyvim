@@ -260,7 +260,6 @@ return {
                     local bufnr = vim.api.nvim_get_current_buf()
                     local modified = vim.api.nvim_get_option_value("modified", { buf = bufnr })
                     vim.cmd("Neotree close")
-                    require("edgy").close()
                     if modified then
                         vim.ui.input({
                             prompt = "You have unsaved changes. Quit anyway? (y/n) ",
