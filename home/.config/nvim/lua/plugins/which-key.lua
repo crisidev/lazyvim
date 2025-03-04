@@ -29,7 +29,6 @@ return {
                 { "<leader>R", desc = "Rename", icon = icons.rename },
                 { "<leader>x", desc = "Trouble", icon = icons.pinned },
                 { "<leader>u", desc = "Ui" },
-                { "<leader>k", desc = "K8s", icon = icons.k8s },
                 { "<leader>g", desc = "Git" },
                 { "<leader>t", desc = "Tests" },
                 { "<leader>G", desc = "Gitlab", icon = icons.gitlab },

@@ -277,7 +277,7 @@ return {
             },
             {
                 "<leader>C",
-                "<cmd>Telescope todo_comments<cr>",
+                "<cmd>TodoTelescope<cr>",
                 desc = "Todos",
                 icon = icons.todo,
             },
