@@ -202,7 +202,6 @@ module.colors = {
     red1 = "#db4b4b",
     -- git = { change = "#6183bb", add = "#449dab", delete = "#914c54", conflict = "#bb7a61" },
     git = { change = "#6183bb", add = "#449dab", delete = "#f7768e", conflict = "#bb7a61" },
-    gitSigns = { add = "#164846", change = "#394b70", delete = "#823c41" },
     special_comment = "#9ca0a4",
 }
 

@@ -1,80 +1,17 @@
 local theme = require("config.theme")
 
-local function styles()
-    if vim.g.transparent then
-        return {
-            comments = { italic = true },
-            keywords = { italic = true },
-            sidebars = "transparent",
-            floats = "transparent",
-        }
-    else
-        return {
-            comments = { italic = true },
-            keywords = { italic = true },
-        }
-    end
-end
-
-local function link(group, other)
-    vim.cmd("highlight! link " .. group .. " " .. other)
-end
-
-local function set_fg_bg(group, fg, bg)
-    vim.cmd("hi " .. group .. " guifg=" .. fg .. " guibg=" .. bg)
-end
-
 return {
     "folke/tokyonight.nvim",
     opts = {
         style = "storm",
-        transparent = vim.g.transparent,
-        terminal_colors = true,
-        styles = styles(),
-        sidebars = {
-            "qf",
-            "lazy",
-            "spectre_panel",
-            "neo-tree",
-            "help",
-            "neotest-summary",
-        },
-        hide_inactive_statusline = true,
-        dim_inactive = true,
-        lualine_bold = true,
-        on_colors = function(col)
-            col.git = {
-                change = theme.colors.git.change,
-                add = theme.colors.git.add,
-                delete = theme.colors.git.delete,
-                conflict = theme.colors.git.conflict,
-            }
-            if vim.g.transparent then
-                vim.cmd([[
-                    highlight Normal guibg=none
-                    highlight NormalFloat guibg=none
-                    highlight NormalNC guibg=none
-                    highlight NonText guibg=none
-                    highlight Normal ctermbg=none
-                    highlight NonText ctermbg=none
-                ]])
-            end
-            vim.cmd("hi DiagnosticUnnecessary guibg=NONE guifg=" .. theme.colors.special_comment)
-        end,
+        -- dim_inactive = true,
         on_highlights = function(hl, c)
-            hl.NormalFloat = { fg = theme.colors.fg, bg = "#181924" }
-            hl.Cursor = { fg = theme.colors.bg, bg = theme.colors.fg }
             hl.NormalNC = { fg = theme.colors.fg_dark, bg = "#1c1d28" }
             hl.Normal = { fg = theme.colors.fg, bg = "#1f2335" }
-            hl.CursorLineNr = { fg = theme.colors.orange }
-            set_fg_bg("SpecialComment", theme.colors.special_comment, "bold")
-            link("LspCodeLens", "SpecialComment")
-            set_fg_bg("Hlargs", theme.colors.hlargs, "none")
-            set_fg_bg("diffAdded", theme.colors.git.add, "NONE")
-            set_fg_bg("diffRemoved", theme.colors.git.delete, "NONE")
-            set_fg_bg("diffChanged", theme.colors.git.change, "NONE")
-            set_fg_bg("SignColumn", theme.colors.bg, "NONE")
-            set_fg_bg("SignColumnSB", theme.colors.bg, "NONE")
+            vim.cmd("hi SpecialComment guifg=" .. theme.colors.special_comment .. " guibg=bold")
+            vim.cmd("highlight! link LspCodeLens SpecialComment")
+            vim.cmd("hi Hlargs guifg=" .. theme.colors.hlargs .. " guibg=NONE")
+            vim.cmd("hi DiagnosticUnnecessary guifg=" .. theme.colors.special_comment .. " guibg=NONE")
         end,
     },
 }

@@ -54,16 +54,6 @@ local function focus_neotree()
     end
 end
 
--- Make sure we close neo-tree if there is only a single buffer
-vim.api.nvim_create_user_command("Q", function(opts)
-    vim.cmd("Neotree close")
-    if opts.bang then
-        vim.cmd("q!")
-    else
-        vim.cmd("q")
-    end
-end, { bang = true, nargs = "*" })
-vim.cmd("cabbrev <expr> q getcmdline() == 'q' ? 'Q' : 'q'")
 vim.keymap.set(
     { "n", "i" },
     "<F3>",
@@ -147,7 +137,7 @@ vim.keymap.set({ "n", "i", "t" }, "<c-\\>", function()
         env = { TERM_TYPE = "float" },
     })
 end, { noremap = true, silent = true, desc = "Float terminal" })
-vim.keymap.set({ "n", "i", "t" }, "<c-s-\\>", function()
+vim.keymap.set({ "n", "i", "t" }, "<c-enter>", function()
     Snacks.terminal(nil, {
         border = "rounded",
         cwd = LazyVim.root.get(),

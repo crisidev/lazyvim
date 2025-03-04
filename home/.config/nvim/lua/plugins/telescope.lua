@@ -265,7 +265,7 @@ return {
                             prompt = "You have unsaved changes. Quit anyway? (y/n) ",
                         }, function(input)
                             if input == "y" then
-                                vim.cmd("q!")
+                                vim.cmd("q")
                             end
                         end)
                     else
