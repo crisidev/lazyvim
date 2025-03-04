@@ -126,22 +126,19 @@ return {
         dependencies = {
             {
                 "kosayoda/nvim-lightbulb",
-                config = function()
-                    local lightbulb = require("nvim-lightbulb")
-                    lightbulb.setup({
-                        autocmd = { enabled = true },
-                        code_lenses = true,
-                        sign = {
-                            enabled = true,
-                            text = theme.icons.code_action,
-                            lens_text = theme.icons.codelens,
-                            hl = "MoreMsg",
-                        },
-                        ignore = {
-                            clients = { "bacon_ls", "lua_ls", "harper_ls" },
-                        },
-                    })
-                end,
+                opts = {
+                    autocmd = { enabled = true },
+                    code_lenses = true,
+                    sign = {
+                        enabled = true,
+                        text = theme.icons.code_action,
+                        lens_text = theme.icons.codelens,
+                        hl = "MoreMsg",
+                    },
+                    ignore = {
+                        clients = { "bacon_ls", "lua_ls", "harper_ls" },
+                    },
+                },
             },
             {
                 "Wansmer/symbol-usage.nvim",

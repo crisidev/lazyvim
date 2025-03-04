@@ -4,7 +4,6 @@ return {
     "folke/tokyonight.nvim",
     opts = {
         style = "storm",
-        -- dim_inactive = true,
         on_highlights = function(hl, c)
             hl.NormalNC = { fg = theme.colors.fg_dark, bg = "#1c1d28" }
             hl.Normal = { fg = theme.colors.fg, bg = "#1f2335" }

@@ -132,6 +132,7 @@ vim.api.nvim_create_autocmd("FileType", {
         local mappings = {
             mode = "n",
             buffer = vim.fn.bufnr(),
+            { "gK", "<cmd>RustLsp externalDocs<cr>", desc = "Open docs.rs" },
             {
                 "gL",
                 "<cmd>RustLsp renderDiagnostic<cr>",

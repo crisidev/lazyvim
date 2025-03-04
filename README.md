@@ -22,3 +22,16 @@ Take what you need, it also comes warrant free 😊
 ❯❯❯ source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 ❯❯❯ homeshick link lazyvim
 ```
+
+## Update mason-ensure-installed
+
+```sh
+❯❯❯ echo "$(cat ~/.local/state/nvim/mason.log |grep "Installation succee" |awk -F'for Package' '{print $2}' |sed 's/(name=//g'| sed 's/)//g' | sort -u |xargs)" > ~/.config/nvim/mason-ensure-installed
+```
+
+## Update Mason installed plugins
+
+```sh
+❯❯❯ vim "+MasonInstall $(cat ~/.config/nvim/mason-ensure-installed)"
+```
+```
