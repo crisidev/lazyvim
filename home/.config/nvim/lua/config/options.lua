@@ -8,6 +8,10 @@ vim.g.loaded_ruby_provider = 0
 vim.g.python3_host_prog = vim.env.HOME .. "/.nix-profile/bin/python"
 vim.g.transparent = false
 vim.g.ai_plugin = false
+vim.g.theme = vim.fn.getenv("LAZYVIM_THEME")
+if vim.g.theme == vim.NIL then
+    vim.g.theme = "tokyonight"
+end
 
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
