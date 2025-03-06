@@ -56,6 +56,7 @@ vim.api.nvim_create_autocmd("FileType", {
     pattern = "python",
     desc = "Set additional buffer keymaps for Python files",
     callback = function()
+        vim.highlight.priorities.semantic_tokens = 95
         local which_key = require("which-key")
         local theme = require("config.theme")
         local mappings = {
