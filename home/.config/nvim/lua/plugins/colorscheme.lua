@@ -3,7 +3,6 @@ local theme = require("config.theme")
 return {
     {
         "folke/tokyonight.nvim",
-        enabled = vim.g.theme == "tokyonight",
         opts = {
             style = "storm",
             on_highlights = function(hl, c)
@@ -19,7 +18,7 @@ return {
     {
         "LazyVim/LazyVim",
         opts = {
-            colorscheme = "catppuccin-macchiato",
+            colorscheme = "tokyonight",
         },
     },
 }

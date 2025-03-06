@@ -89,6 +89,12 @@ end
 
 return {
     {
+        "xzbdmw/colorful-menu.nvim",
+        config = function()
+            require("colorful-menu").setup({})
+        end,
+    },
+    {
         "saghen/blink.cmp",
         dependencies = {
             "moyiz/blink-emoji.nvim",
@@ -111,10 +117,17 @@ return {
                 ghost_text = { enabled = false },
                 menu = {
                     draw = {
-                        padding = { 1, 0 },
-                        columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" } },
+                        columns = { { "label", gap = 1 }, { "kind_icon", "kind" } },
                         components = {
                             kind_icon = { width = { fill = true } },
+                            label = {
+                                text = function(ctx)
+                                    return require("colorful-menu").blink_components_text(ctx)
+                                end,
+                                highlight = function(ctx)
+                                    return require("colorful-menu").blink_components_highlight(ctx)
+                                end,
+                            },
                         },
                     },
                 },
