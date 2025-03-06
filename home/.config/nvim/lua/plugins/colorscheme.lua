@@ -18,11 +18,8 @@ return {
     },
     {
         "LazyVim/LazyVim",
-        opts = function(_, opts)
-            if vim.g.theme ~= "tokyonight" then
-                opts["colorscheme"] = vim.g.theme
-            end
-            return opts
-        end,
+        opts = {
+            colorscheme = "catppuccin-macchiato",
+        },
     },
 }
