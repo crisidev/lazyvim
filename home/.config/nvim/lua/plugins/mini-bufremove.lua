@@ -1,8 +1,7 @@
 return {
     "echasnovski/mini.bufremove",
     keys = function()
-        local icons = require("config.theme").icons
-        local keys = {
+        return {
             {
                 "<leader>q",
                 function()
@@ -21,7 +20,6 @@ return {
                     end
                 end,
                 desc = "Close Buffer",
-                icon = icons.no,
             },
             {
                 "<leader>D",
@@ -29,10 +27,7 @@ return {
                     require("mini.bufremove").delete(0, true)
                 end,
                 desc = "Close Buffer (force)",
-                icon = icons.no,
             },
         }
-        require("which-key").add(keys)
-        return {}
     end,
 }

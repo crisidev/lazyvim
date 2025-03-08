@@ -7,8 +7,15 @@ return {
             },
         },
     },
+    {
+        "vhyrro/luarocks.nvim",
+        enabled = false,
+        priority = 1000,
+        opts = {
+            rocks = { "openssl" },
+        },
+    },
     { "folke/flash.nvim", enabled = false },
     { "stevearc/conform.nvim", enabled = false },
     { "mfussenegger/nvim-lint", enabled = false },
-    { "willothy/flatten.nvim", enabled = false },
 }

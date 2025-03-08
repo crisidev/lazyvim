@@ -1,5 +1,3 @@
-local theme = require("config.theme")
-
 return {
     "mikavilpas/tsugit.nvim",
     keys = {

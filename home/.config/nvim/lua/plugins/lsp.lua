@@ -205,22 +205,10 @@ return {
             servers = {
                 gitlab_ci_ls = { enabled = true },
                 harper_ls = { enabled = true },
-                protobuf_language_server = { enabled = true },
+                protobuf_language_server = { enabled = false },
                 blueprint_ls = { enabled = true },
             },
             setup = {
-                protobuf_language_server = function()
-                    require("lspconfig.configs").protobuf_language_server = {
-                        default_config = {
-                            cmd = { "protobuf-language-server" },
-                            filetypes = { "proto", "cpp" },
-                            root_fir = require("lspconfig.util").root_pattern(".git"),
-                            single_file_support = true,
-                        },
-                    }
-                    require("lspconfig").protobuf_language_server.setup({})
-                    return true
-                end,
                 clangd = function()
                     require("lspconfig").clangd.setup({
                         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
@@ -268,102 +256,92 @@ return {
                 end,
             },
         },
-        init = function()
-            local keys = {
+        keys = function()
+            return {
                 {
                     "gF",
                     "<cmd>lua vim.lsp.buf.format({ async = true })<cr>",
                     mode = { "n", "x" },
-                    icon = theme.icons.magic,
+
                     desc = "Format File",
                 },
                 {
                     "gA",
                     "<cmd>lua vim.lsp.codelens.run()<cr>",
                     desc = "Code Lens",
-                    icon = theme.icons.codelens,
+
                     mode = { "n", "x" },
                 },
                 {
                     "gL",
                     "<cmd>lua vim.lsp.codelens.refresh()<cr>",
                     desc = "Refresh Lenses",
-                    icon = theme.icons.codelens,
+
                     mode = { "n", "x" },
                 },
                 {
                     "ga",
                     "<cmd>lua require('actions-preview').code_actions()<cr>",
                     desc = "Code Actions",
-                    icon = theme.icons.codelens,
+
                     mode = { "n", "x" },
                 },
                 {
                     "<c-k>",
                     "<cmd>lua vim.lsp.buf.signature_help()<cr>",
                     desc = "Signature Help",
-                    icon = theme.icons.Function,
+
                     mode = "i",
                 },
                 {
                     "gz",
                     "<cmd>lua vim.lsp.buf.signature_help()<cr>",
                     desc = "Signature Help",
-                    icon = theme.icons.Function,
                 },
                 {
                     "gg",
                     "<cmd>Telescope lsp_definitions<cr>",
                     desc = "Goto Definition",
-                    icon = theme.icons.go,
                 },
                 {
                     "gt",
                     "<cmd>Telescope lsp_type_definitions<cr>",
                     desc = "Goto Type Definition",
-                    icon = theme.icons.go,
                 },
                 {
                     "gd",
                     "<cmd>lua vim.lsp.buf.declaration()<cr>",
                     desc = "Goto Declaration",
-                    icon = theme.icons.go,
                 },
                 {
                     "gO",
                     "<cmd>Telescope lsp_document_symbols<cr>",
                     desc = "Document Symbols",
-                    icon = theme.icons.docs,
                 },
                 {
                     "gr",
                     "<cmd>Telescope lsp_references jump_type=never<cr>",
                     desc = "Goto References",
-                    icon = theme.icons.go,
                 },
                 {
                     "gi",
                     "<cmd>Telescope lsp_implementations jump_type=never reuse_win=true<cr>",
                     desc = "Goto Implementations",
-                    icon = theme.icons.go,
                 },
                 {
                     "gl",
                     "<cmd>lua vim.diagnostic.open_float({ border = 'rounded', focusable = true })<cr>",
                     desc = "Line Diagnostics",
-                    icon = theme.diagnostics_icons.Hint,
                 },
                 {
                     "gR",
                     "<cmd>lua vim.lsp.buf.rename()<cr>",
                     desc = "Rename Symbol",
-                    icon = theme.icons.rename,
                 },
                 {
                     "gx",
                     require("lsplinks").gx,
                     desc = "Open Link",
-                    icon = theme.icons.world,
                 },
                 {
                     "gN",
@@ -371,7 +349,6 @@ return {
                         diagnostics("next", vim.diagnostic.severity.ERROR)
                     end,
                     desc = "Next ERROR",
-                    icon = theme.diagnostics_icons.Error,
                 },
                 {
                     "gP",
@@ -379,7 +356,6 @@ return {
                         diagnostics("prev", vim.diagnostic.severity.ERROR)
                     end,
                     desc = "Previous ERROR",
-                    icon = theme.diagnostics_icons.Error,
                 },
                 {
                     "gn",
@@ -387,7 +363,6 @@ return {
                         diagnostics("next", vim.diagnostic.severity.WARN)
                     end,
                     desc = "Next WARN",
-                    icon = theme.diagnostics_icons.Warn,
                 },
                 {
                     "gp",
@@ -395,7 +370,6 @@ return {
                         diagnostics("prev", vim.diagnostic.severity.WARN)
                     end,
                     desc = "Previous WARN",
-                    icon = theme.diagnostics_icons.Warn,
                 },
                 {
                     "gT",
@@ -403,13 +377,11 @@ return {
                         diagnostics("next", vim.diagnostic.severity.HINT)
                     end,
                     desc = "Next HINT",
-                    icon = theme.diagnostics_icons.Hint,
                 },
                 {
                     "ge",
                     "<cmd>Telescope diagnostics<cr>",
                     desc = "Diagnostics",
-                    icon = theme.diagnostics_icons.Hint,
                 },
                 {
                     "gw",
@@ -425,7 +397,6 @@ return {
                         end
                     end,
                     desc = "Toggle Inlay Hints",
-                    icon = theme.icons.inlay,
                 },
                 {
                     "gW",
@@ -435,24 +406,13 @@ return {
                         vim.fn.setpos(".", save_cursor)
                     end,
                     desc = "Trim Whitespaces",
-                    icon = theme.icons.project,
                 },
                 {
                     "gb",
                     require("dap").toggle_breakpoint,
                     desc = "Toggle Breakpoint",
-                    icon = theme.icons.debug,
                 },
-                { "gD", "", hidden = true },
-                { "gI", "", hidden = true },
-                { "gy", "", hidden = true },
-                { "gh", "", hidden = true },
-                { "gH", "", hidden = true },
-                { "g[", "", hidden = true },
-                { "g]", "", hidden = true },
-                { "g]", "", hidden = true },
             }
-            require("which-key").add(keys)
         end,
     },
 }

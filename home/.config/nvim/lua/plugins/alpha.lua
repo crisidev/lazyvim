@@ -457,10 +457,8 @@ return {
         require("alpha").setup(opts)
     end,
     keys = function()
-        local keys = {
-            { "<leader>;", "<cmd>Alpha<cr>", desc = "Dashboard", icon = theme.icons.dashboard },
+        return {
+            { "<leader>;", "<cmd>Alpha<cr>", desc = "Dashboard" },
         }
-        require("which-key").add(keys)
-        return {}
     end,
 }
