@@ -54,6 +54,9 @@ local function focus_neotree()
     end
 end
 
+-- Sudo write
+vim.keymap.set("n", "<leader>W", "<cmd>SudaWrite<cr>", { silent = true, desc = "Write as root" })
+-- Neotree
 vim.keymap.set(
     { "n", "i" },
     "<F3>",
@@ -63,12 +66,15 @@ vim.keymap.set(
 vim.keymap.set({ "n", "i" }, "<F15>", function()
     vim.cmd("Neotree close")
 end, { noremap = true, silent = true, desc = "Close neotree" })
+-- Neotest
 vim.keymap.set({ "n", "i" }, "<F4>", function()
     require("neotest").summary.toggle()
 end, { noremap = true, silent = true, desc = "Toggle Neotest summary" })
+-- Coverage
 vim.keymap.set({ "n", "i" }, "<F5>", function()
     vim.cmd("CoverageSummary")
 end, { noremap = true, silent = true, desc = "Toggle Coverage summary" })
+-- Mouse
 vim.keymap.set("n", "<F6>", "<cmd>MouseToggle<cr>", { noremap = true, silent = true, desc = "Toggle mouse mode" })
 
 -- Move to windows

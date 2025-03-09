@@ -98,11 +98,13 @@ return {
         "saghen/blink.cmp",
         dependencies = {
             "moyiz/blink-emoji.nvim",
+            "Kaiser-Yang/blink-cmp-avante",
         },
         opts = {
             sources = {
                 default = {
                     "emoji",
+                    "avante",
                 },
                 providers = {
                     emoji = {
@@ -110,6 +112,11 @@ return {
                         name = "Emoji",
                         score_offset = -15,
                         opts = { insert = true },
+                    },
+                    avante = {
+                        module = "blink-cmp-avante",
+                        name = "Avante",
+                        opts = {},
                     },
                 },
             },

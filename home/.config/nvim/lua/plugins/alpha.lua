@@ -428,7 +428,7 @@ return {
                 text("╭───────────────────────────╮"),
                 text("│ " .. theme.icons.calendar .. "Today is " .. os.date("%a %d %b") .. "     │"),
                 vim_version,
-                text("│ " .. theme.icons.package .. stats.loaded .. "/" .. stats.count .. " plugins loaded    │"),
+                text("│ " .. theme.icons.package .. stats.loaded .. "/" .. stats.count .. " plugins loaded   │"),
                 text(
                     "│ "
                         .. theme.icons.config
