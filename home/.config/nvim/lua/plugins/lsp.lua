@@ -216,6 +216,14 @@ return {
                 blueprint_ls = { enabled = true },
             },
             setup = {
+                bacon_ls = function()
+                    require("lspconfig").bacon_ls.setup({
+                        init_options = {
+                            useCargoBackend = true,
+                        },
+                    })
+                    return true
+                end,
                 clangd = function()
                     require("lspconfig").clangd.setup({
                         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
