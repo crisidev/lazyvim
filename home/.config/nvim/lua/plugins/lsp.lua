@@ -98,25 +98,55 @@ return {
         "saghen/blink.cmp",
         dependencies = {
             "moyiz/blink-emoji.nvim",
-            "Kaiser-Yang/blink-cmp-avante",
+            "MahanRahmati/blink-nerdfont.nvim",
+            { "Kaiser-Yang/blink-cmp-avante", enabled = vim.g.ai_plugin == "avante" },
+            {
+                "Kaiser-Yang/blink-cmp-dictionary",
+                dependencies = { "nvim-lua/plenary.nvim" },
+            },
         },
         opts = {
             sources = {
                 default = {
                     "emoji",
                     "avante",
+                    "nerdfont",
+                    "dictionary",
                 },
                 providers = {
                     emoji = {
                         module = "blink-emoji",
                         name = "Emoji",
-                        score_offset = -15,
+                        score_offset = 15,
                         opts = { insert = true },
+                        should_show_items = function()
+                            return vim.tbl_contains({ "gitcommit", "markdown", "txt" }, vim.o.filetype)
+                        end,
+                    },
+                    nerdfont = {
+                        module = "blink-nerdfont",
+                        name = "Nerd Fonts",
+                        score_offset = 15,
+                        opts = { insert = true },
+                        should_show_items = function()
+                            return vim.tbl_contains({ "gitcommit", "markdown", "txt" }, vim.o.filetype)
+                        end,
                     },
                     avante = {
                         module = "blink-cmp-avante",
                         name = "Avante",
                         opts = {},
+                    },
+                    dictionary = {
+                        module = "blink-cmp-dictionary",
+                        name = "Dict",
+                        min_keyword_length = 3,
+                        opts = {
+                            dictionary_files = { "/usr/share/dict/british-english" },
+                        },
+                        should_show_items = function()
+                            return vim.tbl_contains({ "gitcommit", "markdown", "txt" }, vim.o.filetype)
+                        end,
                     },
                 },
             },
