@@ -76,32 +76,46 @@ return {
     },
     {
         "yetone/avante.nvim",
-        enabled = vim.g.ai_plugin == "avante",
         event = "VeryLazy",
-        version = false,
+        enabled = vim.g.ai_plugin == "avante",
+        lazy = false,
+        version = false, -- set this if you want to always pull the latest change
         opts = {
-            provider = "ollama",
-            behaviour = {
-                enable_cursor_planning_mode = true, -- enable cursor planning mode!
-            },
-            ollama = {
-                model = "cas/nous-hermes-2-mistral-7b-dpo",
+            provider = "coder",
+            providers = {
+                ["coder"] = {
+                    __inherited_from = "openai",
+                    api_key_name = "",
+                    endpoint = vim.env.CODER_ENDPOINT,
+                    model = vim.env.CODER_MODEL,
+                    disable_tools = true, -- Open-source models often do not support tools.
+                },
             },
         },
-        -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         build = "make",
-        -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
         dependencies = {
-            "nvim-treesitter/nvim-treesitter",
             "stevearc/dressing.nvim",
             "nvim-lua/plenary.nvim",
             "MunifTanjim/nui.nvim",
             --- The below dependencies are optional,
-            "echasnovski/mini.pick", -- for file_selector provider mini.pick
-            "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
             "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-            "ibhagwan/fzf-lua", -- for file_selector provider fzf
             "echasnovski/mini.icons",
+            "zbirenbaum/copilot.lua", -- for providers='copilot'
+            {
+                -- support for image pasting
+                "HakonHarnes/img-clip.nvim",
+                event = "VeryLazy",
+                opts = {
+                    default = {
+                        embed_image_as_base64 = false,
+                        prompt_for_file_name = false,
+                        drag_and_drop = {
+                            insert_mode = true,
+                        },
+                        use_absolute_path = true,
+                    },
+                },
+            },
             {
                 -- Make sure to set this up properly if you have lazy=true
                 "MeanderingProgrammer/render-markdown.nvim",

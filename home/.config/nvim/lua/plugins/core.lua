@@ -19,6 +19,4 @@ return {
     { "folke/flash.nvim", enabled = false },
     { "stevearc/conform.nvim", enabled = false },
     { "mfussenegger/nvim-lint", enabled = false },
-    { "mason-org/mason.nvim", version = "^1.0.0" },
-    { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
 }
