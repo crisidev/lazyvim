@@ -99,7 +99,7 @@ return {
         dependencies = {
             "moyiz/blink-emoji.nvim",
             "MahanRahmati/blink-nerdfont.nvim",
-            { "Kaiser-Yang/blink-cmp-avante", enabled = vim.g.ai_plugin == "avante" },
+            "Kaiser-Yang/blink-cmp-avante",
             {
                 "Kaiser-Yang/blink-cmp-dictionary",
                 dependencies = { "nvim-lua/plenary.nvim" },
@@ -108,6 +108,7 @@ return {
         opts = {
             sources = {
                 default = {
+                    "avante",
                     "emoji",
                     "avante",
                     "nerdfont",

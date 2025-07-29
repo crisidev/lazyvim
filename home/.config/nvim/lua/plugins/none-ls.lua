@@ -76,8 +76,8 @@ return {
 
                 -- Code actions
                 nls.builtins.code_actions.refactoring,
-                nls.builtins.code_actions.gitrebase,
-                nls.builtins.code_actions.gitsigns,
+                -- nls.builtins.code_actions.gitrebase,
+                -- nls.builtins.code_actions.gitsigns,
                 nls.builtins.code_actions.statix,
 
                 -- Hover

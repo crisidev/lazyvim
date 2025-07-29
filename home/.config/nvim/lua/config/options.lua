@@ -8,7 +8,7 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.python3_host_prog = vim.env.HOME .. "/.nix-profile/bin/python"
 vim.g.transparent = false
-vim.g.ai_plugin = vim.env.LAZYVIM_AI
+vim.g.avante_provider = vim.env.LAZYVIM_AVANTE_PROVIDER
 vim.g.theme = vim.env.LAZYVIM_THEME
 if vim.g.theme == vim.NIL then
     vim.g.theme = "tokyonight"
