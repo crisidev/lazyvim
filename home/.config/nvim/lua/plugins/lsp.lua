@@ -248,6 +248,16 @@ return {
             setup = {
                 bacon_ls = function()
                     require("lspconfig").bacon_ls.setup({
+                        root_dir = function(fname)
+                            local util = require("lspconfig.util")
+                            local root_files = {
+                                "Cargo.toml",
+                                "Cargo.lock",
+                            }
+                            return util.root_pattern(unpack(root_files))(fname)
+                                or util.root_pattern(".git")(fname)
+                                or util.path.dirname(fname)
+                        end,
                         init_options = {
                             useCargoBackend = true,
                         },

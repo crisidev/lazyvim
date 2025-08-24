@@ -35,6 +35,7 @@ return {
                 { "gri", "", hidden = true },
                 { "gra", "", hidden = true },
                 { "grr", "", hidden = true },
+                { "grt", "", hidden = true },
             },
         },
     },
