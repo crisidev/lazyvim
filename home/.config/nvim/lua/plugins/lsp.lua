@@ -99,7 +99,7 @@ return {
         dependencies = {
             "moyiz/blink-emoji.nvim",
             "MahanRahmati/blink-nerdfont.nvim",
-            "Kaiser-Yang/blink-cmp-avante",
+            -- "Kaiser-Yang/blink-cmp-avante",
             {
                 "Kaiser-Yang/blink-cmp-dictionary",
                 dependencies = { "nvim-lua/plenary.nvim" },
@@ -108,9 +108,8 @@ return {
         opts = {
             sources = {
                 default = {
-                    "avante",
+                    -- "avante",
                     "emoji",
-                    "avante",
                     "nerdfont",
                     "dictionary",
                 },
@@ -133,11 +132,11 @@ return {
                             return vim.tbl_contains({ "gitcommit", "markdown", "txt" }, vim.o.filetype)
                         end,
                     },
-                    avante = {
-                        module = "blink-cmp-avante",
-                        name = "Avante",
-                        opts = {},
-                    },
+                    -- avante = {
+                    --     module = "blink-cmp-avante",
+                    --     name = "Avante",
+                    --     opts = {},
+                    -- },
                     dictionary = {
                         module = "blink-cmp-dictionary",
                         name = "Dict",

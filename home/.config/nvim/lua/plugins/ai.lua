@@ -5,6 +5,7 @@ return {
     version = false, -- set this if you want to always pull the latest change
     opts = {
         mode = "agentic",
+        provider = vim.g.avante_provider,
         providers = {
             ["coder"] = {
                 __inherited_from = "openai",
@@ -14,13 +15,14 @@ return {
                 -- disable_tools = true, -- Open-source models often do not support tools.
             },
         },
-        provider = vim.g.avante_provider,
-        auto_suggestions_provider = vim.g.avante_provider,
+        web_search_engine = {
+            provider = "kagi",
+        },
         cursor_applying_provider = vim.g.avante_provider,
         behaviour = {
-            enable_cursor_planning_mode = false,
+            enable_cursor_planning_mode = true,
             auto_focus_sidebar = true,
-            auto_suggestions = true,
+            auto_suggestions = false,
             auto_suggestions_respect_ignore = false,
             auto_set_highlight_group = true,
             auto_set_keymaps = true,
