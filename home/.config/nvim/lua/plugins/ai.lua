@@ -4,6 +4,7 @@ return {
     lazy = false,
     version = false, -- set this if you want to always pull the latest change
     opts = {
+        instructions_file = "avante.md",
         mode = "agentic",
         provider = vim.g.avante_provider,
         providers = {
@@ -13,6 +14,22 @@ return {
                 endpoint = vim.env.CODER_ENDPOINT,
                 model = vim.env.CODER_MODEL,
                 -- disable_tools = true, -- Open-source models often do not support tools.
+            },
+            openai = {
+                endpoint = "https://api.openai.com/v1",
+                model = "gpt-4o",
+                timeout = 30000,
+                extra_request_body = {
+                    temperature = 0.2,
+                    max_tokens = 4096,
+                },
+            },
+            openai_fast = {
+                __inherited_from = "openai",
+                endpoint = "https://api.openai.com/v1",
+                model = "gpt-4o-mini",
+                timeout = 25000,
+                extra_request_body = { temperature = 0.2, max_tokens = 2048 },
             },
         },
         web_search_engine = {
