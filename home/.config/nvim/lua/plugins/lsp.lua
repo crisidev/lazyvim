@@ -244,34 +244,17 @@ return {
                 harper_ls = { enabled = true },
                 protobuf_language_server = { enabled = false },
                 blueprint_ls = { enabled = true },
+                bacon_ls = { enabled = true },
             },
             setup = {
-                bacon_ls = function()
-                    require("lspconfig").bacon_ls.setup({
-                        root_dir = function(fname)
-                            local util = require("lspconfig.util")
-                            local root_files = {
-                                "Cargo.toml",
-                                "Cargo.lock",
-                            }
-                            return util.root_pattern(unpack(root_files))(fname)
-                                or util.root_pattern(".git")(fname)
-                                or util.path.dirname(fname)
-                        end,
-                        init_options = {
-                            useCargoBackend = true,
-                        },
-                    })
-                    return true
-                end,
                 clangd = function()
-                    require("lspconfig").clangd.setup({
+                    vim.lsp.config("clangd", {
                         filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
                     })
                     return true
                 end,
                 harper_ls = function()
-                    require("lspconfig").harper_ls.setup({
+                    vim.lsp.config("harper-ls", {
                         settings = {
                             ["harper-ls"] = {
                                 linters = {
@@ -286,7 +269,7 @@ return {
                     return true
                 end,
                 nil_ls = function()
-                    require("lspconfig").nil_ls.setup({
+                    vim.lsp.config("nil-ls", {
                         settings = {
                             ["nil"] = {
                                 nix = {

@@ -60,7 +60,7 @@ return {
         "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
         "stevearc/dressing.nvim", -- for input provider dressing
         "folke/snacks.nvim", -- for input provider snacks
-        "echasnovski/mini.icons", -- or echasnovski/mini.icons
+        "nvim-mini/mini.icons", -- or echasnovski/mini.icons
         {
             -- Make sure to set this up properly if you have lazy=true
             "MeanderingProgrammer/render-markdown.nvim",
