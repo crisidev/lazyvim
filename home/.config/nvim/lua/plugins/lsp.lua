@@ -241,50 +241,35 @@ return {
             codelens = { enabled = true },
             servers = {
                 gitlab_ci_ls = { enabled = true },
-                harper_ls = { enabled = true },
+                harper_ls = {
+                    enabled = true,
+                    linters = {
+                        diagnosticSeverity = "hint",
+                        codeActions = {
+                            forceStable = true,
+                        },
+                    },
+                },
                 protobuf_language_server = { enabled = false },
                 blueprint_ls = { enabled = true },
                 bacon_ls = { enabled = true },
+                nil_ls = {
+                    enabled = true,
+                    nix = {
+                        flake = {
+                            autoArchive = true,
+                        },
+                    },
+                    formatting = {
+                        command = { "nix", "fmt", "--", "--" },
+                    },
+                },
+                clangd = {
+                    enabled = true,
+                    filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
+                },
             },
             setup = {
-                clangd = function()
-                    vim.lsp.config("clangd", {
-                        filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
-                    })
-                    return true
-                end,
-                harper_ls = function()
-                    vim.lsp.config("harper-ls", {
-                        settings = {
-                            ["harper-ls"] = {
-                                linters = {
-                                    diagnosticSeverity = "hint",
-                                    codeActions = {
-                                        forceStable = true,
-                                    },
-                                },
-                            },
-                        },
-                    })
-                    return true
-                end,
-                nil_ls = function()
-                    vim.lsp.config("nil-ls", {
-                        settings = {
-                            ["nil"] = {
-                                nix = {
-                                    flake = {
-                                        autoArchive = true,
-                                    },
-                                },
-                                formatting = {
-                                    command = { "nix", "fmt", "--", "--" },
-                                },
-                            },
-                        },
-                    })
-                    return true
-                end,
                 ruff = function()
                     LazyVim.lsp.on_attach(function(client, _)
                         if client.name == "ruff" then
