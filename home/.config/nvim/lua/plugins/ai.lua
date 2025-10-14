@@ -13,6 +13,9 @@ return {
                 api_key_name = "CODER_API_KEY",
                 endpoint = vim.env.CODER_ENDPOINT,
                 model = vim.env.CODER_MODEL,
+                extra_request_body = {
+                    temperature = 1,
+                },
                 -- disable_tools = true, -- Open-source models often do not support tools.
             },
             openai = {
