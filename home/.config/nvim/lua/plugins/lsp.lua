@@ -269,15 +269,6 @@ return {
                     filetypes = { "c", "cpp", "objc", "objcpp", "cuda" }, -- exclude "proto".
                 },
             },
-            setup = {
-                ruff = function()
-                    LazyVim.lsp.on_attach(function(client, _)
-                        if client.name == "ruff" then
-                            client.server_capabilities.documentFormattingProvider = false
-                        end
-                    end)
-                end,
-            },
         },
         keys = function()
             return {
