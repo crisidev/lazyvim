@@ -141,7 +141,6 @@ vim.api.nvim_create_autocmd("FileType", {
                 icon = theme.diagnostics_icons.Hint,
             },
             { "gB", group = "Build Helpers", icon = theme.languages.rust },
-            { "gBK", "<cmd>RustLsp externalDocs<cr>", desc = "Open docs.rs" },
             { "gBA", group = "Rust Analyzer" },
             { "gBAs", "<cmd>RustAnalyzer start<cr>", desc = "Start" },
             { "gBAS", "<cmd>RustAnalyzer stop<cr>", desc = "Stop" },
@@ -158,9 +157,8 @@ vim.api.nvim_create_autocmd("FileType", {
             { "gBE", "<cmd>RustLsp explainError<cr>", desc = "Explain error" },
             { "gBc", "<cmd>RustLsp openCargo<cr>", desc = "Open Cargo.toml" },
             { "gBt", "<cmd>RustLsp syntaxTree<cr>", desc = "Syntax tree" },
-            { "gBj", "<cmd>RustLsp joinLines", desc = "Join lines" },
+            { "gBj", "<cmd>RustLsp joinLines<cr>", desc = "Join lines" },
             { "gBw", "<cmd>RustLsp reloadWorkspace<cr>", desc = "Reload workspace" },
-            { "gBD", "<cmd>RustLsp externalDocs<cr>", desc = "Open docs.rs" },
         }
         which_key.add(mappings)
     end,
@@ -301,15 +299,5 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.shiftwidth = 2
         vim.opt_local.expandtab = true
         vim.opt_local.softtabstop = 2
-    end,
-})
-
--- Code coverage
-vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("code_coverage"),
-    pattern = "rust",
-    desc = "Collect code coverage",
-    callback = function()
-        -- vim.api.nvim_command("Coverage")
     end,
 })

@@ -8,10 +8,7 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.python3_host_prog = vim.env.HOME .. "/.nix-profile/bin/python"
 vim.g.transparent = false
-vim.g.theme = vim.env.LAZYVIM_THEME
-if vim.g.theme == vim.NIL then
-    vim.g.theme = "tokyonight"
-end
+vim.g.theme = vim.env.LAZYVIM_THEME or "tokyonight"
 
 -- Options
 vim.opt.shiftwidth = 4
@@ -30,9 +27,6 @@ vim.opt.mousemoveevent = true
 vim.g.lazyvim_python_lsp = "basedpyright"
 vim.g.lazyvim_python_ruff = "ruff"
 vim.g.lazyvim_picker = "telescope"
-vim.g.lazyvim_rust_diagnostics = vim.fn.getenv("LAZYVIM_RUST_DIAGNOSTICS")
-if vim.g.lazyvim_rust_diagnostics == vim.NIL then
-    vim.g.lazyvim_rust_diagnostics = "rust-analyzer"
-end
+vim.g.lazyvim_rust_diagnostics = vim.env.LAZYVIM_RUST_DIAGNOSTICS or "rust-analyzer"
 
 require("config.neovide")

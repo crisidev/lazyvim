@@ -6,5 +6,6 @@ return {
         -- refer to the configuration section below
         -- indent = { enabled = true, only_scope = true },
         scroll = { enabled = false },
+        words = { enabled = true },
     },
 }

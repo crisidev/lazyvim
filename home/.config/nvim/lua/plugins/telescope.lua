@@ -22,34 +22,32 @@ local function process_grep_under_text(value, opts)
     return value
 end
 
-local function layout_config()
-    return {
+local layout_config = {
+    width = 0.9,
+    height = 0.4,
+    prompt_position = "bottom",
+    horizontal = {
+        preview_width = 0.32,
+        preview_cutoff = 135,
+    },
+    vertical = {
         width = 0.9,
         height = 0.4,
-        prompt_position = "bottom",
+        preview_height = 0.5,
+        preview_width = 0.32,
+        preview_cutoff = 135,
+    },
+    flex = {
         horizontal = {
             preview_width = 0.32,
             preview_cutoff = 135,
         },
         vertical = {
-            width = 0.9,
-            height = 0.4,
             preview_height = 0.5,
-            preview_width = 0.32,
             preview_cutoff = 135,
         },
-        flex = {
-            horizontal = {
-                preview_width = 0.32,
-                preview_cutoff = 135,
-            },
-            vertical = {
-                preview_height = 0.5,
-                preview_cutoff = 135,
-            },
-        },
-    }
-end
+    },
+}
 
 local function mappings()
     local actions = require("telescope.actions")
@@ -81,7 +79,7 @@ return {
         defaults = {
             sorting_strategy = "descending",
             layout_strategy = "bottom_pane",
-            layout_config = layout_config(),
+            layout_config = layout_config,
             mappings = mappings(),
         },
     },
@@ -174,7 +172,7 @@ return {
                 "<leader>f",
                 function()
                     local opts = {
-                        cwd = vim.loop.cwd(),
+                        cwd = vim.uv.cwd(),
                     }
                     local _, ret = utils.get_os_command_output({ "git", "rev-parse", "--show-toplevel" }, opts.cwd)
                     if ret ~= 0 then

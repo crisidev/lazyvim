@@ -4,44 +4,32 @@
 require("lazyvim.plugins.lsp.keymaps")._keys = {}
 
 -- Mouse handling
-vim.cmd([[
-    function! s:MouseToggleFunc()
-        if !exists('s:old_mouse')
-            let s:old_mouse = 'a'
-        endif
-
-        if &mouse ==? ''
-            let &mouse = s:old_mouse
-            echo 'Mouse is for Vim (' . &mouse . ')'
-        else
-            let s:old_mouse = &mouse
-            let &mouse=''
-            echo 'Mouse is for terminal'
-        endif
-    endfunction
-    command! MouseToggle :call <SID>MouseToggleFunc()
-]])
+local _old_mouse = "a"
+vim.api.nvim_create_user_command("MouseToggle", function()
+    if vim.o.mouse == "" then
+        vim.o.mouse = _old_mouse
+        vim.notify("Mouse is for Vim (" .. _old_mouse .. ")")
+    else
+        _old_mouse = vim.o.mouse
+        vim.o.mouse = ""
+        vim.notify("Mouse is for terminal")
+    end
+end, {})
 
 -- Toggle numbers
-vim.cmd([[
-    function! s:NuModeToggleFunc()
-        if &number == 1
-            set relativenumber!
-        else
-            set number!
-        endif
-    endfunction
-    command! NuModeToggle :call <SID>NuModeToggleFunc()
-]])
+vim.api.nvim_create_user_command("NuModeToggle", function()
+    if vim.o.number then
+        vim.o.relativenumber = not vim.o.relativenumber
+    else
+        vim.o.number = true
+    end
+end, {})
 
 -- No numbers
-vim.cmd([[
-    function! s:NoNuModeFunc()
-        set norelativenumber
-        set nonumber
-    endfunction
-    command! NoNuMode :call <SID>NoNuModeFunc()
-]])
+vim.api.nvim_create_user_command("NoNuMode", function()
+    vim.o.relativenumber = false
+    vim.o.number = false
+end, {})
 
 -- Open neotree
 local function focus_neotree()

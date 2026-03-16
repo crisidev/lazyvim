@@ -49,7 +49,7 @@ return {
                     cond = function(message)
                         local client = vim.tbl_get(message.opts, "progress", "client")
                         local title = vim.tbl_get(message.opts, "progress", "title")
-                        return title == "Finding references" or client == "null-ls" or client == "grammar_guard"
+                        return title == "Finding references" or client == "null-ls"
                     end,
                 },
                 opts = { skip = true },

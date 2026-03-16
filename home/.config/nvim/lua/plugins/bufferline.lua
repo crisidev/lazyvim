@@ -25,18 +25,19 @@ local function diagnostic_indicator(_, _, diagnostics, _)
 end
 
 local function config_file_matcher(buf)
-    return vim.api.nvim_buf_get_name(buf.id):match("go.mod")
-        or vim.api.nvim_buf_get_name(buf.id):match("go.sum")
-        or vim.api.nvim_buf_get_name(buf.id):match("Cargo.toml")
-        or vim.api.nvim_buf_get_name(buf.id):match("manage.py")
-        or vim.api.nvim_buf_get_name(buf.id):match("config.toml")
-        or vim.api.nvim_buf_get_name(buf.id):match("setup.py")
-        or vim.api.nvim_buf_get_name(buf.id):match("pyproject.toml")
-        or vim.api.nvim_buf_get_name(buf.id):match("Makefile")
-        or vim.api.nvim_buf_get_name(buf.id):match("Config")
-        or vim.api.nvim_buf_get_name(buf.id):match("gradle.properties")
-        or vim.api.nvim_buf_get_name(buf.id):match("build.gradle.kt")
-        or vim.api.nvim_buf_get_name(buf.id):match("settings.gradle.kt")
+    local name = vim.api.nvim_buf_get_name(buf.id)
+    return name:match("go.mod")
+        or name:match("go.sum")
+        or name:match("Cargo.toml")
+        or name:match("manage.py")
+        or name:match("config.toml")
+        or name:match("setup.py")
+        or name:match("pyproject.toml")
+        or name:match("Makefile")
+        or name:match("Config")
+        or name:match("gradle.properties")
+        or name:match("build.gradle.kt")
+        or name:match("settings.gradle.kt")
 end
 
 local function test_file_matcher(buf)
@@ -44,9 +45,8 @@ local function test_file_matcher(buf)
 end
 
 local function doc_file_matcher(buf)
-    local p_list = require("plenary.collections.py_list")
-    local list = p_list({ "md", "org", "norg", "wiki", "rst", "txt" })
-    return list:contains(vim.fn.fnamemodify(buf.path, ":e"))
+    local ext = vim.fn.fnamemodify(buf.path, ":e")
+    return vim.tbl_contains({ "md", "org", "norg", "wiki", "rst", "txt" }, ext)
 end
 
 return {
@@ -85,7 +85,7 @@ return {
                     {
                         highlight = { sp = theme.colors.bg_br },
                         name = "cfg",
-                        theme.icons.config,
+                        icon = theme.icons.config,
                         matcher = config_file_matcher,
                     },
                     {

@@ -1,4 +1,3 @@
----@diagnostic disable: deprecated
 local theme = require("config.theme")
 
 local function symbol_usage_configure()
@@ -62,28 +61,11 @@ local function symbol_usage_configure()
 end
 
 local function diagnostics(direction, level)
+    local opts = { severity = { min = level }, float = true, focusable = true }
     if direction == "next" then
-        if vim.fn.has("0.10") then
-            vim.diagnostic.goto_next({
-                count = 1,
-                severity = { min = level },
-                float = true,
-                focusable = true,
-            })
-        else
-            vim.diagnostic.jump({ count = 1, severity = { min = level }, float = true, focusable = true })
-        end
+        vim.diagnostic.goto_next(opts)
     else
-        if vim.fn.has("0.10") then
-            vim.diagnostic.goto_prev({
-                count = -1,
-                severity = { min = level },
-                float = true,
-                focusable = true,
-            })
-        else
-            vim.diagnostic.jump({ count = -1, severity = { min = level }, float = true, focusable = true })
-        end
+        vim.diagnostic.goto_prev(opts)
     end
 end
 
@@ -392,16 +374,8 @@ return {
                 },
                 {
                     "gw",
-                    function(buf, value)
-                        local ih = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
-                        if type(ih) == "function" then
-                            ih(buf, value)
-                        elseif type(ih) == "table" and ih.enable then
-                            if value == nil then
-                                value = not ih.is_enabled(buf)
-                            end
-                            ih.enable(value)
-                        end
+                    function()
+                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
                     end,
                     desc = "Toggle Inlay Hints",
                 },
