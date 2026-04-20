@@ -227,7 +227,19 @@ return {
                 },
                 protobuf_language_server = { enabled = false },
                 blueprint_ls = { enabled = true },
-                bacon_ls = { enabled = true },
+                bacon_ls = {
+                    enabled = true,
+                    settings = {
+                        bacon_ls = {
+                            backend = "cargo",
+                            cargo = {
+                                command = "clippy",
+                                extraArgs = { "--workspace", "--all-targets", "--all-features" },
+                                refreshIntervalSeconds = 2,
+                            },
+                        },
+                    },
+                },
                 nil_ls = {
                     enabled = true,
                     nix = {
