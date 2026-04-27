@@ -25,7 +25,7 @@ local darker = {
 
 return {
     {
-        "nvimtools/none-ls.nvim",
+        "crisidev/none-ls.nvim",
         dependencies = {
             "nvimtools/none-ls-extras.nvim",
         },

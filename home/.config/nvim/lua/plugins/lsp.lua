@@ -150,7 +150,7 @@ return {
         "neovim/nvim-lspconfig",
         dependencies = {
             {
-                "kosayoda/nvim-lightbulb",
+                "crisidev/nvim-lightbulb",
                 opts = {
                     autocmd = { enabled = true },
                     code_lenses = true,
@@ -229,13 +229,18 @@ return {
                 blueprint_ls = { enabled = true },
                 bacon_ls = {
                     enabled = true,
+                    init_options = {
+                        cargo = {
+                            updateOnInsert = true,
+                        },
+                    },
                     settings = {
                         bacon_ls = {
                             backend = "cargo",
                             cargo = {
                                 command = "clippy",
                                 extraArgs = { "--workspace", "--all-targets", "--all-features" },
-                                refreshIntervalSeconds = 2,
+                                updateOnInsert = true,
                             },
                         },
                     },
