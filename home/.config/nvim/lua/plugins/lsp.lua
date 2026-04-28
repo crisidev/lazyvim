@@ -150,7 +150,7 @@ return {
         "neovim/nvim-lspconfig",
         dependencies = {
             {
-                "crisidev/nvim-lightbulb",
+                "kosayoda/nvim-lightbulb",
                 opts = {
                     autocmd = { enabled = true },
                     code_lenses = true,
