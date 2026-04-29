@@ -229,18 +229,12 @@ return {
                 blueprint_ls = { enabled = true },
                 bacon_ls = {
                     enabled = true,
-                    init_options = {
-                        cargo = {
-                            updateOnInsert = true,
-                        },
-                    },
                     settings = {
                         bacon_ls = {
                             backend = "cargo",
                             cargo = {
                                 command = "clippy",
                                 extraArgs = { "--workspace", "--all-targets", "--all-features" },
-                                updateOnInsert = true,
                             },
                         },
                     },
